@@ -30,7 +30,7 @@ CustomDialog {
             Layout.minimumWidth: 200
 
             maxValue: controller.settings.breakDuration
-            value: controller.breakTime
+            value: controller.timer.elapsedBreakDuration
         }
 
         Button {
@@ -48,7 +48,7 @@ CustomDialog {
     Connections {
         target: controller
 
-        onEndOfBreakRequest: {
+        onBreakEndRequest: {
             endButton.text = "Ok";
         }
     }

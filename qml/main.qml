@@ -16,10 +16,10 @@ Window {
     Connections {
         target: controller
 
-        onBreakRequest: {
+        onBreakStartRequest: {
             breakRequestDialog.show();
         }
-        onEndOfWorkRequest: {
+        onWorkEndRequest: {
             endWorkRequestDialog.show();
         }
     }
@@ -35,7 +35,7 @@ Window {
             controller.postponeBreak();
         }
         onSkip: {
-            controller.startWork(true);
+            controller.startWork();
         }
     }
     BreakDialog {
@@ -63,7 +63,7 @@ Window {
 
             RowLayout {
                 Button {
-                    visible: controller.state == Controller.Pause || controller.state == Controller.Off
+                    visible: controller.state == Controller.Paused || controller.state == Controller.Off
                     text: qsTr("Play")
 
                     onClicked: {
@@ -71,7 +71,7 @@ Window {
                     }
                 }
                 Button {
-                    visible: controller.state != Controller.Off
+                    visible: controller.state == Controller.Working
                     text: qsTr("Stop")
 
                     onClicked: {
@@ -79,7 +79,7 @@ Window {
                     }
                 }
                 Button {
-                    visible: controller.state == Controller.Work
+                    visible: controller.state == Controller.Working
                     text: qsTr("Pause")
 
                     onClicked: {
@@ -87,7 +87,7 @@ Window {
                     }
                 }
                 Button {
-                    visible: controller.state == Controller.Work
+                    visible: controller.state == Controller.Working
                     text: qsTr("Break")
 
                     onClicked: {
@@ -104,7 +104,7 @@ Window {
                     Layout.fillWidth: true
 
                     maxValue: controller.settings.breakInterval
-                    value: controller.timeToBreak
+                    value: controller.timer.elapsedWorkPeriod
                 }
             }
             RowLayout {
@@ -115,7 +115,7 @@ Window {
                     Layout.fillWidth: true
 
                     maxValue: controller.settings.workTime
-                    value: controller.workTime
+                    value: controller.timer.elapsedWorkTime
                 }
             }
 

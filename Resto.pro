@@ -3,10 +3,13 @@ TEMPLATE = app
 QT += qml quick
 CONFIG += c++11
 
+INCLUDEPATH += cpp/
+
 SOURCES += cpp/main.cpp \
-    cpp/controller.cpp \
+    cpp/controller/controller.cpp \
     cpp/model/settings.cpp \
-    cpp/settingscontroller.cpp
+    cpp/controller/settingscontroller.cpp \
+    cpp/controller/timercontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -17,9 +20,10 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    cpp/controller.h \
+    cpp/controller/controller.h \
     cpp/model/settings.h \
-    cpp/settingscontroller.h
+    cpp/controller/settingscontroller.h \
+    cpp/controller/timercontroller.h
 
 DISTFILES += \
     qml/components/TimeProgressBar.qml \

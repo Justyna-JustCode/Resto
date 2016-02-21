@@ -3,7 +3,7 @@
 #include <QQmlContext>
 #include <QQuickItem>
 
-#include "controller.h"
+#include "controller/controller.h"
 
 int main(int argc, char *argv[])
 {
