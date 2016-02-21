@@ -43,13 +43,13 @@ public:
      * work time (time between breaks)
      * for one day.
      */
-    int workDayDuration() const;
+    int workTime() const;
     /*!
      * \brief Sets work day duratinon in seconds.
      *
-     * \see workDayDuration()
+     * \see workTime()
      */
-    void setWorkDayDuration(int duration);
+    void setWorkTime(int time);
 
     /*!
      * \brief Returns duration for postpone in seconds.
@@ -58,7 +58,7 @@ public:
     /*!
      * \brief Sets duration for postpone in seconds.
      */
-    void setPostponeTime(int duration);
+    void setPostponeTime(int time);
 
     /*!
      * \brief Returns information if application
@@ -76,13 +76,13 @@ private:
 
     static const QLatin1String sc_breakDurationKey;     //!< keys used for settings: break duration
     static const QLatin1String sc_breakIntervalKey;     //!< keys used for settings: break interval
-    static const QLatin1String sc_workDayDurationKey;   //!< keys used for settings: work day duration
+    static const QLatin1String sc_workTimeKey;   //!< keys used for settings: work day duration
     static const QLatin1String sc_postponeTimeKey;      //!< keys used for settings: postpone time
     static const QLatin1String sc_autoStartKey;         //!< keys used for settings: auto start
 
     static const int sc_defaultBreakDuration;   //!< default braak duration \see breakDuration()
     static const int sc_defaultBreakInterval;   //!< default break interval \see breakInterval()
-    static const int sc_defaultWorkDayDuration; //!< default work day duration \see workDayDuration()
+    static const int sc_defaultWorkTime; //!< default work day duration \see workTime()
     static const int sc_defaultPostponeTime;    //!< default postpone time \see postponeTime()
 };
 

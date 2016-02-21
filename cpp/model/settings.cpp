@@ -2,14 +2,14 @@
 
 const QLatin1String Settings::sc_breakDurationKey = QLatin1String("breakDuration");
 const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
-const QLatin1String Settings::sc_workDayDurationKey = QLatin1String("workDayDuration");
+const QLatin1String Settings::sc_workTimeKey = QLatin1String("workTime");
 const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime");
 const QLatin1String Settings::sc_autoStartKey = QLatin1String("autoStart");
 
-const int Settings::sc_defaultBreakDuration = 600;  //!< 10 min = 600 sec
-const int Settings::sc_defaultBreakInterval = 2700; //!< 45 min = 2700 sec
-const int Settings::sc_defaultWorkDayDuration = 28800;  //!< 8 h = 288000 sec
-const int Settings::sc_defaultPostponeTime = 300;   //!< 5 min = 300 sec
+const int Settings::sc_defaultBreakDuration = 10*60;  //!< 10 min
+const int Settings::sc_defaultBreakInterval = 45*60; //!< 45 min
+const int Settings::sc_defaultWorkTime = 8*60*60;  //!< 8 h
+const int Settings::sc_defaultPostponeTime = 5*60;   //!< 5 min
 
 Settings::Settings(const QString organization, const QString name)
     : m_settings(QSettings::UserScope, organization, name)
@@ -33,22 +33,22 @@ void Settings::setBreakInterval(int interval)
     m_settings.setValue(sc_breakIntervalKey, interval);
 }
 
-int Settings::workDayDuration() const
+int Settings::workTime() const
 {
-    return m_settings.value(sc_workDayDurationKey, sc_defaultWorkDayDuration).toInt();
+    return m_settings.value(sc_workTimeKey, sc_defaultWorkTime).toInt();
 }
-void Settings::setWorkDayDuration(int duration)
+void Settings::setWorkTime(int time)
 {
-    m_settings.setValue(sc_workDayDurationKey, duration);
+    m_settings.setValue(sc_workTimeKey, time);
 }
 
 int Settings::postponeTime() const
 {
     return m_settings.value(sc_postponeTimeKey, sc_defaultPostponeTime).toInt();
 }
-void Settings::setPostponeTime(int duration)
+void Settings::setPostponeTime(int time)
 {
-    m_settings.setValue(sc_postponeTimeKey, duration);
+    m_settings.setValue(sc_postponeTimeKey, time);
 }
 
 bool Settings::autoStart() const

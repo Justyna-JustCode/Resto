@@ -108,7 +108,7 @@ void Controller::workTimeTic()
     setTimeToBreak(timeToBreak()+1);
     setWorkTime(workTime()+1);
 
-    if (workTime() == settings().workDayDuration())
+    if (workTime() == settings().workTime())
     {
         emit endOfWorkRequest();
     }

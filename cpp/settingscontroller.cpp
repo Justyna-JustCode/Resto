@@ -12,9 +12,9 @@ int SettingsController::breakInterval() const
 {
     return m_settings.breakInterval();
 }
-int SettingsController::workDayDuration() const
+int SettingsController::workTime() const
 {
-    return m_settings.workDayDuration();
+    return m_settings.workTime();
 }
 int SettingsController::postponeTime() const
 {
@@ -41,13 +41,13 @@ void SettingsController::setBreakInterval(int _breakInterval)
     m_settings.setBreakInterval(_breakInterval);
     emit breakIntervalChanged(_breakInterval);
 }
-void SettingsController::setWorkDayDuration(int _workDayDuration)
+void SettingsController::setWorkTime(int _workTime)
 {
-    if (workDayDuration() == _workDayDuration)
+    if (workTime() == _workTime)
         return;
 
-    m_settings.setWorkDayDuration(_workDayDuration);
-    emit workDayDurationChanged(_workDayDuration);
+    m_settings.setWorkTime(_workTime);
+    emit workTimeChanged(_workTime);
 }
 void SettingsController::setPostponeTime(int _postponeTime)
 {

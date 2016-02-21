@@ -114,7 +114,7 @@ Window {
                 TimeProgressBar {
                     Layout.fillWidth: true
 
-                    maxValue: controller.settings.workDayDuration
+                    maxValue: controller.settings.workTime
                     value: controller.workTime
                 }
             }
