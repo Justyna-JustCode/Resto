@@ -1,23 +1,14 @@
 import QtQuick 2.0
+import "../"
 
 Item {
     property int minValue: 0
     property int maxValue: 100
     property int value: 0
-    property alias style: style
 
     implicitHeight: 15
     implicitWidth: 30
 
-    QtObject {
-        id: style
-
-        property color color: "#2A7B42"
-        property color secondaryColor: "#013E13"
-        property color backgroundColor: "#7AB88D"
-        property color fontColor: "white"
-        property font font
-    }
     QtObject {
         id: d
 
@@ -43,7 +34,7 @@ Item {
         id: background
         anchors.fill: parent
 
-        color: style.backgroundColor
+        gradient: BarGradient { color: Style.timeBar.backgroundColor }
     }
     Rectangle {
         id: progress
@@ -53,7 +44,7 @@ Item {
             bottom: parent.bottom
         }
 
-        color: style.color
+        gradient: BarGradient { color: Style.timeBar.color }
 
         width: d.valuePercent * parent.width
     }
@@ -67,14 +58,13 @@ Item {
         }
         visible: d.isExcess
 
-        color: style.secondaryColor
+        gradient: BarGradient { color: Style.timeBar.secondaryColor }
     }
 
-    Text {
+    Label {
         anchors.fill: parent
 
-        color: style.fontColor
-        font: style.font
+        fontStyle: Style.timeBar.font
 
         elide: Text.ElideRight
         horizontalAlignment: Qt.AlignHCenter

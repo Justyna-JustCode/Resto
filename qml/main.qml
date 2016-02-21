@@ -10,8 +10,12 @@ import "dialogs"
 Window {
     visible: true
 
-    width: 300
-    height: 100
+    width: 400
+    height: 250
+
+    Background {
+        anchors.fill: parent
+    }
 
     Connections {
         target: controller
