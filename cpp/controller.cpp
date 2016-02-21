@@ -2,7 +2,6 @@
 #include <QDebug>
 
 Controller::Controller()
-    : m_settings(QStringLiteral("JustCode"), QStringLiteral("Resto"))
 {
     m_timer.setInterval(1000);
     connect(&m_timer, &QTimer::timeout, this, &Controller::onTimeTic);
@@ -13,9 +12,14 @@ Controller::Controller()
     }
 }
 
-Settings &Controller::settings()
+SettingsController &Controller::settings()
 {
-    return m_settings;
+    return m_settingsController;
+}
+
+SettingsController *Controller::settingsPtr()
+{
+    return &m_settingsController;
 }
 
 Controller::State Controller::state() const
@@ -97,11 +101,6 @@ void Controller::startBreak()
 void Controller::postponeBreak()
 {
     m_nextBreak = m_timeToBreak + settings().postponeTime();
-}
-
-Settings *Controller::qmlSettings()
-{
-    return &m_settings;
 }
 
 void Controller::workTimeTic()

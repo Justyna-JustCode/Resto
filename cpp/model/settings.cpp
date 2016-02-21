@@ -22,7 +22,6 @@ int Settings::breakDuration() const
 void Settings::setBreakDuration(int duration)
 {
     m_settings.setValue(sc_breakDurationKey, duration);
-    emit breakDurationChanged(duration);
 }
 
 int Settings::breakInterval() const
@@ -32,17 +31,15 @@ int Settings::breakInterval() const
 void Settings::setBreakInterval(int interval)
 {
     m_settings.setValue(sc_breakIntervalKey, interval);
-    emit breakIntervalChanged(interval);
 }
 
-int Settings::workDayDuration()
+int Settings::workDayDuration() const
 {
     return m_settings.value(sc_workDayDurationKey, sc_defaultWorkDayDuration).toInt();
 }
 void Settings::setWorkDayDuration(int duration)
 {
     m_settings.setValue(sc_workDayDurationKey, duration);
-    emit workDayDurationChanged(duration);
 }
 
 int Settings::postponeTime() const
@@ -52,16 +49,14 @@ int Settings::postponeTime() const
 void Settings::setPostponeTime(int duration)
 {
     m_settings.setValue(sc_postponeTimeKey, duration);
-    emit postponeTimeChanged(duration);
 }
 
-bool Settings::autoStart()
+bool Settings::autoStart() const
 {
     return m_settings.value(sc_autoStartKey).toBool();
 }
 void Settings::setAutoStart(bool start)
 {
     m_settings.setValue(sc_autoStartKey, start);
-    emit autoStartChanged(start);
 }
 

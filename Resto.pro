@@ -5,7 +5,8 @@ CONFIG += c++11
 
 SOURCES += cpp/main.cpp \
     cpp/controller.cpp \
-    cpp/settings.cpp
+    cpp/model/settings.cpp \
+    cpp/settingscontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -17,7 +18,8 @@ include(deployment.pri)
 
 HEADERS += \
     cpp/controller.h \
-    cpp/settings.h
+    cpp/model/settings.h \
+    cpp/settingscontroller.h
 
 DISTFILES += \
     qml/components/TimeProgressBar.qml \

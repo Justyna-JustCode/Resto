@@ -10,11 +10,6 @@
 class Settings : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int breakDuration READ breakDuration WRITE setBreakDuration NOTIFY breakDurationChanged)
-    Q_PROPERTY(int breakInterval READ breakInterval WRITE setBreakInterval NOTIFY breakIntervalChanged)
-    Q_PROPERTY(int workDayDuration READ workDayDuration WRITE setWorkDayDuration NOTIFY workDayDurationChanged)
-    Q_PROPERTY(int postponeTime READ postponeTime WRITE setPostponeTime NOTIFY postponeTimeChanged)
-    Q_PROPERTY(bool autoStart READ autoStart WRITE setAutoStart NOTIFY autoStartChanged)
 
 public:
     Settings(const QString organization, const QString name);
@@ -48,7 +43,7 @@ public:
      * work time (time between breaks)
      * for one day.
      */
-    int workDayDuration();
+    int workDayDuration() const;
     /*!
      * \brief Sets work day duratinon in seconds.
      *
@@ -69,19 +64,12 @@ public:
      * \brief Returns information if application
      * should start automatically after run.
      */
-    bool autoStart();
+    bool autoStart() const;
     /*!
      * \brief Sets information if application
      * should start automatically after run.
      */
     void setAutoStart(bool start);
-
-signals:
-    void breakDurationChanged(int duration);
-    void breakIntervalChanged(int interval);
-    void workDayDurationChanged(int duration);
-    void postponeTimeChanged(int duration);
-    void autoStartChanged(bool start);
 
 private:
     QSettings m_settings;
@@ -96,11 +84,6 @@ private:
     static const int sc_defaultBreakInterval;   //!< default break interval \see breakInterval()
     static const int sc_defaultWorkDayDuration; //!< default work day duration \see workDayDuration()
     static const int sc_defaultPostponeTime;    //!< default postpone time \see postponeTime()
-
-    int m_breakDuration;
-    int m_breakInterval;
-    int m_workDayDuration;
-    bool m_autoStart;
 };
 
 #endif // SETTINGS_H

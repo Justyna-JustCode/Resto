@@ -4,13 +4,13 @@
 #include <QObject>
 #include <QTimer>
 
-#include "settings.h"
+#include "settingscontroller.h"
 
-class Controller : public QObject
+class Controller final : public QObject
 {
     Q_OBJECT
     Q_ENUMS(State)
-    Q_PROPERTY(Settings* settings READ qmlSettings CONSTANT)
+    Q_PROPERTY(SettingsController* settings READ settingsPtr CONSTANT)
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(int breakTime READ breakTime NOTIFY breakTimeChanged)
     Q_PROPERTY(int timeToBreak READ timeToBreak NOTIFY timeToBreakChanged)
@@ -26,13 +26,6 @@ public:
     };
 
     Controller();
-
-    /*!
-     * \brief Return settings object.
-     *
-     * \see Settings
-     */
-    Settings& settings();
 
     State state() const;
 
@@ -61,7 +54,7 @@ public slots:
     void postponeBreak();
 
 private:
-    Settings m_settings;
+    SettingsController m_settingsController;
 
     State m_state {State::Off}; //!< current state
     QTimer m_timer;
@@ -72,7 +65,8 @@ private:
 
     int m_nextBreak {0};    //!< next break time
 
-    Settings* qmlSettings();
+    SettingsController &settings();
+    SettingsController *settingsPtr();
 
     void workTimeTic();
     void breakTimeTic();
