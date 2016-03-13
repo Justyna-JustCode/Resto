@@ -63,7 +63,7 @@ Window {
 
             RowLayout {
                 Button {
-                    visible: controller.state == Controller.Paused || controller.state == Controller.Off
+                    visible: controller.state != Controller.Working
                     text: qsTr("Play")
 
                     onClicked: {

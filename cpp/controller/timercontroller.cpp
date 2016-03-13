@@ -29,9 +29,9 @@ void TimerController::start(bool restart)
     if (restart)
     {
         // set initial state
-        setElapsedBreakDurationChanged(0);
-        setElapsedWorkPeriodChanged(0);
-        setElapsedWorkTimeChanged(0);
+        setElapsedBreakDuration(0);
+        setElapsedWorkPeriod(0);
+        setElapsedWorkTime(0);
     }
 
     m_timer.start();
@@ -43,16 +43,14 @@ void TimerController::stop()
 
 void TimerController::countBreakTime()
 {
-    setElapsedBreakDurationChanged(0);
     m_periodType = PeriodType::Break;
 }
 void TimerController::countWorkTime()
 {
-    setElapsedWorkPeriodChanged(0);
     m_periodType = PeriodType::Work;
 }
 
-void TimerController::setElapsedBreakDurationChanged(int elapsedBreakDuration)
+void TimerController::setElapsedBreakDuration(int elapsedBreakDuration)
 {
     if (m_elapsedBreakDuration == elapsedBreakDuration)
     {
@@ -62,7 +60,7 @@ void TimerController::setElapsedBreakDurationChanged(int elapsedBreakDuration)
     m_elapsedBreakDuration = elapsedBreakDuration;
     emit elapsedBreakDurationChanged(elapsedBreakDuration);
 }
-void TimerController::setElapsedWorkPeriodChanged(int elapsedWorkPeriod)
+void TimerController::setElapsedWorkPeriod(int elapsedWorkPeriod)
 {
     if (m_elapsedWorkPeriod == elapsedWorkPeriod)
     {
@@ -72,7 +70,7 @@ void TimerController::setElapsedWorkPeriodChanged(int elapsedWorkPeriod)
     m_elapsedWorkPeriod = elapsedWorkPeriod;
     emit elapsedWorkPeriodChanged(elapsedWorkPeriod);
 }
-void TimerController::setElapsedWorkTimeChanged(int elapsedWorkTime)
+void TimerController::setElapsedWorkTime(int elapsedWorkTime)
 {
     if (m_elapsedWorkTime == elapsedWorkTime)
     {
@@ -85,12 +83,12 @@ void TimerController::setElapsedWorkTimeChanged(int elapsedWorkTime)
 
 void TimerController::incrementWorkTime()
 {
-    setElapsedWorkPeriodChanged(elapsedWorkPeriod() + 1);
-    setElapsedWorkTimeChanged(elapsedWorkTime() + 1);
+    setElapsedWorkPeriod(elapsedWorkPeriod() + 1);
+    setElapsedWorkTime(elapsedWorkTime() + 1);
 }
 void TimerController::incrementBreakTime()
 {
-    setElapsedBreakDurationChanged(elapsedBreakDuration() + 1);
+    setElapsedBreakDuration(elapsedBreakDuration() + 1);
 }
 
 void TimerController::onTimeTic()

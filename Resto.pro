@@ -9,7 +9,8 @@ SOURCES += cpp/main.cpp \
     cpp/controller/controller.cpp \
     cpp/model/settings.cpp \
     cpp/controller/settingscontroller.cpp \
-    cpp/controller/timercontroller.cpp
+    cpp/controller/timercontroller.cpp \
+    cpp/workers/backupmanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,7 +24,8 @@ HEADERS += \
     cpp/controller/controller.h \
     cpp/model/settings.h \
     cpp/controller/settingscontroller.h \
-    cpp/controller/timercontroller.h
+    cpp/controller/timercontroller.h \
+    cpp/workers/backupmanager.h
 
 DISTFILES += \
     qml/components/TimeProgressBar.qml \
