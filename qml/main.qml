@@ -10,8 +10,12 @@ import "dialogs"
 Window {
     visible: true
 
-    width: 300
-    height: 100
+    width: 400
+    height: 200
+
+    Background {
+        anchors.fill: parent
+    }
 
     Connections {
         target: controller
@@ -56,48 +60,64 @@ Window {
     Item {
         id: content
         anchors.fill: parent
+        anchors.margins: 30
 
         ColumnLayout {
             anchors.fill: parent
             spacing: 0
 
             RowLayout {
-                Button {
+                ImageButton {
+                    scale: 0.8
+
+                    type: "play"
+                    tooltip: qsTr("Play")
                     visible: controller.state != Controller.Working
-                    text: qsTr("Play")
 
                     onClicked: {
                         controller.start()
                     }
                 }
-                Button {
-                    visible: controller.state == Controller.Working
-                    text: qsTr("Stop")
+                ImageButton {
+                    scale: 0.8
 
-                    onClicked: {
-                        controller.stop()
-                    }
-                }
-                Button {
+                    type: "break"
+                    tooltip: qsTr("Break")
                     visible: controller.state == Controller.Working
-                    text: qsTr("Pause")
-
-                    onClicked: {
-                        controller.pause()
-                    }
-                }
-                Button {
-                    visible: controller.state == Controller.Working
-                    text: qsTr("Break")
 
                     onClicked: {
                         controller.startBreak()
                         breakDialog.show();
                     }
                 }
+                ImageButton {
+                    scale: 0.8
+
+                    type: "pause"
+                    tooltip: qsTr("Pause")
+                    visible: controller.state == Controller.Working
+
+                    onClicked: {
+                        controller.pause()
+                    }
+                }
+                ImageButton {
+                    scale: 0.8
+
+                    type: "stop"
+                    tooltip: qsTr("Stop")
+                    visible: controller.state == Controller.Working
+
+                    onClicked: {
+                        controller.stop()
+                    }
+                }
             }
-            RowLayout {
-                Text {
+            GridLayout {
+                Layout.fillWidth: true
+                columns: 2
+
+                Label {
                     text: qsTr("Next break:")
                 }
                 TimeProgressBar {
@@ -106,9 +126,7 @@ Window {
                     maxValue: controller.settings.breakInterval
                     value: controller.timer.elapsedWorkPeriod
                 }
-            }
-            RowLayout {
-                Text {
+                Label {
                     text: qsTr("Work time:")
                 }
                 TimeProgressBar {

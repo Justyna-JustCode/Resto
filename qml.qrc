@@ -6,5 +6,29 @@
         <file>qml/dialogs/CustomDialog.qml</file>
         <file>qml/dialogs/EndWorkRequestDialog.qml</file>
         <file>qml/main.qml</file>
+        <file>qml/components/Background.qml</file>
+        <file>qml/style/Style.qml</file>
+        <file>qml/style/qmldir</file>
+        <file>qml/components/Label.qml</file>
+        <file>qml/components/helpers/BarGradient.qml</file>
+        <file>qml/components/helpers/BarTextGradient.qml</file>
+        <file>resources/fonts/font-bold-italic.ttf</file>
+        <file>resources/fonts/font-bold.ttf</file>
+        <file>resources/fonts/font-bolder-italic.ttf</file>
+        <file>resources/fonts/font-bolder.ttf</file>
+        <file>resources/fonts/font-italic.ttf</file>
+        <file>resources/fonts/font-light-italic.ttf</file>
+        <file>resources/fonts/font-light.ttf</file>
+        <file>resources/fonts/font-lighter-italic.ttf</file>
+        <file>resources/fonts/font-lighter.ttf</file>
+        <file>resources/fonts/font.ttf</file>
+        <file>resources/images/background.png</file>
+        <file>resources/images/pattern.png</file>
+        <file>qml/style/StyleFont.qml</file>
+        <file>qml/components/ImageButton.qml</file>
+        <file>resources/images/play.png</file>
+        <file>resources/images/break.png</file>
+        <file>resources/images/pause.png</file>
+        <file>resources/images/stop.png</file>
     </qresource>
 </RCC>
