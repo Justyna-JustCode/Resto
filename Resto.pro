@@ -31,12 +31,5 @@ DISTFILES += \
     qml/dialogs/BreakDialog.qml \
     qml/dialogs/BreakRequestDialog.qml \
     qml/dialogs/EndWorkRequestDialog.qml \
-    qml/dialogs/CustomDialog.qml \
-    resources/font.ttf \
-    resources/background.png \
-    resources/pattern.png \
-    qml/components/Background.qml \
-    qml/Style.qml \
-    qml/components/Label.qml \
-    qml/components/BarGradient.qml
+    qml/dialogs/CustomDialog.qml
 
