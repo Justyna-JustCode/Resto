@@ -27,22 +27,22 @@ CustomDialog {
             Button {
                 text: "Ignore"
                 onClicked: {
-                    skip();
                     close();
+                    skip();
                 }
             }
             Button {
                 text: "Retry"
                 onClicked: {
-                    postpone();
                     close();
+                    postpone();
                 }
             }
             Button {
                 text: "Ok"
                 onClicked: {
-                    accept();
                     close();
+                    accept();
                 }
             }
         }

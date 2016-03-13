@@ -7,6 +7,9 @@ Controller::Controller()
     connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);
     connect(&m_timerController, &TimerController::elapsedWorkTimeChanged, this, &Controller::onElapsedWorkTimeChange);
 
+    connect(&m_backupManager, &BackupManager::backupData, this, &Controller::onBackupData);
+    m_backupManager.initialize();
+
     if (settings().autoStart())
     {
         start();
@@ -36,6 +39,11 @@ Controller::State Controller::state() const
     return m_state;
 }
 
+bool Controller::isWorking() const
+{
+    return (m_state == State::Working);
+}
+
 void Controller::start()
 {
     switch (m_state)
@@ -43,7 +51,8 @@ void Controller::start()
     case State::Off:
     case State::Paused:
         startWork();
-        m_timerController.start( (m_state == State::Off) ); // restart only from Off
+    case State::Recovered:
+        timer().start( (m_state == State::Off) ); // restart only from Off
         setState(State::Working);
         break;
     default:
@@ -57,7 +66,7 @@ void Controller::pause()
     {
     case State::Working:
         setState(State::Paused);
-        m_timerController.stop();
+        timer().stop();
         break;
     default:
         qWarning() << "Pause requested in unsupported state";
@@ -70,7 +79,7 @@ void Controller::stop()
     {
     case State::Working:
         setState(State::Off);
-        m_timerController.stop();
+        timer().stop();
         break;
     default:
         qWarning() << "Stop requested in unsupported state";
@@ -80,17 +89,21 @@ void Controller::stop()
 
 void Controller::startBreak()
 {
-    m_timerController.countBreakTime();
+    timer().setElapsedBreakDuration(0);
+    timer().countBreakTime();
+
+    // update backup manager
+    m_backupManager.data().elapsedWorkTime = 0;
 }
 void Controller::postponeBreak()
 {
-    m_actualWorkPeriod = timer().elapsedWorkPeriod() + settings().postponeTime();
+    m_timeToBreak = timer().elapsedWorkPeriod() + settings().postponeTime();
 }
 void Controller::startWork()
 {
-    m_timerController.countWorkTime();
-
-    m_actualWorkPeriod = settings().breakInterval(); // time to next break
+    m_timeToBreak = settings().breakInterval();
+    timer().setElapsedWorkPeriod(0);
+    timer().countWorkTime();
 }
 
 void Controller::setState(Controller::State state)
@@ -102,6 +115,28 @@ void Controller::setState(Controller::State state)
 
     m_state = state;
     emit stateChanged(state);
+}
+
+void Controller::onBackupData(const BackupManager::Data &data)
+{
+    bool wasWorking = false;
+    if (isWorking()) { // autostarted
+        stop();
+        wasWorking = true;
+    }
+
+    timer().setElapsedBreakDuration(0);
+    timer().setElapsedWorkPeriod(data.elapsedWorkPeriod);
+    timer().setElapsedWorkTime(data.elapsedWorkTime);
+    m_timeToBreak = settings().breakInterval();
+    if (data.elapsedWorkPeriod >= settings().breakInterval()) {
+        postponeBreak();
+    }
+
+    setState(State::Recovered); // set recovered state to avoid restart
+    if (wasWorking) {
+        start();
+    }
 }
 
 void Controller::onElapsedBreakDurationChange(int elapsedBreakDuration)
@@ -116,10 +151,13 @@ void Controller::onElapsedBreakDurationChange(int elapsedBreakDuration)
 void Controller::onElapsedWorkPeriodChange(int elapsedWorkPeriod)
 {
     // check if break is needed:
-    if (elapsedWorkPeriod == m_actualWorkPeriod) // break should be taken now
+    if (elapsedWorkPeriod == m_timeToBreak) // break should be taken now
     {
         emit breakStartRequest(); // inform about it
     }
+
+    // update backup manager
+    m_backupManager.data().elapsedWorkPeriod = elapsedWorkPeriod;
 }
 
 void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
@@ -129,5 +167,8 @@ void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
     {
         emit workEndRequest(); // inform about it
     }
+
+    // update backup manager
+    m_backupManager.data().elapsedWorkTime = elapsedWorkTime;
 }
 

@@ -6,6 +6,8 @@
 #include "settingscontroller.h"
 #include "timercontroller.h"
 
+#include "workers/backupmanager.h"
+
 class Controller final : public QObject
 {
     Q_OBJECT
@@ -19,6 +21,7 @@ class Controller final : public QObject
 public:
     enum class State : qint8
     {
+        Recovered,  // recovered after breakdown
         Off,
         Working,
         Paused
@@ -27,6 +30,7 @@ public:
     Controller();
 
     State state() const;
+    bool isWorking() const;
 
 signals:
     void stateChanged(State state) const;
@@ -45,12 +49,16 @@ public slots:
     void startWork();
 
 private:
+    // controllers
     SettingsController m_settingsController;
     TimerController m_timerController;
 
-    State m_state = State::Off; //!< current state
+    // workers
+    BackupManager m_backupManager;
 
-    int m_actualWorkPeriod = 0; //!< work period taking into account postpones
+    // values
+    State m_state = State::Off; //!< current state
+    int m_timeToBreak = 0;   //!< real time to break taking into account postpones
 
     SettingsController &settings();
     SettingsController *settingsPtr();
@@ -60,6 +68,8 @@ private:
 
 private slots:
     void setState(State state);
+
+    void onBackupData(const BackupManager::Data &data);
 
     /*!
      * \brief Method handling change in elapsed time of break.

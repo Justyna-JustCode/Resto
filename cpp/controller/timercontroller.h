@@ -37,6 +37,10 @@ public slots:
     void countBreakTime();
     void countWorkTime();
 
+    void setElapsedBreakDuration(int elapsedBreakDuration);
+    void setElapsedWorkPeriod(int elapsedWorkPeriod);
+    void setElapsedWorkTime(int elapsedWorkTime);
+
 private:
     QTimer m_timer;
 
@@ -45,10 +49,6 @@ private:
     int m_elapsedBreakDuration = 0;
     int m_elapsedWorkPeriod = 0;
     int m_elapsedWorkTime = 0;
-
-    void setElapsedBreakDurationChanged(int elapsedBreakDuration);
-    void setElapsedWorkPeriodChanged(int elapsedWorkPeriod);
-    void setElapsedWorkTimeChanged(int elapsedWorkTime);
 
 private slots:
     void incrementWorkTime();
