@@ -1,5 +1,5 @@
 import QtQuick 2.5
-import "../"
+import "../style"
 
 Rectangle {
     color: Style.background.color
@@ -13,15 +13,16 @@ Rectangle {
     Image {
         anchors {
             top: parent.top
-            topMargin: -0.2*height
+            topMargin: -0.4*height
             right: parent.right
-            rightMargin: -0.2*width
         }
 
-        width: 0.5*parent.width
+        height: parent.height
 
         source: Style.decorative.image
 
         fillMode: Image.PreserveAspectFit
+
+        opacity: Style.background.opacity
     }
 }

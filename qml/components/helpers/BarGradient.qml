@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "../"
+import "../../style"
 
 Gradient {
     id: gradient

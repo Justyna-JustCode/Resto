@@ -1,13 +1,14 @@
 import QtQuick 2.0
-import "../"
+import "../style"
+import "helpers"
 
 Item {
     property int minValue: 0
     property int maxValue: 100
     property int value: 0
 
-    implicitHeight: 15
-    implicitWidth: 30
+    implicitHeight: text.font.pixelSize*1.4
+    implicitWidth: 200
 
     QtObject {
         id: d
@@ -34,7 +35,9 @@ Item {
         id: background
         anchors.fill: parent
 
-        gradient: BarGradient { color: Style.timeBar.backgroundColor }
+        color: Style.timeBar.backgroundColor
+        border.color: Style.timeBar.color
+        border.width: 1
     }
     Rectangle {
         id: progress
@@ -62,6 +65,7 @@ Item {
     }
 
     Label {
+        id: text
         anchors.fill: parent
 
         fontStyle: Style.timeBar.font
@@ -72,6 +76,10 @@ Item {
 
         text: d.formatTime(value) + " / " +
               d.formatTime(maxValue)
+
+        BarTextGradient {
+            value: d.valuePercent
+        }
     }
 }
 
