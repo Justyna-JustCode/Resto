@@ -34,8 +34,8 @@ CustomDialog {
             id: endButton
 
             onClicked: {
-                endBreak();
                 close();
+                endBreak();
             }
         }
     }

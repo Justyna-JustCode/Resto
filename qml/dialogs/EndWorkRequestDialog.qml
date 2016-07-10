@@ -18,16 +18,16 @@ CustomDialog {
             text: qsTr("Ignore")
 
             onClicked: {
-                skip();
                 close();
+                skip();
             }
         }
         TextButton {
             text: qsTr("Ok")
 
             onClicked: {
-                accept();
                 close();
+                accept();
             }
         }
     }

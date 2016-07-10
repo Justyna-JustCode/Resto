@@ -28,24 +28,24 @@ CustomDialog {
             text: qsTr("Ignore")
 
             onClicked: {
-                skip();
                 close();
+                skip();
             }
         }
         TextButton {
             text: qsTr("Retry")
 
             onClicked: {
-                postpone();
                 close();
+                postpone();
             }
         }
         TextButton {
             text: qsTr("Ok")
 
             onClicked: {
-                accept();
                 close();
+                accept();
             }
         }
     }
