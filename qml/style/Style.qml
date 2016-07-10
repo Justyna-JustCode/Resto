@@ -23,13 +23,17 @@ QtObject {
     }
 
     readonly property var font: QtObject {
-        readonly property var text: StyleFont {}
+        readonly property var text: StyleFont { linkColor: mainColor }
         readonly property var textButton: StyleFont {
             bold: true
             capitalization: Font.SmallCaps
         }
         readonly property var imageButton: StyleFont {
             size: style.font.text.size*1.3
+            capitalization: Font.SmallCaps
+        }
+        readonly property var imageButtonSmall: StyleFont {
+            size: style.font.text.size*0.7
             capitalization: Font.SmallCaps
         }
         readonly property var title: StyleFont {
