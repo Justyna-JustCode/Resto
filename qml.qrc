@@ -30,5 +30,10 @@
         <file>resources/images/break.png</file>
         <file>resources/images/pause.png</file>
         <file>resources/images/stop.png</file>
+        <file>resources/images/pattern-color.png</file>
+        <file>resources/images/ignore.png</file>
+        <file>qml/components/Decorative.qml</file>
+        <file>qml/components/TextButton.qml</file>
+        <file>qml/components/Spacer.qml</file>
     </qresource>
 </RCC>

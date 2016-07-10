@@ -26,20 +26,3 @@ HEADERS += \
     cpp/controller/settingscontroller.h \
     cpp/controller/timercontroller.h \
     cpp/workers/backupmanager.h
-
-DISTFILES += \
-    qml/components/TimeProgressBar.qml \
-    qml/main.qml \
-    qml/dialogs/BreakDialog.qml \
-    qml/dialogs/BreakRequestDialog.qml \
-    qml/dialogs/EndWorkRequestDialog.qml \
-    qml/dialogs/CustomDialog.qml \
-    qml/components/Background.qml \
-    qml/style/Style.qml \
-    qml/components/Label.qml \
-    qml/components/helpers/BarGradient.qml \
-    qml/components/helpers/BarTextGradient.qml \
-    qml/style/StyleFont.qml \
-    qml/style/qmldir \
-    qml/components/ImageButton.qml
-

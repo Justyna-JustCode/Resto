@@ -1,6 +1,8 @@
-import QtQuick 2.5
+import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
+import QtQml.Models 2.2
+import "../components"
 
 CustomDialog {
     id: breakRequestDialog
@@ -9,41 +11,41 @@ CustomDialog {
     signal postpone()
     signal skip()
 
-    width: content.implicitWidth
-    height: content.implicitHeight
-
     title: qsTr("Time for a break!")
+    description: qsTr("You should take a break.")
 
-    ColumnLayout {
-        id: content
-        Text {
-            Layout.alignment: Qt.AlignVCenter
+    image.source: "qrc:/resources/images/break.png"
+    image.data: SequentialAnimation {
+        loops: Animation.Infinite
+        running: true
 
-            text: qsTr("You should take a break.")
+        PropertyAnimation { target: image; property: "scale"; from: 0.7; to: 1; duration: 500; easing.type: Easing.InBounce }
+        PropertyAnimation { target: image; property: "scale"; from: 1; to: 0.7; duration: 500; easing.type: Easing.OutBounce }
+    }
+
+    buttons: ObjectModel {
+        TextButton {
+            text: qsTr("Ignore")
+
+            onClicked: {
+                close();
+                skip();
+            }
         }
-        RowLayout {
-            Layout.alignment: Qt.AlignVCenter
+        TextButton {
+            text: qsTr("Retry")
 
-            Button {
-                text: "Ignore"
-                onClicked: {
-                    close();
-                    skip();
-                }
+            onClicked: {
+                close();
+                postpone();
             }
-            Button {
-                text: "Retry"
-                onClicked: {
-                    close();
-                    postpone();
-                }
-            }
-            Button {
-                text: "Ok"
-                onClicked: {
-                    close();
-                    accept();
-                }
+        }
+        TextButton {
+            text: qsTr("Ok")
+
+            onClicked: {
+                close();
+                accept();
             }
         }
     }

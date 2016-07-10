@@ -1,6 +1,8 @@
-import QtQuick 2.5
+import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
+import QtQml.Models 2.2
+import "../components"
 
 CustomDialog {
     id: breakRequestDialog
@@ -8,34 +10,24 @@ CustomDialog {
     signal accept()
     signal skip()
 
-    width: content.implicitWidth
-    height: content.implicitHeight
-
     title: qsTr("Time for finish!")
+    description: qsTr("You should finish your work.")
 
-    ColumnLayout {
-        id: content
-        Text {
-            Layout.alignment: Qt.AlignVCenter
+    buttons: ObjectModel {
+        TextButton {
+            text: qsTr("Ignore")
 
-            text: qsTr("You should finish your work for today.")
-        }
-        RowLayout {
-            Layout.alignment: Qt.AlignVCenter
-
-            Button {
-                text: "Ignore"
-                onClicked: {
-                    skip();
-                    close();
-                }
+            onClicked: {
+                close();
+                skip();
             }
-            Button {
-                text: "Ok"
-                onClicked: {
-                    accept();
-                    close();
-                }
+        }
+        TextButton {
+            text: qsTr("Ok")
+
+            onClicked: {
+                close();
+                accept();
             }
         }
     }
