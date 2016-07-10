@@ -1,42 +1,55 @@
 pragma Singleton
-import QtQuick 2.5
+import QtQuick 2.7
 import "."
 
 QtObject {
     id: style
 
-    property color mainColor: "#19886f"
+    readonly property color mainColor: "#19886f"
 
-    property var background: QtObject {
-        property string color: "white"
-        property string image: "qrc:/resources/images/background.png"
-        property real opacity: 0.8
+    readonly property int margins: 20
+    readonly property int spacing: 10
+
+    readonly property var background: QtObject {
+        readonly property string color: "white"
+        readonly property string image: "qrc:/resources/images/background.png"
+        readonly property real opacity: 0.8
+        readonly property color borderColor: "black"
+        readonly property int borderWidth: 3
     }
-    property var decorative: QtObject {
-        property string image: "qrc:/resources/images/pattern.png"
+    readonly property var decorative: QtObject {
+        readonly property string image: "qrc:/resources/images/pattern.png"
+        readonly property string imageColor: "qrc:/resources/images/pattern-color.png"
     }
 
-    property var font: QtObject {
-        property var text: StyleFont {}
-        property var header: StyleFont {
-            size: font.text*1.2
+    readonly property var font: QtObject {
+        readonly property var text: StyleFont {}
+        readonly property var textButton: StyleFont {
             bold: true
-            italic: true
+            capitalization: Font.SmallCaps
+        }
+        readonly property var imageButton: StyleFont {
+            size: style.font.text.size*1.3
+            capitalization: Font.SmallCaps
+        }
+        readonly property var title: StyleFont {
+            size: style.font.text.size*1.2
+            bold: true
         }
     }
 
-    property var timeBar: QtObject {
-        property color color: mainColor
-        property color backgroundColor: "#FAFAFA"
-        property color secondaryColor: Qt.darker(color, 1.5)
+    readonly property var timeBar: QtObject {
+        readonly property color color: mainColor
+        readonly property color backgroundColor: "#FAFAFA"
+        readonly property color secondaryColor: Qt.darker(color, 1.5)
 
-        property var font: StyleFont {
+        readonly property var font: StyleFont {
             color: "white"
             size: 0.8*style.font.text.size
             bold: true
         }
 
-        property real gradientFactor: 1.25
+        readonly property real gradientFactor: 1.25
     }
 
 }

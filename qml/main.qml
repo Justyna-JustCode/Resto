@@ -1,4 +1,4 @@
-import QtQuick 2.5
+import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
@@ -6,6 +6,7 @@ import QtQuick.Dialogs 1.2
 import Resto.Types 1.0
 import "components"
 import "dialogs"
+import "style"
 
 Window {
     visible: true
@@ -14,7 +15,7 @@ Window {
     height: 200
 
     Background {
-        anchors.fill: parent
+        Decorative {}
     }
 
     Connections {
@@ -28,6 +29,7 @@ Window {
         }
     }
 
+    // dialogs
     BreakRequestDialog {
         id: breakRequestDialog
 
@@ -68,10 +70,9 @@ Window {
 
             RowLayout {
                 ImageButton {
-                    scale: 0.8
-
                     type: "play"
                     tooltip: qsTr("Play")
+
                     visible: controller.state == Controller.Paused || controller.state == Controller.Off
 
                     onClicked: {
@@ -79,10 +80,9 @@ Window {
                     }
                 }
                 ImageButton {
-                    scale: 0.8
-
                     type: "break"
                     tooltip: qsTr("Break")
+
                     visible: controller.state == Controller.Working
 
                     onClicked: {
@@ -91,10 +91,9 @@ Window {
                     }
                 }
                 ImageButton {
-                    scale: 0.8
-
                     type: "pause"
                     tooltip: qsTr("Pause")
+
                     visible: controller.state == Controller.Working
 
                     onClicked: {
@@ -102,10 +101,9 @@ Window {
                     }
                 }
                 ImageButton {
-                    scale: 0.8
-
                     type: "stop"
                     tooltip: qsTr("Stop")
+
                     visible: controller.state == Controller.Working
 
                     onClicked: {
@@ -136,7 +134,6 @@ Window {
                     value: controller.timer.elapsedWorkTime
                 }
             }
-
         }
     }
 }

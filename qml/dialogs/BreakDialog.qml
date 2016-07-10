@@ -1,6 +1,7 @@
-import QtQuick 2.5
+import QtQuick 2.7
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.4
+import QtQml.Models 2.2
 import "../components"
 
 CustomDialog {
@@ -8,36 +9,30 @@ CustomDialog {
 
     signal endBreak();
 
-    width: content.implicitWidth
-    height: content.implicitHeight
-
-    onVisibleChanged: {
-        if (visible) {
-            endButton.text = "Ignore";
-        }
+    onShowing: {
+        endButton.text = qsTr("Ignore");
     }
 
     title: qsTr("Time for a break!")
+    description: qsTr("Break time:")
 
-    ColumnLayout {
-        id: content
-        width: parent.width
+    image.source: "qrc:/resources/images/break.png"
+    image.scale: 0.85
+    image.data: PropertyAnimation {
+        loops: Animation.Infinite
+        running: true
 
-        Text {
-            text: qsTr("Break time:")
-        }
-        TimeProgressBar {
-            Layout.minimumWidth: 200
+        target: image
+        property: "rotation"
+        from: 0; to: 360;
+        duration: 3000
+        easing.type: Easing.InBounce
+    }
 
-            maxValue: controller.settings.breakDuration
-            value: controller.timer.elapsedBreakDuration
-        }
-
-        Button {
+    buttons: ObjectModel {
+        TextButton {
             id: endButton
-            Layout.alignment: Qt.AlignVCenter
 
-            text: "Ignore"
             onClicked: {
                 endBreak();
                 close();
@@ -45,11 +40,18 @@ CustomDialog {
         }
     }
 
+    additionalContent: TimeProgressBar {
+        Layout.fillWidth: true
+
+        maxValue: controller.settings.breakDuration
+        value: controller.timer.elapsedBreakDuration
+    }
+
     Connections {
         target: controller
 
         onBreakEndRequest: {
-            endButton.text = "Ok";
+            endButton.text = qsTr("Ok");
         }
     }
 }

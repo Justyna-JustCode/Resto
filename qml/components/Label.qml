@@ -9,4 +9,5 @@ Text {
     font.family: fontStyle.family
     font.pixelSize: fontStyle.size
     font.bold: fontStyle.bold
+    font.capitalization: fontStyle.capitalization
 }
