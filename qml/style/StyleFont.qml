@@ -2,6 +2,7 @@ import QtQuick 2.0
 
 QtObject {
     property color color: "black"
+    property color linkColor: "gray"
 
     property int size: 20
     property string family: loader.name

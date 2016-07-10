@@ -35,5 +35,9 @@
         <file>qml/components/Decorative.qml</file>
         <file>qml/components/TextButton.qml</file>
         <file>qml/components/Spacer.qml</file>
+        <file>qml/dialogs/AboutDialog.qml</file>
+        <file>resources/images/logo.png</file>
+        <file>resources/images/about.png</file>
+        <file>js/resourceInfo.js</file>
     </qresource>
 </RCC>

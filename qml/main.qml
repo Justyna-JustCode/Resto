@@ -29,7 +29,7 @@ Window {
         }
     }
 
-    // dialogs
+    // dialogs - TODO: additional component
     BreakRequestDialog {
         id: breakRequestDialog
 
@@ -58,83 +58,97 @@ Window {
             controller.stop();
         }
     }
+    AboutDialog {
+        id: aboutDialog
+    }
 
-    Item {
+    // content
+    ColumnLayout {
         id: content
         anchors.fill: parent
         anchors.margins: 30
+        spacing: 0
 
-        ColumnLayout {
-            anchors.fill: parent
-            spacing: 0
+        RowLayout {
+            ImageButton {
+                type: "play"
+                tooltip: qsTr("Play")
 
-            RowLayout {
-                ImageButton {
-                    type: "play"
-                    tooltip: qsTr("Play")
+                visible: controller.state != Controller.Working
 
-                    visible: controller.state != Controller.Working
-
-                    onClicked: {
-                        controller.start()
-                    }
-                }
-                ImageButton {
-                    type: "break"
-                    tooltip: qsTr("Break")
-
-                    visible: controller.state == Controller.Working
-
-                    onClicked: {
-                        controller.startBreak()
-                        breakDialog.show();
-                    }
-                }
-                ImageButton {
-                    type: "pause"
-                    tooltip: qsTr("Pause")
-
-                    visible: controller.state == Controller.Working
-
-                    onClicked: {
-                        controller.pause()
-                    }
-                }
-                ImageButton {
-                    type: "stop"
-                    tooltip: qsTr("Stop")
-
-                    visible: controller.state == Controller.Working
-
-                    onClicked: {
-                        controller.stop()
-                    }
+                onClicked: {
+                    controller.start()
                 }
             }
-            GridLayout {
-                Layout.fillWidth: true
-                columns: 2
+            ImageButton {
+                type: "break"
+                tooltip: qsTr("Break")
 
-                Label {
-                    text: qsTr("Next break:")
-                }
-                TimeProgressBar {
-                    Layout.fillWidth: true
+                visible: controller.state == Controller.Working
 
-                    maxValue: controller.settings.breakInterval
-                    value: controller.timer.elapsedWorkPeriod
+                onClicked: {
+                    controller.startBreak()
+                    breakDialog.show();
                 }
-                Label {
-                    text: qsTr("Work time:")
-                }
-                TimeProgressBar {
-                    Layout.fillWidth: true
+            }
+            ImageButton {
+                type: "pause"
+                tooltip: qsTr("Pause")
 
-                    maxValue: controller.settings.workTime
-                    value: controller.timer.elapsedWorkTime
+                visible: controller.state == Controller.Working
+
+                onClicked: {
+                    controller.pause()
+                }
+            }
+            ImageButton {
+                type: "stop"
+                tooltip: qsTr("Stop")
+
+                visible: controller.state == Controller.Working
+
+                onClicked: {
+                    controller.stop()
                 }
             }
         }
+        GridLayout {
+            Layout.fillWidth: true
+            columns: 2
+
+            Label {
+                text: qsTr("Next break:")
+            }
+            TimeProgressBar {
+                Layout.fillWidth: true
+
+                maxValue: controller.settings.breakInterval
+                value: controller.timer.elapsedWorkPeriod
+            }
+            Label {
+                text: qsTr("Work time:")
+            }
+            TimeProgressBar {
+                Layout.fillWidth: true
+
+                maxValue: controller.settings.workTime
+                value: controller.timer.elapsedWorkTime
+            }
+        }
+    }
+
+    // about button
+    ImageButton {
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+        }
+
+        styleFont: Style.font.imageButtonSmall
+        type: "about"
+        tooltip: qsTr("About resto")
+
+        onClicked: aboutDialog.show()
     }
 }
 
