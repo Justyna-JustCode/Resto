@@ -18,6 +18,9 @@ class SettingsController final : public QObject
     Q_PROPERTY(int postponeTime READ postponeTime WRITE setPostponeTime NOTIFY postponeTimeChanged)
     Q_PROPERTY(bool autoStart READ autoStart WRITE setAutoStart NOTIFY autoStartChanged)
 
+    Q_PROPERTY(QPoint windowPosition READ windowPosition WRITE setWindowPosition NOTIFY windowPositionChanged)
+    Q_PROPERTY(QSize windowSize READ windowSize WRITE setWindowSize NOTIFY windowSizeChanged)
+
 public:
     explicit SettingsController(QObject *parent = 0);
 
@@ -27,6 +30,9 @@ public:
     int postponeTime() const;
     bool autoStart() const;
 
+    QPoint windowPosition() const;
+    QSize windowSize() const;
+
 signals:
     void breakDurationChanged(int breakDuration) const;
     void breakIntervalChanged(int breakInterval) const;
@@ -34,12 +40,18 @@ signals:
     void postponeTimeChanged(int postponeTime) const;
     void autoStartChanged(bool autoStart) const;
 
+    void windowPositionChanged(const QPoint &windowPosition) const;
+    void windowSizeChanged(const QSize &windowSize) const;
+
 public slots:
     void setBreakDuration(int breakDuration);
     void setBreakInterval(int breakInterval);
     void setWorkTime(int workTime);
     void setPostponeTime(int postponeTime);
     void setAutoStart(bool autoStart);
+
+    void setWindowPosition(const QPoint &windowPosition);
+    void setWindowSize(const QSize &windowSize);
 
 private:
     /*!

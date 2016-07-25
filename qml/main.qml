@@ -11,8 +11,28 @@ import "style"
 Window {
     visible: true
 
-    width: 400
-    height: 200
+    // load and save main window position and size
+    Component.onCompleted: {
+        width = controller.settings.windowSize.width
+        height = controller.settings.windowSize.height
+        x = controller.settings.windowPosition.x
+        y = controller.settings.windowPosition.y
+    }
+
+    onWidthChanged: {
+        controller.settings.windowSize.width = width;
+    }
+    onHeightChanged: {
+        controller.settings.windowSize.height = height;
+    }
+
+    onXChanged: {
+        controller.settings.windowPosition.x = x;
+    }
+    onYChanged: {
+        controller.settings.windowPosition.y = y;
+    }
+    // ----------------------------------------------
 
     Background {
         Decorative {}
