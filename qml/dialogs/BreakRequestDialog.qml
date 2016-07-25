@@ -25,7 +25,7 @@ CustomDialog {
 
     buttons: ObjectModel {
         TextButton {
-            text: qsTr("Ignore")
+            text: qsTr("Skip")
 
             onClicked: {
                 close();
@@ -33,7 +33,7 @@ CustomDialog {
             }
         }
         TextButton {
-            text: qsTr("Retry")
+            text: qsTr("Postpone")
 
             onClicked: {
                 close();
