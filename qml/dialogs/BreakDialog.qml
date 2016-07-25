@@ -10,7 +10,7 @@ CustomDialog {
     signal endBreak();
 
     onShowing: {
-        endButton.text = qsTr("Ignore");
+        endButton.text = qsTr("Abort");
     }
 
     title: qsTr("Time for a break!")
