@@ -25,6 +25,16 @@ bool SettingsController::autoStart() const
     return m_settings.autoStart();
 }
 
+QPoint SettingsController::windowPosition() const
+{
+    return m_settings.windowPosition();
+}
+
+QSize SettingsController::windowSize() const
+{
+    return m_settings.windowSize();
+}
+
 void SettingsController::setBreakDuration(int _breakDuration)
 {
     if (breakDuration() == _breakDuration)
@@ -64,4 +74,22 @@ void SettingsController::setAutoStart(bool _autoStart)
 
     m_settings.setAutoStart(_autoStart);
     emit autoStartChanged(_autoStart);
+}
+
+void SettingsController::setWindowPosition(const QPoint &_windowPosition)
+{
+    if (windowPosition() == _windowPosition)
+        return;
+
+    m_settings.setWindowPosition(_windowPosition);
+    emit windowPositionChanged(_windowPosition);
+}
+
+void SettingsController::setWindowSize(const QSize &_windowSize)
+{
+    if (m_settings.windowSize() == _windowSize)
+        return;
+
+    m_settings.setWindowSize(_windowSize);
+    emit windowSizeChanged(_windowSize);
 }
