@@ -1,8 +1,12 @@
 #include "settingscontroller.h"
 
+const QStringList SettingsController::sc_availableColors = { "#19886F", "#EC811B", "#682C90", "#C0159B", "#008000", "#0958EC", "#666666" };
+
 SettingsController::SettingsController(QObject *parent)
     : QObject(parent), m_settings(QStringLiteral("JustCode"), QStringLiteral("Resto"))
-{}
+{
+    m_settings.setDefaultApplicationColor(sc_availableColors.first());
+}
 
 int SettingsController::breakDuration() const
 {
@@ -33,6 +37,16 @@ QPoint SettingsController::windowPosition() const
 QSize SettingsController::windowSize() const
 {
     return m_settings.windowSize();
+}
+
+QStringList SettingsController::availableColors() const
+{
+    return sc_availableColors;
+}
+
+QColor SettingsController::applicationColor() const
+{
+    return m_settings.applicationColor();
 }
 
 void SettingsController::setBreakDuration(int _breakDuration)
@@ -92,4 +106,13 @@ void SettingsController::setWindowSize(const QSize &_windowSize)
 
     m_settings.setWindowSize(_windowSize);
     emit windowSizeChanged(_windowSize);
+}
+
+void SettingsController::setApplicationColor(QColor color)
+{
+    if (m_settings.applicationColor() == color)
+        return;
+
+    m_settings.setApplicationColor(color);
+    emit applicationColorChanged(color);
 }

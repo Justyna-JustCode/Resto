@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.5
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 import QtQml.Models 2.2
@@ -56,6 +56,7 @@ Window {
         }
         Image {
             id: imageItem
+            Layout.alignment: Qt.AlignRight
         }
 
         Label {

@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.5
 import QtQuick.Window 2.2
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
@@ -81,6 +81,9 @@ Window {
     AboutDialog {
         id: aboutDialog
     }
+    SettingsDialog {
+        id: settingsDialog
+    }
 
     // content
     ColumnLayout {
@@ -157,18 +160,28 @@ Window {
         }
     }
 
-    // about button
-    ImageButton {
+    // small buttons
+    RowLayout {
         anchors {
             right: parent.right
             bottom: parent.bottom
         }
 
-        styleFont: Style.font.imageButtonSmall
-        type: "about"
-        tooltip: qsTr("About resto")
+        ImageButton {
+            styleFont: Style.font.imageButtonSmall
+            type: "settings"
+            tooltip: qsTr("Change settings")
 
-        onClicked: aboutDialog.show()
+            onClicked: settingsDialog.show()
+        }
+        ImageButton {
+            styleFont: Style.font.imageButtonSmall
+            type: "about"
+            tooltip: qsTr("About resto")
+
+            onClicked: aboutDialog.show()
+        }
     }
+
 }
 

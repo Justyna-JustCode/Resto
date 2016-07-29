@@ -1,13 +1,14 @@
 pragma Singleton
-import QtQuick 2.7
+import QtQuick 2.5
 import "."
 
 QtObject {
     id: style
 
-    readonly property color mainColor: "#19886f"
+    property color mainColor: controller.settings.applicationColor
 
     readonly property int margins: 20
+    readonly property int smallMargins: 10
     readonly property int spacing: 10
 
     readonly property var background: QtObject {
@@ -40,6 +41,9 @@ QtObject {
             size: style.font.text.size*1.2
             bold: true
         }
+        readonly property var formLabel: StyleFont {
+            capitalization: Font.SmallCaps
+        }
     }
 
     readonly property var timeBar: QtObject {
@@ -56,4 +60,24 @@ QtObject {
         readonly property real gradientFactor: 1.25
     }
 
+    readonly property var tabView: QtObject {
+        readonly property color borderColor: mainColor
+        readonly property int borderWidth: 1
+
+        readonly property var activeFont: StyleFont {
+            bold: true
+            color: mainColor
+        }
+        readonly property var inactiveFont: StyleFont {
+            bold: true
+            color: "#1E1E1E"
+        }
+    }
+    readonly property var colorPicker: QtObject {
+        readonly property color activeColor: "white"
+        readonly property color inactiveColor: "black"
+
+        readonly property int borderWidth: 1
+        readonly property int itemSize: 20
+    }
 }
