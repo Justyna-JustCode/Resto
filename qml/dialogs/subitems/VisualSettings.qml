@@ -13,11 +13,17 @@ SettingsPage {
 
     function save() {   // save current state
         controller.settings.applicationColor = Style.mainColor
-        picker.currentColor = Style.mainColor // FIXME: remove this when dialogs would be created dynamically as it will not be needed anymore
+        // FIXME: remove this when dialogs would be created dynamically as it will not be needed anymore
+        applicationColor = Style.mainColor
+        picker.currentColor = applicationColor
+        // ----------------------------------------------------------------------------------------------
     }
     function discard() {    // restore previous state
         Style.mainColor = applicationColor
-        picker.currentColor = Style.mainColor // FIXME: remove this when dialogs would be created dynamically as it will not be needed anymore
+        // FIXME: remove this when dialogs would be created dynamically as it will not be needed anymore
+        applicationColor = Style.mainColor
+        picker.currentColor = applicationColor
+        // ----------------------------------------------------------------------------------------------
     }
 
     FormElement {
