@@ -10,8 +10,8 @@ CustomDialog {
 
     image.source: "qrc:/resources/images/settings.png"
 
-    width: 300
-    height: 375
+    width: 400
+    height: 400
 
     function save() {
         for (var i=0; i<tabView.count; ++i) {
@@ -32,14 +32,14 @@ CustomDialog {
         Layout.fillHeight: true
 
         Tab {
-            title: "Appearance"
-
-            VisualSettings {}
-        }
-        Tab {
             title: "Behavior"
 
             LogicSettings {}
+        }
+        Tab {
+            title: "Appearance"
+
+            VisualSettings {}
         }
     }
 

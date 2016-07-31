@@ -25,15 +25,7 @@ QColor Settings::sc_defaultApplicationColor;
 
 Settings::Settings(const QString organization, const QString name)
     : m_settings(QSettings::UserScope, organization, name)
-{
-#ifdef QT_DEBUG // TODO: remove it before release
-    setAutoStart(false);
-    setWorkTime(5*60);      // 5 min
-    setBreakDuration(15);   // 15 sec
-    setBreakInterval(30);   // 30 sec
-    setPostponeTime(10);    // 10 sec
-#endif
-}
+{}
 
 int Settings::breakDuration() const
 {

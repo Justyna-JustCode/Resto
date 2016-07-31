@@ -7,9 +7,16 @@ SettingsPage {
     Component.onCompleted: {
         // set defaults
         autoStartSwitch.checked = controller.settings.autoStart
+        breakDurationSelector.time = controller.settings.breakDuration
+        breakIntervalSelector.time = controller.settings.breakInterval
+        workTimeSelector.time = controller.settings.workTime
     }
 
     function save() {   // save current state
+        controller.settings.autoStart = autoStartSwitch.checked
+        controller.settings.breakDuration = breakDurationSelector.time
+        controller.settings.breakInterval = breakIntervalSelector.time
+        controller.settings.workTime = workTimeSelector.time
     }
 
     FormElement {
@@ -30,11 +37,26 @@ SettingsPage {
 
     FormElement {
         labelText: qsTr("Break duration:")
+
+        TimeSelector {
+            id: breakDurationSelector
+            showSeconds: false
+        }
     }
     FormElement {
         labelText: qsTr("Break interval:")
+
+        TimeSelector {
+            id: breakIntervalSelector
+            showSeconds: false
+        }
     }
     FormElement {
         labelText: qsTr("Work time:")
+
+        TimeSelector {
+            id: workTimeSelector
+            showSeconds: false
+        }
     }
 }

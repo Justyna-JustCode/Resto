@@ -51,5 +51,10 @@
         <file>qml/style/helpers/qmldir</file>
         <file>qml/components/Switch.qml</file>
         <file>qml/components/SpacerLine.qml</file>
+        <file>qml/components/TimeSelector.qml</file>
+        <file>qml/components/SpinBox.qml</file>
+        <file>resources/images/inc.png</file>
+        <file>resources/images/dec.png</file>
+        <file>qml/components/helpers/SpinBoxControl.qml</file>
     </qresource>
 </RCC>

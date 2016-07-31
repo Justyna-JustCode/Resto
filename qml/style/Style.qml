@@ -100,4 +100,17 @@ QtObject {
             color: switchControl.backgroundColor
         }
     }
+    readonly property var spinBox: QtObject {
+
+        readonly property var font: StyleFont {
+            size: 0.85*style.font.text.size
+            bold: true
+            capitalization: Font.SmallCaps
+            color: ColorPallete.mainColor
+        }
+        readonly property color selectedTextColor: ColorPallete.secondaryLightColor
+
+        readonly property string incrementImage: "qrc:/resources/images/inc.png"
+        readonly property string decrementImage: "qrc:/resources/images/dec.png"
+    }
 }
