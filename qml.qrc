@@ -47,5 +47,7 @@
         <file>qml/components/FormElement.qml</file>
         <file>qml/dialogs/subitems/SettingsPage.qml</file>
         <file>qml/components/ColorPicker.qml</file>
+        <file>qml/style/helpers/ColorPallete.qml</file>
+        <file>qml/style/helpers/qmldir</file>
     </qresource>
 </RCC>

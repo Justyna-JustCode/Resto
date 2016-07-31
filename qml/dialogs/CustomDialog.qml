@@ -52,7 +52,6 @@ Window {
         Label {
             fontStyle: Style.font.title
             text: title
-            color: Style.mainColor
         }
         Image {
             id: imageItem

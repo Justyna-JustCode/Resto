@@ -29,7 +29,7 @@ Image {
             anchors.fill: parent
             source: parent
 
-            color: Style.mainColor
+            color: Style.decorative.color
         }
     }
 }
