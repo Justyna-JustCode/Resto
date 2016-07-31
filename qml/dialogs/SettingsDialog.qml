@@ -10,6 +10,9 @@ CustomDialog {
 
     image.source: "qrc:/resources/images/settings.png"
 
+    width: 300
+    height: 375
+
     function save() {
         for (var i=0; i<tabView.count; ++i) {
             tabView.getTab(i).active = true;
@@ -26,7 +29,7 @@ CustomDialog {
     additionalContent: TabView {
         id: tabView
         Layout.fillWidth: true
-        Layout.minimumWidth: implicitWidth
+        Layout.fillHeight: true
 
         Tab {
             title: "Appearance"

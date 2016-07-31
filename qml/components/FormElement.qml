@@ -4,12 +4,20 @@ import "../style"
 
 GridLayout {
     property alias labelText: label.text
-
-    columns: 2
-    rows: 2
+    property bool strechHorizontally: true
+    property bool strechVertically: false
 
     Label {
         id: label
         fontStyle: Style.font.formLabel
+    }
+    Spacer {
+        Layout.fillWidth: strechHorizontally &&
+                          (flow == GridLayout.LeftToRight)
+        Layout.fillHeight: strechVertically &&
+                          (flow == GridLayout.TopToBottom)
+
+        size: 1
+        visible: Layout.fillWidth || Layout.fillHeight
     }
 }

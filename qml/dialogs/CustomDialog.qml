@@ -68,9 +68,8 @@ Window {
             Layout.columnSpan: 2
         }
 
-        Spacer {
-            size: Style.spacing
-        }
+        Spacer {}
+
         RowLayout {
             Layout.columnSpan: 2
             Layout.alignment: Qt.AlignCenter

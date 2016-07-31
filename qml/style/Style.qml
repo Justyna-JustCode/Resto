@@ -44,6 +44,10 @@ QtObject {
             bold: true
             color: ColorPallete.mainColor
         }
+        readonly property var formHeader: StyleFont {
+            capitalization: Font.SmallCaps
+            bold: true
+        }
         readonly property var formLabel: StyleFont {
             capitalization: Font.SmallCaps
         }
@@ -83,5 +87,17 @@ QtObject {
         readonly property int activeBorderWidth: 2
         readonly property int inactiveBorderWidth: 1
         readonly property int itemSize: 20
+    }
+    readonly property var switchControl: QtObject {
+        readonly property color handleColor: ColorPallete.mainColor
+        readonly property color backgroundColor: ColorPallete.secondaryLightColor
+        readonly property int borderWidth: 2
+
+        readonly property var font: StyleFont {
+            size: 0.85*style.font.text.size
+            bold: true
+            capitalization: Font.SmallCaps
+            color: switchControl.backgroundColor
+        }
     }
 }

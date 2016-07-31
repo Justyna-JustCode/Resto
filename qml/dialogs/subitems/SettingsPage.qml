@@ -11,11 +11,7 @@ ColumnLayout {
 
     ColumnLayout {
         id: layout
-
-        anchors {
-            fill: parent
-            margins: Style.smallMargins
-        }
+        Layout.margins: Style.smallMargins
     }
     Spacer {
         Layout.fillHeight: true
