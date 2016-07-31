@@ -10,7 +10,7 @@ CustomDialog {
 
     image.source: "qrc:/resources/images/settings.png"
 
-    width: 400
+    width: 350
     height: 400
 
     function save() {

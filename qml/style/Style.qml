@@ -7,6 +7,9 @@ QtObject {
     id: style
 
     property color mainColor: ColorPallete.mainColor
+    onMainColorChanged: {
+        ColorPallete.mainColor = mainColor;
+    }
 
     readonly property int margins: 20
     readonly property int smallMargins: 10

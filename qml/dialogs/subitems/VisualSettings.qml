@@ -33,12 +33,8 @@ SettingsPage {
 
     FormElement {
         labelText: qsTr("Color:")
-        flow: GridLayout.TopToBottom
-
         ColorPicker {
             id: picker
-            Layout.fillWidth: false
-            Layout.alignment: Qt.AlignRight
 
             currentColor: Style.mainColor
             availableColors: controller.settings.availableColors
@@ -46,10 +42,6 @@ SettingsPage {
             onCurrentColorChanged: {
                 Style.mainColor = currentColor
             }
-        }
-        SpacerLine {
-            Layout.fillWidth: true
-            color: Style.font.formHeader.color
         }
     }
 }
