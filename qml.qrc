@@ -39,5 +39,22 @@
         <file>resources/images/logo.png</file>
         <file>resources/images/about.png</file>
         <file>js/resourceInfo.js</file>
+        <file>qml/dialogs/SettingsDialog.qml</file>
+        <file>resources/images/settings.png</file>
+        <file>qml/components/TabView.qml</file>
+        <file>qml/dialogs/subitems/VisualSettings.qml</file>
+        <file>qml/dialogs/subitems/LogicSettings.qml</file>
+        <file>qml/components/FormElement.qml</file>
+        <file>qml/dialogs/subitems/SettingsPage.qml</file>
+        <file>qml/components/ColorPicker.qml</file>
+        <file>qml/style/helpers/ColorPallete.qml</file>
+        <file>qml/style/helpers/qmldir</file>
+        <file>qml/components/Switch.qml</file>
+        <file>qml/components/SpacerLine.qml</file>
+        <file>qml/components/TimeSelector.qml</file>
+        <file>qml/components/SpinBox.qml</file>
+        <file>resources/images/inc.png</file>
+        <file>resources/images/dec.png</file>
+        <file>qml/components/helpers/SpinBoxControl.qml</file>
     </qresource>
 </RCC>

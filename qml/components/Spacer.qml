@@ -1,9 +1,10 @@
-import QtQuick 2.7
+import QtQuick 2.5
+import "../style"
 
 Item {
     property bool horizontal: false
-    property int size
+    property int size: Style.spacing
 
-    width: horizontal ? size : undefined
-    height: horizontal ? undefined : size
+    implicitWidth: horizontal ? size : 1
+    implicitHeight: horizontal ? 1 : size
 }

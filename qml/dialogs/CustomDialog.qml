@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.5
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 import QtQml.Models 2.2
@@ -52,10 +52,10 @@ Window {
         Label {
             fontStyle: Style.font.title
             text: title
-            color: Style.mainColor
         }
         Image {
             id: imageItem
+            Layout.alignment: Qt.AlignRight
         }
 
         Label {
@@ -68,9 +68,8 @@ Window {
             Layout.columnSpan: 2
         }
 
-        Spacer {
-            size: Style.spacing
-        }
+        Spacer {}
+
         RowLayout {
             Layout.columnSpan: 2
             Layout.alignment: Qt.AlignCenter

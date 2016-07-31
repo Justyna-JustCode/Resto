@@ -1,8 +1,9 @@
 import QtQuick 2.0
+import "helpers"
 
 QtObject {
-    property color color: "black"
-    property color linkColor: "gray"
+    property color color: ColorPallete.secondaryDarkColor
+    property color linkColor: ColorPallete.mainColor
 
     property int size: 20
     property string family: loader.name

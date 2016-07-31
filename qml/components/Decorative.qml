@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.5
 import QtGraphicalEffects 1.0
 import "../style"
 
@@ -29,7 +29,7 @@ Image {
             anchors.fill: parent
             source: parent
 
-            color: Style.mainColor
+            color: Style.decorative.color
         }
     }
 }

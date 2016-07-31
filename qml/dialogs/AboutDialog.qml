@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 import QtQml.Models 2.2
@@ -6,8 +6,6 @@ import "../components"
 import "/js/resourceInfo.js" as ResourceInfo
 
 CustomDialog {
-    id: breakRequestDialog
-
     property string aboutMessage: authorMessage + "<br/><br/>" + resourcesMessage
     property string authorMessage: qsTr("<b>Author:</b><br/>
                                          <a href=\"http://justcode.com\">JustCode</a>")
