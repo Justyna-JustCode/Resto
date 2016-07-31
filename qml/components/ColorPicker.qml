@@ -10,13 +10,16 @@ RowLayout {
         id: repeater
 
         Rectangle {
+            property bool isSelected: Qt.colorEqual(modelData, currentColor)
             color: modelData
 
             width: Style.colorPicker.itemSize
             height: width
 
-            border.width: Style.colorPicker.borderWidth
-            border.color: Qt.colorEqual(modelData, currentColor)
+            border.width: isSelected
+                          ? Style.colorPicker.activeBorderWidth
+                          : Style.colorPicker.inactiveBorderWidth
+            border.color: isSelected
                           ? Style.colorPicker.activeColor
                           : Style.colorPicker.inactiveColor
 

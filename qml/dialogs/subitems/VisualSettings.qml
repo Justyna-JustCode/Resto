@@ -4,25 +4,30 @@ import "../../components"
 import "../../style"
 
 SettingsPage {
-    property color applicationColor
+
+    QtObject {
+        id: d
+
+        property color applicationColor
+    }
 
     Component.onCompleted: {
         // save state before change
-        applicationColor = Style.mainColor
+        d.applicationColor = Style.mainColor
     }
 
     function save() {   // save current state
         controller.settings.applicationColor = Style.mainColor
         // FIXME: remove this when dialogs would be created dynamically as it will not be needed anymore
-        applicationColor = Style.mainColor
-        picker.currentColor = applicationColor
+        d.applicationColor = Style.mainColor
+        picker.currentColor = d.applicationColor
         // ----------------------------------------------------------------------------------------------
     }
     function discard() {    // restore previous state
-        Style.mainColor = applicationColor
+        Style.mainColor = d.applicationColor
         // FIXME: remove this when dialogs would be created dynamically as it will not be needed anymore
-        applicationColor = Style.mainColor
-        picker.currentColor = applicationColor
+        d.applicationColor = Style.mainColor
+        picker.currentColor = d.applicationColor
         // ----------------------------------------------------------------------------------------------
     }
 
@@ -37,7 +42,6 @@ SettingsPage {
             availableColors: controller.settings.availableColors
 
             onCurrentColorChanged: {
-                console.log(currentColor, controller.settings.availableColors)
                 Style.mainColor = currentColor
             }
         }

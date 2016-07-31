@@ -74,10 +74,11 @@ QtObject {
         }
     }
     readonly property var colorPicker: QtObject {
-        readonly property color activeColor: "white"
-        readonly property color inactiveColor: "black"
+        readonly property color activeColor: "black"
+        readonly property color inactiveColor: "white"
 
-        readonly property int borderWidth: 1
+        readonly property int activeBorderWidth: 2
+        readonly property int inanctiveBorderWidth: 1
         readonly property int itemSize: 20
     }
 }

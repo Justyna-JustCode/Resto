@@ -26,14 +26,15 @@ CustomDialog {
     additionalContent: TabView {
         id: tabView
         Layout.fillWidth: true
+        Layout.minimumWidth: implicitWidth
 
         Tab {
-            title: "View"
+            title: "Appearance"
 
             VisualSettings {}
         }
         Tab {
-            title: "Logic"
+            title: "Behavior"
 
             LogicSettings {}
         }
