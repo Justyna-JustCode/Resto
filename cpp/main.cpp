@@ -8,6 +8,10 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    app.setOrganizationName(ORG_NAME);
+    app.setOrganizationDomain(ORG_DOMAIN);
+    app.setApplicationName(APP_NAME);
+    app.setApplicationVersion(APP_VERSION);
 
     Controller controller;
 
@@ -15,6 +19,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("controller", &controller);
+    engine.rootContext()->setContextProperty("app", &app);
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 

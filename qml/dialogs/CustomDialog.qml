@@ -56,6 +56,8 @@ Window {
         Image {
             id: imageItem
             Layout.alignment: Qt.AlignRight
+            Layout.preferredWidth: width
+            Layout.preferredHeight: height
         }
 
         Label {
