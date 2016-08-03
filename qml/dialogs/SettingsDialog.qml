@@ -11,7 +11,7 @@ CustomDialog {
     image.source: "qrc:/resources/images/settings.png"
 
     width: 350
-    height: 400
+    height: 420
 
     function save() {
         for (var i=0; i<tabView.count; ++i) {
