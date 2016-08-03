@@ -26,3 +26,5 @@ HEADERS += \
     cpp/controller/settingscontroller.h \
     cpp/controller/timercontroller.h \
     cpp/workers/backupmanager.h
+
+include(appInfo.pri)

@@ -7,19 +7,20 @@ import "/js/resourceInfo.js" as ResourceInfo
 
 CustomDialog {
     property string aboutMessage: authorMessage + "<br/><br/>" + resourcesMessage
-    property string authorMessage: qsTr("<b>Author:</b><br/>
-                                         <a href=\"http://justcode.com\">JustCode</a>")
+    property string authorMessage: qsTr("<b>Author:</b><br/>") +
+                                         "<a href=\"http://" + app.organizationDomain + "\">" + app.organizationName + "</a>"
     property string resourcesMessage: qsTr("<b>Resources:</b><br/>") + ResourceInfo.getInfo()
 
     signal accept()
     signal postpone()
     signal skip()
 
-    title: qsTr("About Resto")
+    title: qsTr("About") + " " + app.applicationName + "\n(" +qsTr("ver.") + " " + app.applicationVersion + ")"
     description: aboutMessage
 
     image.source: "qrc:/resources/images/logo.png"
-    image.scale: 0.8
+    image.width: 150
+    image.fillMode: Image.PreserveAspectFit
 
     buttons: ObjectModel {
         TextButton {
@@ -30,5 +31,17 @@ CustomDialog {
                 accept();
             }
         }
+    }
+
+    additionalContent: Image {
+        Layout.fillWidth: true
+        Layout.preferredHeight: height
+
+        height: 40
+        mipmap: true
+        fillMode: Image.PreserveAspectFit
+        horizontalAlignment: Image.AlignHCenter
+
+        source: "qrc:/resources/images/qt-logo.png"
     }
 }

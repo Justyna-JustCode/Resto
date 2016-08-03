@@ -1,9 +1,10 @@
 #include "settingscontroller.h"
+#include <QCoreApplication>
 
 const QStringList SettingsController::sc_availableColors = { "#19886F", "#EC811B", "#682C90", "#C0159B", "#008000", "#0958EC", "#666666" };
 
 SettingsController::SettingsController(QObject *parent)
-    : QObject(parent), m_settings(QStringLiteral("JustCode"), QStringLiteral("Resto"))
+    : QObject(parent), m_settings(QCoreApplication::organizationName(), QCoreApplication::applicationName())
 {
     m_settings.setDefaultApplicationColor(sc_availableColors.first());
 }
