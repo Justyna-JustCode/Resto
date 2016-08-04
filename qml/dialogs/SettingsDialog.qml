@@ -32,12 +32,12 @@ CustomDialog {
         Layout.fillHeight: true
 
         Tab {
-            title: "Behavior"
+            title: qsTr("Behaviour")
 
             LogicSettings {}
         }
         Tab {
-            title: "Appearance"
+            title: qsTr("Appearance")
 
             VisualSettings {}
         }
