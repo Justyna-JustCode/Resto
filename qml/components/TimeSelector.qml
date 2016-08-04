@@ -48,7 +48,7 @@ RowLayout {
     }
 
     SpinBox {
-        maximumValue: 24
+        maximumValue: 23
         suffix: "h"
 
         visible: showHours
@@ -59,7 +59,7 @@ RowLayout {
         }
     }
     SpinBox {
-        maximumValue: 60
+        maximumValue: 59
         suffix: "m"
 
         visible: showMinutes
@@ -70,7 +70,7 @@ RowLayout {
         }
     }
     SpinBox {
-        maximumValue: 60
+        maximumValue: 59
         suffix: "s"
 
         visible: showSeconds
