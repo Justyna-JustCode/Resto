@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.1
 import QtQml.Models 2.2
 import "../components"
+import "../components/helpers"
 import "../style"
 
 Window {
@@ -53,11 +54,12 @@ Window {
             fontStyle: Style.font.title
             text: title
         }
-        Image {
+        LayoutImage {
             id: imageItem
+
             Layout.alignment: Qt.AlignRight
-            Layout.preferredWidth: width
-            Layout.preferredHeight: height
+            Layout.preferredWidth: preferredWidth
+            Layout.preferredHeight: preferredHeight
         }
 
         Label {

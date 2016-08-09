@@ -57,5 +57,6 @@
         <file>resources/images/dec.png</file>
         <file>qml/components/helpers/SpinBoxControl.qml</file>
         <file>resources/images/qt-logo.png</file>
+        <file>qml/components/helpers/LayoutImage.qml</file>
     </qresource>
 </RCC>

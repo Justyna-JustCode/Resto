@@ -19,7 +19,8 @@ CustomDialog {
     description: aboutMessage
 
     image.source: "qrc:/resources/images/logo.png"
-    image.width: 150
+    image.preferredWidth: 150
+    image.preferredHeight: image.paintedHeight
     image.fillMode: Image.PreserveAspectFit
 
     buttons: ObjectModel {
