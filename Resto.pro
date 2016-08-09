@@ -29,4 +29,4 @@ HEADERS += \
 
 include(appInfo.pri)
 
-win32:RC_ICONS += resources/app-logo.ico
+win32:RC_ICONS += resources/images/app-logo.ico
