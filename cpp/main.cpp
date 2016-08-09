@@ -2,12 +2,14 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QIcon>
 
 #include "controller/controller.h"
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/resources/images/app-logo.png"));
     app.setOrganizationName(ORG_NAME);
     app.setOrganizationDomain(ORG_DOMAIN);
     app.setApplicationName(APP_NAME);
