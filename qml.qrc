@@ -59,5 +59,6 @@
         <file>resources/images/qt-logo.png</file>
         <file>resources/images/app-logo.ico</file>
         <file>resources/images/app-logo.png</file>
+        <file>qml/DialogsManager.qml</file>
     </qresource>
 </RCC>
