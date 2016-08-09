@@ -20,14 +20,6 @@ SettingsPage {
         controller.settings.postponeTime = postponeTimeSelector.time
         controller.settings.workTime = workTimeSelector.time
     }
-    function discard() {
-        // FIXME: remove this when dialogs would be created dynamically as it will not be needed anymore
-        autoStartSwitch.checked = controller.settings.autoStart
-        breakDurationSelector.time = controller.settings.breakDuration
-        breakIntervalSelector.time = controller.settings.breakInterval
-        postponeTimeSelector.time = controller.settings.postponeTime
-        workTimeSelector.time = controller.settings.workTime
-    }
 
     FormElement {
         labelText: qsTr("Auto start:")

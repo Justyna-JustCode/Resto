@@ -10,9 +10,6 @@ CustomDialog {
 
     image.source: "qrc:/resources/images/settings.png"
 
-    width: 350
-    height: 420
-
     function save() {
         for (var i=0; i<tabView.count; ++i) {
             tabView.getTab(i).active = true;
@@ -28,21 +25,36 @@ CustomDialog {
 
     additionalContent: TabView {
         id: tabView
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+
+        onCountChanged: {
+            // calculate max size of tabs
+            var maxWidth = 0; var maxHeight = 0;
+            for (var i=0; i<count; ++i) {
+                tabView.getTab(i).active = true;
+
+                if (getTab(i).implicitWidth > maxWidth)
+                    maxWidth = getTab(i).implicitWidth;
+
+                if (getTab(i).implicitHeight > maxHeight)
+                    maxHeight = getTab(i).implicitHeight;
+
+                tabView.getTab(i).active = false;
+            }
+            implicitWidth = Math.max(implicitWidth, maxWidth);
+            implicitHeight = Math.max(implicitHeight, maxHeight + tabsHeight);
+        }
 
         Tab {
-            title: "Behavior"
+            title: qsTr("Behaviour")
 
             LogicSettings {}
         }
         Tab {
-            title: "Appearance"
+            title: qsTr("Appearance")
 
             VisualSettings {}
         }
     }
-
 
     buttons: ObjectModel {
         TextButton {

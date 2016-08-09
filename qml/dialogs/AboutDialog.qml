@@ -18,7 +18,7 @@ CustomDialog {
     title: qsTr("About") + " " + app.applicationName + "\n(" +qsTr("ver.") + " " + app.applicationVersion + ")"
     description: aboutMessage
 
-    image.source: "qrc:/resources/images/logo.png"
+    image.source: "qrc:/resources/images/org-logo.png"
     image.preferredWidth: 150
     image.preferredHeight: image.paintedHeight
     image.fillMode: Image.PreserveAspectFit

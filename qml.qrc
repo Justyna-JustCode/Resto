@@ -36,7 +36,7 @@
         <file>qml/components/TextButton.qml</file>
         <file>qml/components/Spacer.qml</file>
         <file>qml/dialogs/AboutDialog.qml</file>
-        <file>resources/images/logo.png</file>
+        <file>resources/images/org-logo.png</file>
         <file>resources/images/about.png</file>
         <file>js/resourceInfo.js</file>
         <file>qml/dialogs/SettingsDialog.qml</file>
@@ -57,6 +57,9 @@
         <file>resources/images/dec.png</file>
         <file>qml/components/helpers/SpinBoxControl.qml</file>
         <file>resources/images/qt-logo.png</file>
+        <file>resources/images/app-logo.ico</file>
+        <file>resources/images/app-logo.png</file>
+        <file>qml/DialogsManager.qml</file>
         <file>qml/components/helpers/LayoutImage.qml</file>
     </qresource>
 </RCC>

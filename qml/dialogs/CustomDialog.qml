@@ -7,6 +7,7 @@ import "../components/helpers"
 import "../style"
 
 Window {
+    id: dialog
     property int minWidth: 200
     property int minHeight: 100
     property string description: ""
@@ -38,6 +39,27 @@ Window {
     Background {
         border.color: Style.background.borderColor
         border.width: Style.background.borderWidth
+
+        MouseArea {
+            property var startPos
+
+            anchors.fill: parent
+
+            onPressed: {
+                // remember starting position
+                startPos = Qt.point(mouse.x, mouse.y)
+            }
+
+            onPositionChanged: {
+                // count difference
+                var difference = Qt.point(mouse.x - startPos.x,
+                                          mouse.y - startPos.y);
+
+                // update position
+                dialog.x += difference.x;
+                dialog.y += difference.y;
+            }
+        }
     }
 
     GridLayout {

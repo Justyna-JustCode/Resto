@@ -42,47 +42,16 @@ Window {
         target: controller
 
         onBreakStartRequest: {
-            breakRequestDialog.show();
+            dialogsManager.showBreakRequestDialog();
         }
         onWorkEndRequest: {
-            endWorkRequestDialog.show();
+            dialogsManager.showEndWorkRequestDialog();
         }
     }
 
-    // dialogs - TODO: additional component
-    BreakRequestDialog {
-        id: breakRequestDialog
-
-        onAccept: {
-            controller.startBreak();
-            breakDialog.show();
-        }
-        onPostpone: {
-            controller.postponeBreak();
-        }
-        onSkip: {
-            controller.startWork();
-        }
-    }
-    BreakDialog {
-        id: breakDialog
-
-        onEndBreak: {
-            controller.startWork();
-        }
-    }
-    EndWorkRequestDialog {
-        id: endWorkRequestDialog
-
-        onAccept: {
-            controller.stop();
-        }
-    }
-    AboutDialog {
-        id: aboutDialog
-    }
-    SettingsDialog {
-        id: settingsDialog
+    // dialogs
+    DialogsManager {
+        id: dialogsManager
     }
 
     // content
@@ -111,7 +80,7 @@ Window {
 
                 onClicked: {
                     controller.startBreak()
-                    breakDialog.show();
+                    dialogsManager.showBreakDialog();
                 }
             }
             ImageButton {
@@ -172,14 +141,14 @@ Window {
             type: "settings"
             tooltip: qsTr("Change settings")
 
-            onClicked: settingsDialog.show()
+            onClicked: dialogsManager.showSettingsDialog()
         }
         ImageButton {
             styleFont: Style.font.imageButtonSmall
             type: "about"
             tooltip: qsTr("About resto")
 
-            onClicked: aboutDialog.show()
+            onClicked: dialogsManager.showAboutDialog()
         }
     }
 
