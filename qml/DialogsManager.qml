@@ -34,6 +34,7 @@ Item {
                     target: item
 
                     onClosing: {
+                        var id = this.id;
                         d.loadersMap[id].destroy();
                         d.loadersMap[id] = "";
                     }
