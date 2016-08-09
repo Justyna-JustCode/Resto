@@ -28,3 +28,5 @@ HEADERS += \
     cpp/workers/backupmanager.h
 
 include(appInfo.pri)
+
+win32:RC_ICONS += resources/app-logo.ico
