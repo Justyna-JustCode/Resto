@@ -13,7 +13,7 @@ Window {
     property string description: ""
     property alias image: imageItem
     property ObjectModel buttons
-    property alias additionalContent: additionalContentItem.data
+    property alias additionalContent: additionalContentItem
 
     signal showing
     signal hiding
@@ -90,8 +90,22 @@ Window {
         }
 
         GridLayout {
-            id: additionalContentItem
             Layout.columnSpan: 2
+            Layout.fillWidth: additionalContentItem.fillWidth
+            Layout.fillHeight: additionalContentItem.fillHeight
+
+            Layout.preferredWidth: additionalContentItem.preferredWidth
+            Layout.preferredHeight: additionalContentItem.preferredHeight
+
+            Layout.alignment: additionalContentItem.alignment
+
+            LayoutItem {
+                id: additionalContentItem
+
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+            }
+
         }
 
         Spacer {}

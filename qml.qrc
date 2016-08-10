@@ -61,5 +61,6 @@
         <file>resources/images/app-logo.png</file>
         <file>qml/DialogsManager.qml</file>
         <file>qml/components/helpers/LayoutImage.qml</file>
+        <file>qml/components/helpers/LayoutItem.qml</file>
     </qresource>
 </RCC>

@@ -19,9 +19,10 @@ CustomDialog {
     description: aboutMessage
 
     image.source: "qrc:/resources/images/org-logo.png"
-    image.preferredWidth: 150
+    image.preferredWidth: 175
     image.preferredHeight: image.paintedHeight
     image.fillMode: Image.PreserveAspectFit
+    image.mipmap: true
 
     buttons: ObjectModel {
         TextButton {
@@ -34,10 +35,8 @@ CustomDialog {
         }
     }
 
-    additionalContent: Image {
-        Layout.fillWidth: true
-        Layout.preferredHeight: height
-
+    additionalContent.alignment: Qt.AlignHCenter
+    additionalContent.data: Image {
         height: 40
         mipmap: true
         fillMode: Image.PreserveAspectFit
