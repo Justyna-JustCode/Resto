@@ -23,7 +23,7 @@ CustomDialog {
         }
     }
 
-    additionalContent: TabView {
+    additionalContent.data: TabView {
         id: tabView
 
         onCountChanged: {

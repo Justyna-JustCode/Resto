@@ -34,10 +34,8 @@ CustomDialog {
         }
     }
 
-    additionalContent: Image {
-        Layout.fillWidth: true
-        Layout.preferredHeight: height
-
+    additionalContent.alignment: Qt.AlignHCenter
+    additionalContent.data: Image {
         height: 40
         mipmap: true
         fillMode: Image.PreserveAspectFit

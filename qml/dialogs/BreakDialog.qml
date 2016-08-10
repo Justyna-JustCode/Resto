@@ -38,9 +38,9 @@ CustomDialog {
         }
     }
 
-    additionalContent: TimeProgressBar {
-        Layout.fillWidth: true
-
+    additionalContent.fillWidth: true
+    additionalContent.data: TimeProgressBar {
+        width: parent.width
         maxValue: controller.settings.breakDuration
         value: controller.timer.elapsedBreakDuration
     }
