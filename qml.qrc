@@ -60,5 +60,6 @@
         <file>resources/images/app-logo.ico</file>
         <file>resources/images/app-logo.png</file>
         <file>qml/DialogsManager.qml</file>
+        <file>qml/components/helpers/LayoutImage.qml</file>
     </qresource>
 </RCC>
