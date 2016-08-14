@@ -43,7 +43,7 @@ TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow,
 
         // check default visibility state
         if (m_settings.autoHide()) {
-            m_mainWindow->setVisibility(QWindow::Minimized);
+            m_mainWindow->setVisibility(QWindow::Hidden);
         }
     }
 }

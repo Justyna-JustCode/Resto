@@ -7,18 +7,26 @@ SettingsPage {
     Component.onCompleted: {
         // set defaults
         autoStartSwitch.checked = controller.settings.autoStart
+
         breakDurationSelector.time = controller.settings.breakDuration
         breakIntervalSelector.time = controller.settings.breakInterval
         postponeTimeSelector.time = controller.settings.postponeTime
         workTimeSelector.time = controller.settings.workTime
+
+        autoHideSwitch.checked = controller.settings.autoHide
+        hideOnCloseSwitch.checked = controller.settings.hideOnClose
     }
 
     function save() {   // save current state
         controller.settings.autoStart = autoStartSwitch.checked
+
         controller.settings.breakDuration = breakDurationSelector.time
         controller.settings.breakInterval = breakIntervalSelector.time
         controller.settings.postponeTime = postponeTimeSelector.time
         controller.settings.workTime = workTimeSelector.time
+
+        controller.settings.autoHide = autoHideSwitch.checked
+        controller.settings.hideOnClose = hideOnCloseSwitch.checked
     }
 
     FormElement {
@@ -32,6 +40,7 @@ SettingsPage {
 
     Spacer {}
 
+    // TIMES SETTINGS
     Label {
         fontStyle: Style.font.formHeader
         text: qsTr("Times")
@@ -67,6 +76,38 @@ SettingsPage {
         TimeSelector {
             id: workTimeSelector
             showSeconds: false
+        }
+    }
+
+    Spacer {}
+
+    // TRAY SETTINGS
+    Label {
+        visible: settings.trayAvailable
+
+        fontStyle: Style.font.formHeader
+        text: qsTr("System tray")
+    }
+
+    FormElement {
+        visible: settings.trayAvailable
+
+        labelText: qsTr("Auto hide:")
+
+        Switch {
+            id: autoHideSwitch
+            Layout.alignment: Qt.AlignRight
+        }
+    }
+
+    FormElement {
+        visible: settings.trayAvailable
+
+        labelText: qsTr("Hide on close:")
+
+        Switch {
+            id: hideOnCloseSwitch
+            Layout.alignment: Qt.AlignRight
         }
     }
 }
