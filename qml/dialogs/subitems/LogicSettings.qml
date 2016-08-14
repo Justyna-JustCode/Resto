@@ -83,14 +83,14 @@ SettingsPage {
 
     // TRAY SETTINGS
     Label {
-        visible: settings.trayAvailable
+        visible: controller.settings.trayAvailable
 
         fontStyle: Style.font.formHeader
         text: qsTr("System tray")
     }
 
     FormElement {
-        visible: settings.trayAvailable
+        visible: controller.settings.trayAvailable
 
         labelText: qsTr("Auto hide:")
 
@@ -101,7 +101,7 @@ SettingsPage {
     }
 
     FormElement {
-        visible: settings.trayAvailable
+        visible: controller.settings.trayAvailable
 
         labelText: qsTr("Hide on close:")
 

@@ -55,6 +55,11 @@ bool SettingsController::trayAvailable() const
     return m_settings.trayAvailable();
 }
 
+bool SettingsController::showTrayInfo() const
+{
+    return m_settings.showTrayInfo();
+}
+
 bool SettingsController::autoHide() const
 {
     return m_settings.autoHide();
@@ -140,6 +145,15 @@ void SettingsController::setTrayAvailable(bool _trayAvailable)
 
     m_settings.setTrayAvailable(_trayAvailable);
     emit trayAvailableChanged(_trayAvailable);
+}
+
+void SettingsController::setShowTrayInfo(bool _showTrayInfo)
+{
+    if (m_settings.showTrayInfo() == _showTrayInfo)
+        return;
+
+    m_settings.setShowTrayInfo(_showTrayInfo);
+    emit showTrayInfoChanged(_showTrayInfo);
 }
 
 void SettingsController::setAutoHide(bool _autoHide)

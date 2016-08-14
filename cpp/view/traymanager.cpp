@@ -1,6 +1,9 @@
 #include "traymanager.h"
 
 #include <QApplication>
+#include <QMessageBox>
+#include <QCheckBox>
+
 #include "controller/settingscontroller.h"
 
 TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow, QObject *parent)
@@ -57,6 +60,7 @@ void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
 {
     switch(visibility) {
     case QWindow::Minimized:
+        showInformationDialog();
         m_mainWindow->setVisibility(QWindow::Hidden);
         break;
     default:
@@ -66,9 +70,29 @@ void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
 
 void TrayManager::onWindowClosed()
 {
-    if (!m_settings.hideOnClose()) {
+    if (m_settings.hideOnClose()) {
+        showInformationDialog();
+    }
+    else {
         quit();
     }
+}
+
+void TrayManager::showInformationDialog()
+{
+    if (!m_settings.showTrayInfo())
+        return;
+
+    QMessageBox infoMessage(QMessageBox::Icon::Information,
+                           tr("Please note"), tr("Application will be hidden into the system tray.\n"
+                                                 "If you want to open it, just click on an icon or use a context menu option.\n"
+                                                 "Break notification will continue to be displayed normally.\n"),
+                           QMessageBox::Ok);
+    infoMessage.setCheckBox(new QCheckBox(tr("Do not show this any more"), &infoMessage));
+    infoMessage.checkBox()->setChecked(true);
+
+    infoMessage.exec();
+    m_settings.setShowTrayInfo(infoMessage.checkBox()->checkState() != Qt::Checked);
 }
 
 void TrayManager::changeVisibility()

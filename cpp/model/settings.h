@@ -28,6 +28,17 @@ public:
      * is available for current system.
      */
     void setTrayAvailable(bool available);
+
+    /*!
+     * \brief Returns information if system tray
+     * warning message should be displayed.
+     */
+    bool showTrayInfo() const;
+    /*!
+     * \brief Sets information if system tray
+     * warning message should be displayed.
+     */
+    void setShowTrayInfo(bool show);
     /* ============================================= */
 
     /* ============== logic accessors ============== */
@@ -145,12 +156,13 @@ public:
 private:
     QSettings m_settings;
 
-    static const QLatin1String sc_systemGroupName;  //! a name for the system settings group (properties not defined by user)
+    static const QLatin1String sc_systemGroupName;  //! a name for the system settings group
     static const QLatin1String sc_logicGroupName;   //! a name for the logic settings group
     static const QLatin1String sc_viewGroupName;    //! a name for the view settings group
 
     // system keys
     static const QLatin1String sc_trayAvailableKey;     //! key used for settings: tray available
+    static const QLatin1String sc_showTrayInfoKey;      //! key used for settings: show tray info
     // logic keys
     static const QLatin1String sc_breakDurationKey;     //! key used for settings: break duration
     static const QLatin1String sc_breakIntervalKey;     //! key used for settings: break interval

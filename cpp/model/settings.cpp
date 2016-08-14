@@ -5,6 +5,7 @@ const QLatin1String Settings::sc_logicGroupName = QLatin1String("logic");
 const QLatin1String Settings::sc_viewGroupName = QLatin1String("view");
 
 const QLatin1String Settings::sc_trayAvailableKey = QLatin1String("trayAvailable");
+const QLatin1String Settings::sc_showTrayInfoKey = QLatin1String("showTrayInfo");
 
 const QLatin1String Settings::sc_breakDurationKey = QLatin1String("breakDuration");
 const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
@@ -40,6 +41,16 @@ bool Settings::trayAvailable() const
 void Settings::setTrayAvailable(bool available)
 {
     setValue(sc_systemGroupName, sc_trayAvailableKey, available);
+}
+
+bool Settings::showTrayInfo() const
+{
+    return value(sc_systemGroupName, sc_showTrayInfoKey, true).toBool();
+}
+
+void Settings::setShowTrayInfo(bool show)
+{
+    setValue(sc_systemGroupName, sc_showTrayInfoKey, show);
 }
 
 int Settings::breakDuration() const

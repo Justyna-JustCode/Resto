@@ -51,6 +51,8 @@ private slots:
     void onWindowVisibilityChanged(QWindow::Visibility visibility);
     void onWindowClosed();
 
+    void showInformationDialog();
+
     void changeVisibility();
     void showWindow();
     void showSettings();

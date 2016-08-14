@@ -25,6 +25,7 @@ class SettingsController final : public QObject
     Q_PROPERTY(QColor applicationColor READ applicationColor WRITE setApplicationColor NOTIFY applicationColorChanged)
 
     Q_PROPERTY(bool trayAvailable READ trayAvailable WRITE setTrayAvailable NOTIFY trayAvailableChanged)
+    Q_PROPERTY(bool showTrayInfo READ showTrayInfo WRITE setShowTrayInfo NOTIFY showTrayInfoChanged)
     Q_PROPERTY(bool autoHide READ autoHide WRITE setAutoHide NOTIFY autoHideChanged)
     Q_PROPERTY(bool hideOnClose READ hideOnClose WRITE setHideOnClose NOTIFY hideOnCloseChanged)
 
@@ -44,6 +45,7 @@ public:
     QColor applicationColor() const;
 
     bool trayAvailable() const;
+    bool showTrayInfo() const;
     bool autoHide() const;
     bool hideOnClose() const;
 
@@ -59,6 +61,7 @@ signals:
     void applicationColorChanged(QColor applicationColor) const;
 
     void trayAvailableChanged(bool trayAvailable) const;
+    void showTrayInfoChanged(bool showTrayInfo) const;
     void autoHideChanged(bool autoHide) const;
     void hideOnCloseChanged(bool hideOnClose) const;
 
@@ -74,6 +77,7 @@ public slots:
     void setApplicationColor(QColor applicationColor);
 
     void setTrayAvailable(bool trayAvailable);
+    void setShowTrayInfo(bool showTrayInfo);
     void setAutoHide(bool autoHide);
     void setHideOnClose(bool hideOnClose);
 
