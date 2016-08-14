@@ -17,6 +17,19 @@ class Settings final : public QObject
 public:
     Settings(const QString organization, const QString name);
 
+    /* ============== system accessors ============= */
+    /*!
+     * \brief Returns information if system tray
+     * is available for current system.
+     */
+    bool trayAvailable() const;
+    /*!
+     * \brief Sets information if system tray
+     * is available for current system.
+     */
+    void setTrayAvailable(bool available);
+    /* ============================================= */
+
     /* ============== logic accessors ============== */
     /*!
      * \brief Returns break duration in seconds.
@@ -74,6 +87,28 @@ public:
      * should start automatically after run.
      */
     void setAutoStart(bool start);
+
+    /*!
+     * \brief Returns information if application
+     * should be hidden automatically after run.
+     */
+    bool autoHide() const;
+    /*!
+     * \brief Sets information if application
+     * should be hidden automatically after run.
+     */
+    void setAutoHide(bool hide);
+
+    /*!
+     * \brief Returns information if application
+     * should be hidden instead quit on close action.
+     */
+    bool hideOnClose() const;
+    /*!
+     * \brief Sets information if application
+     * should be hidden instead quit on close action.
+     */
+    void setHideOnClose(bool hide);
     /* ============================================= */
 
     /* =============== view accessors ============== */
@@ -110,30 +145,35 @@ public:
 private:
     QSettings m_settings;
 
-    static const QLatin1String sc_logicGroupName;    //!< a name for the logic settings group
-    static const QLatin1String sc_viewGroupName;    //!< a name for the view settings group
+    static const QLatin1String sc_systemGroupName;  //! a name for the system settings group (properties not defined by user)
+    static const QLatin1String sc_logicGroupName;   //! a name for the logic settings group
+    static const QLatin1String sc_viewGroupName;    //! a name for the view settings group
 
+    // system keys
+    static const QLatin1String sc_trayAvailableKey;     //! key used for settings: tray available
     // logic keys
-    static const QLatin1String sc_breakDurationKey;     //!< key used for settings: break duration
-    static const QLatin1String sc_breakIntervalKey;     //!< key used for settings: break interval
-    static const QLatin1String sc_workTimeKey;   //!< key used for settings: work day duration
-    static const QLatin1String sc_postponeTimeKey;      //!< key used for settings: postpone time
-    static const QLatin1String sc_autoStartKey;         //!< key used for settings: auto start
+    static const QLatin1String sc_breakDurationKey;     //! key used for settings: break duration
+    static const QLatin1String sc_breakIntervalKey;     //! key used for settings: break interval
+    static const QLatin1String sc_workTimeKey;   //! key used for settings: work day duration
+    static const QLatin1String sc_postponeTimeKey;      //! key used for settings: postpone time
+    static const QLatin1String sc_autoStartKey;         //! key used for settings: auto start
+    static const QLatin1String sc_autoHideKey;          //! key used for settings: auto hide
+    static const QLatin1String sc_hideOnCloseKey;       //! key used for settings: hide on close
     // view keys
-    static const QLatin1String sc_windowPositionXKey;    //!< key used for settings: window position x value
-    static const QLatin1String sc_windowPositionYKey;    //!< key used for settings: window position y value
-    static const QLatin1String sc_windowWidthKey;  //!< key used for settings: window width
-    static const QLatin1String sc_windowHeightKey; //!< key used for settings: window height
-    static const QLatin1String sc_applicationColorKey; //!< key used for settings: application main color
+    static const QLatin1String sc_windowPositionXKey;    //! key used for settings: window position x value
+    static const QLatin1String sc_windowPositionYKey;    //! key used for settings: window position y value
+    static const QLatin1String sc_windowWidthKey;  //! key used for settings: window width
+    static const QLatin1String sc_windowHeightKey; //! key used for settings: window height
+    static const QLatin1String sc_applicationColorKey; //! key used for settings: application main color
 
     // logic default
-    static const int sc_defaultBreakDuration;   //!< default braak duration \see breakDuration()
-    static const int sc_defaultBreakInterval;   //!< default break interval \see breakInterval()
-    static const int sc_defaultWorkTime; //!< default work day duration \see workTime()
-    static const int sc_defaultPostponeTime;    //!< default postpone time \see postponeTime()
+    static const int sc_defaultBreakDuration;   //! default braak duration \see breakDuration()
+    static const int sc_defaultBreakInterval;   //! default break interval \see breakInterval()
+    static const int sc_defaultWorkTime; //! default work day duration \see workTime()
+    static const int sc_defaultPostponeTime;    //! default postpone time \see postponeTime()
     // view default
-    static const QSize sc_defaultWindowSize;    //!< default postpone time \see postponeTime()
-    static QColor sc_defaultApplicationColor;    //!< default postpone time \see postponeTime()
+    static const QSize sc_defaultWindowSize;    //! default postpone time \see postponeTime()
+    static QColor sc_defaultApplicationColor;    //! default postpone time \see postponeTime()
 
     void setValue(const QString &groupName, const QString &key, const QVariant &value);
     QVariant value(const QString &groupName, const QString &key, const QVariant &defaultValue = QVariant()) const;

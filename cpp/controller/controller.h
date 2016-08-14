@@ -28,6 +28,8 @@ public:
     };
 
     Controller();
+    SettingsController &settings();
+    TimerController &timer();
 
     State state() const;
     bool isWorking() const;
@@ -57,13 +59,10 @@ private:
     BackupManager m_backupManager;
 
     // values
-    State m_state = State::Off; //!< current state
-    int m_timeToBreak = 0;   //!< real time to break taking into account postpones
+    State m_state = State::Off; //! current state
+    int m_timeToBreak = 0;   //! real time to break taking into account postpones
 
-    SettingsController &settings();
     SettingsController *settingsPtr();
-
-    TimerController &timer();
     TimerController *timerPtr();
 
 private slots:

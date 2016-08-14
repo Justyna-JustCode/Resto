@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick widgets
 CONFIG += c++11
 
 INCLUDEPATH += cpp/
@@ -10,7 +10,8 @@ SOURCES += cpp/main.cpp \
     cpp/model/settings.cpp \
     cpp/controller/settingscontroller.cpp \
     cpp/controller/timercontroller.cpp \
-    cpp/workers/backupmanager.cpp
+    cpp/workers/backupmanager.cpp \
+    cpp/view/traymanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -25,7 +26,8 @@ HEADERS += \
     cpp/model/settings.h \
     cpp/controller/settingscontroller.h \
     cpp/controller/timercontroller.h \
-    cpp/workers/backupmanager.h
+    cpp/workers/backupmanager.h \
+    cpp/view/traymanager.h
 
 include(appInfo.pri)
 

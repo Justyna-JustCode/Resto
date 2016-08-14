@@ -1,13 +1,18 @@
 #include "settings.h"
 
+const QLatin1String Settings::sc_systemGroupName = QLatin1String("system");
 const QLatin1String Settings::sc_logicGroupName = QLatin1String("logic");
 const QLatin1String Settings::sc_viewGroupName = QLatin1String("view");
+
+const QLatin1String Settings::sc_trayAvailableKey = QLatin1String("trayAvailable");
 
 const QLatin1String Settings::sc_breakDurationKey = QLatin1String("breakDuration");
 const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
 const QLatin1String Settings::sc_workTimeKey = QLatin1String("workTime");
 const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime");
 const QLatin1String Settings::sc_autoStartKey = QLatin1String("autoStart");
+const QLatin1String Settings::sc_autoHideKey = QLatin1String("autoHide");
+const QLatin1String Settings::sc_hideOnCloseKey = QLatin1String("hideOnClose");
 
 const QLatin1String Settings::sc_windowPositionXKey = QLatin1String("window-x");
 const QLatin1String Settings::sc_windowPositionYKey = QLatin1String("window-y");
@@ -15,10 +20,10 @@ const QLatin1String Settings::sc_windowWidthKey = QLatin1String("window-width");
 const QLatin1String Settings::sc_windowHeightKey = QLatin1String("window-height");
 const QLatin1String Settings::sc_applicationColorKey = QLatin1String("mainColor");
 
-const int Settings::sc_defaultBreakDuration = 10*60;  //!< 10 min
-const int Settings::sc_defaultBreakInterval = 45*60; //!< 45 min
-const int Settings::sc_defaultWorkTime = 8*60*60;  //!< 8 h
-const int Settings::sc_defaultPostponeTime = 5*60;   //!< 5 min
+const int Settings::sc_defaultBreakDuration = 10*60;  //! 10 min
+const int Settings::sc_defaultBreakInterval = 45*60; //! 45 min
+const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
+const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
 
 const QSize Settings::sc_defaultWindowSize = { 400, 200 };  // px
 QColor Settings::sc_defaultApplicationColor;
@@ -26,6 +31,16 @@ QColor Settings::sc_defaultApplicationColor;
 Settings::Settings(const QString organization, const QString name)
     : m_settings(QSettings::UserScope, organization, name)
 {}
+
+bool Settings::trayAvailable() const
+{
+    return value(sc_systemGroupName, sc_trayAvailableKey, false).toBool();
+}
+
+void Settings::setTrayAvailable(bool available)
+{
+    setValue(sc_systemGroupName, sc_trayAvailableKey, available);
+}
 
 int Settings::breakDuration() const
 {
@@ -65,11 +80,31 @@ void Settings::setPostponeTime(int time)
 
 bool Settings::autoStart() const
 {
-    return value(sc_logicGroupName, sc_autoStartKey).toBool();
+    return value(sc_logicGroupName, sc_autoStartKey, false).toBool();
 }
 void Settings::setAutoStart(bool start)
 {
     setValue(sc_logicGroupName, sc_autoStartKey, start);
+}
+
+bool Settings::autoHide() const
+{
+    return value(sc_logicGroupName, sc_autoHideKey, false).toBool();
+}
+
+void Settings::setAutoHide(bool hide)
+{
+    setValue(sc_logicGroupName, sc_autoHideKey, hide);
+}
+
+bool Settings::hideOnClose() const
+{
+    return value(sc_logicGroupName, sc_hideOnCloseKey, false).toBool();
+}
+
+void Settings::setHideOnClose(bool hide)
+{
+    setValue(sc_logicGroupName, sc_hideOnCloseKey, hide);
 }
 
 QPoint Settings::windowPosition() const
