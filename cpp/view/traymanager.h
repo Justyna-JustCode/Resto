@@ -50,6 +50,7 @@ private:
 private slots:
     void onWindowVisibilityChanged(QWindow::Visibility visibility);
     void onWindowClosed();
+    void onTrayActivated(QSystemTrayIcon::ActivationReason activationReason);
 
     void showInformationDialog();
 

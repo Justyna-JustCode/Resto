@@ -18,7 +18,7 @@ TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow,
     if (m_isAvailable) {
         m_trayIcon.setIcon(QApplication::windowIcon());
         connect(&m_trayIcon, &QSystemTrayIcon::activated,
-                this, &TrayManager::changeVisibility);
+                this, &TrayManager::onTrayActivated);
 
         connect(m_mainWindow.data(), &QQuickWindow::visibilityChanged,
                 this, &TrayManager::onWindowVisibilityChanged);
@@ -75,6 +75,13 @@ void TrayManager::onWindowClosed()
     }
     else {
         quit();
+    }
+}
+
+void TrayManager::onTrayActivated(QSystemTrayIcon::ActivationReason activationReason)
+{
+    if (activationReason == QSystemTrayIcon::Trigger) {
+        changeVisibility();
     }
 }
 
