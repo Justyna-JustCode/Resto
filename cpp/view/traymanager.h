@@ -47,6 +47,14 @@ private:
     QSystemTrayIcon m_trayIcon;
     QScopedPointer<QMenu> m_trayMenu;
 
+#ifdef Q_OS_LINUX
+    /*!
+     * \brief This functions checks if user graphical interface is GNOME.
+     * Tray functions are not currently supported on GNOME.
+     */
+    bool checkIsGnome();
+#endif
+
 private slots:
     void onWindowVisibilityChanged(QWindow::Visibility visibility);
     void onWindowClosed();

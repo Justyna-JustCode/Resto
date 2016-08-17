@@ -3,6 +3,9 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QCheckBox>
+#ifdef Q_OS_LINUX
+#include <QProcess>
+#endif
 
 #include "controller/settingscontroller.h"
 
@@ -13,6 +16,11 @@ TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow,
     Q_ASSERT_X(mainWindow, Q_FUNC_INFO, "Main Window class for Tray Manager cannot be null.");
 
     m_isAvailable = QSystemTrayIcon::isSystemTrayAvailable();
+#ifdef Q_OS_LINUX
+    if (checkIsGnome()) {   // tray functions are not currently supported on GNOME
+        m_isAvailable = false;
+    }
+#endif
     m_settings.setTrayAvailable(m_isAvailable);
 
     if (m_isAvailable) {
@@ -55,6 +63,19 @@ bool TrayManager::isAvailable() const
 {
     return m_isAvailable;
 }
+
+#ifdef Q_OS_LINUX
+bool TrayManager::checkIsGnome()
+{
+    QProcess envCheck;
+    envCheck.start("sh", { "-c", "echo $XDG_CURRENT_DESKTOP" }, QProcess::ReadOnly);
+    envCheck.waitForFinished();
+    auto result = envCheck.readAll();
+    envCheck.close();
+
+    return QString(result).startsWith("GNOME", Qt::CaseInsensitive);
+}
+#endif
 
 void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
 {
