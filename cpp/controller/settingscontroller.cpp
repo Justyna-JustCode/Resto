@@ -50,6 +50,26 @@ QColor SettingsController::applicationColor() const
     return m_settings.applicationColor();
 }
 
+bool SettingsController::trayAvailable() const
+{
+    return m_settings.trayAvailable();
+}
+
+bool SettingsController::showTrayInfo() const
+{
+    return m_settings.showTrayInfo();
+}
+
+bool SettingsController::autoHide() const
+{
+    return m_settings.autoHide();
+}
+
+bool SettingsController::hideOnClose() const
+{
+    return m_settings.hideOnClose();
+}
+
 void SettingsController::setBreakDuration(int _breakDuration)
 {
     if (breakDuration() == _breakDuration)
@@ -116,4 +136,40 @@ void SettingsController::setApplicationColor(QColor color)
 
     m_settings.setApplicationColor(color);
     emit applicationColorChanged(color);
+}
+
+void SettingsController::setTrayAvailable(bool _trayAvailable)
+{
+    if (m_settings.trayAvailable() == _trayAvailable)
+        return;
+
+    m_settings.setTrayAvailable(_trayAvailable);
+    emit trayAvailableChanged(_trayAvailable);
+}
+
+void SettingsController::setShowTrayInfo(bool _showTrayInfo)
+{
+    if (m_settings.showTrayInfo() == _showTrayInfo)
+        return;
+
+    m_settings.setShowTrayInfo(_showTrayInfo);
+    emit showTrayInfoChanged(_showTrayInfo);
+}
+
+void SettingsController::setAutoHide(bool _autoHide)
+{
+    if (m_settings.autoHide() == _autoHide)
+        return;
+
+    m_settings.setAutoHide(_autoHide);
+    emit autoHideChanged(_autoHide);
+}
+
+void SettingsController::setHideOnClose(bool _hideOnClose)
+{
+    if (m_settings.hideOnClose() == _hideOnClose)
+        return;
+
+    m_settings.setHideOnClose(_hideOnClose);
+    emit hideOnCloseChanged(_hideOnClose);
 }

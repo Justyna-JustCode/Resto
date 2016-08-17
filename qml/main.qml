@@ -11,6 +11,13 @@ import "style"
 Window {
     visible: true
 
+    function showSettingsDialog() {
+        dialogsManager.showSettingsDialog()
+    }
+    function showAboutDialog() {
+        dialogsManager.showAboutDialog()
+    }
+
     // load and save main window position and size
     Component.onCompleted: {
         width = controller.settings.windowSize.width

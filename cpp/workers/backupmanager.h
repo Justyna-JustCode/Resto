@@ -46,11 +46,11 @@ private:
     static const int sc_defaultInterval = 60;   // default interval (in secs)
     static const QLatin1String sc_fileName;
 
-    QTimer m_timer; //!< used to trigger next backup
-    int m_interval;  //!< interval between each backup (in seconds)
+    QTimer m_timer; //! used to trigger next backup
+    int m_interval;  //! interval between each backup (in seconds)
 
-    QFile m_dataFile;   //!< file used to store and restore the data
-    Data m_data;        //!< currently storred data
+    QFile m_dataFile;   //! file used to store and restore the data
+    Data m_data;        //! currently storred data
 
 private slots:
     /*!
