@@ -92,7 +92,7 @@ void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
     switch(visibility) {
     case QWindow::Minimized:
         showInformationDialog();
-        m_mainWindow->setVisibility(QWindow::Hidden);
+        m_mainWindow->hide();
         break;
     default:
         break;
@@ -151,13 +151,14 @@ void TrayManager::changeVisibility()
         m_mainWindow->hide();
     }
     else {
-        m_mainWindow->show();
+        showWindow();
     }
 }
 
 void TrayManager::showWindow()
 {
     m_mainWindow->show();
+    m_mainWindow->requestActivate();
 }
 
 void TrayManager::showSettings()
