@@ -11,7 +11,7 @@
 class QQuickWindow;
 class QQuickCloseEvent;
 
-class SettingsController;
+class Controller;
 
 /*!
  * \brief The TrayManager class is responsible
@@ -27,11 +27,11 @@ public:
      * \brief A default constructor for TrayManager class.
      * Require a main window class and settings controller pointers.
      *
-     * \param settings      a pointer to settings controller class
-     * \param mainWindow    a pointer to main window class
+     * \param controller    a pointer to a controller class
+     * \param mainWindow    a pointer to a main window class
      * \param parent        a parent object
      */
-    explicit TrayManager(SettingsController &settings, QQuickWindow *mainWindow, QObject *parent = 0);
+    explicit TrayManager(Controller &controller, QQuickWindow *mainWindow, QObject *parent = 0);
 
     bool isAvailable() const;
 
@@ -42,10 +42,11 @@ public slots:
 private:
     bool m_isAvailable; //! Defines if system tray is available for current system
 
-    SettingsController &m_settings;    //! A pointer to settings controller class
-    QPointer<QQuickWindow> m_mainWindow;        //! A pointer for main window class
+    Controller &m_controller;                   //! A pointer to a controller class
+    QPointer<QQuickWindow> m_mainWindow;        //! A pointer for a main window class
     QSystemTrayIcon m_trayIcon;
     QScopedPointer<QMenu> m_trayMenu;
+    QPointer<QAction> m_breakAction;           //! A break action pointer
 
 #ifdef Q_OS_LINUX
     /*!
@@ -61,6 +62,9 @@ private slots:
     void onTrayActivated(QSystemTrayIcon::ActivationReason activationReason);
 
     void showInformationDialog();
+
+    void checkBreakAvailability();
+    void takeBreak();
 
     void changeVisibility();
     void showWindow();

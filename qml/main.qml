@@ -11,6 +11,9 @@ import "style"
 Window {
     visible: true
 
+    function showBreakDialog() {
+        dialogsManager.showBreakDialog()
+    }
     function showSettingsDialog() {
         dialogsManager.showSettingsDialog()
     }

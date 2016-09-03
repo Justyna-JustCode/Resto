@@ -24,6 +24,11 @@ int TimerController::elapsedWorkTime() const
     return m_elapsedWorkTime;
 }
 
+TimerController::PeriodType TimerController::activePeriodType() const
+{
+    return m_periodType;
+}
+
 void TimerController::start(bool restart)
 {
     if (restart)
@@ -43,11 +48,23 @@ void TimerController::stop()
 
 void TimerController::countBreakTime()
 {
+    if (m_periodType == PeriodType::Break)
+    {
+        return;
+    }
+
     m_periodType = PeriodType::Break;
+    emit activePeriodTypeChanged(m_periodType);
 }
 void TimerController::countWorkTime()
 {
+    if (m_periodType == PeriodType::Work)
+    {
+        return;
+    }
+
     m_periodType = PeriodType::Work;
+    emit activePeriodTypeChanged(m_periodType);
 }
 
 void TimerController::setElapsedBreakDuration(int elapsedBreakDuration)
