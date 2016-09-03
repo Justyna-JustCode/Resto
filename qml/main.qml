@@ -137,6 +137,23 @@ Window {
     }
 
     // small buttons
+    // left
+    RowLayout {
+        anchors {
+            left: parent.left
+            bottom: parent.bottom
+        }
+
+        ImageButton {
+            styleFont: Style.font.imageButtonSmallest
+            type: "help"
+            tooltip: qsTr("Here you find your help")
+
+            onClicked: controller.openHelp()
+        }
+    }
+
+    // right
     RowLayout {
         anchors {
             right: parent.right

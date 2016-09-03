@@ -42,6 +42,10 @@ QtObject {
             size: style.font.text.size*0.7
             capitalization: Font.SmallCaps
         }
+        readonly property var imageButtonSmallest: StyleFont {
+            size: style.font.text.size*0.55
+            capitalization: Font.SmallCaps
+        }
         readonly property var title: StyleFont {
             size: style.font.text.size*1.2
             bold: true

@@ -34,6 +34,8 @@ public:
     State state() const;
     bool isWorking() const;
 
+    Q_INVOKABLE void openHelp() const;
+
 signals:
     void stateChanged(State state) const;
 
