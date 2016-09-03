@@ -61,16 +61,16 @@ CustomDialog {
             text: qsTr("Apply")
 
             onClicked: {
-                save();
                 close();
+                save();
             }
         }
         TextButton {
             text: qsTr("Cancel")
 
             onClicked: {
-                discard();
                 close();
+                discard();
             }
         }
     }

@@ -62,7 +62,8 @@ private:
 
     // values
     State m_state = State::Off; //! current state
-    int m_timeToBreak = 0;   //! real time to break taking into account postpones
+    int m_postponeDuration = 0;     //! sum duration for all postpones for current break
+    int m_lastRequestTime = 0;     //! last time when postpone button was clicked
 
     SettingsController *settingsPtr();
     TimerController *timerPtr();
@@ -97,6 +98,21 @@ private slots:
      * \param elapsedWorkTime   total work time elapsed
      */
     void onElapsedWorkTimeChange(int elapsedWorkTime);
+
+    /*!
+     * \brief Method handling change in break interval.
+     *
+     * Takes into compare current elapsed times and postpone duration.
+     *
+     * \param breakInterval new break interval setting
+     */
+    void onBreakIntervalChanged(int breakInterval);
+    /*!
+     * \brief Method handling change in work time.
+     *
+     * \param workTime  new work time setting
+     */
+    void onWorkTimeChanged(int workTime);
 };
 
 #endif // CONTROLLER_H
