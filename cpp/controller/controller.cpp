@@ -1,5 +1,8 @@
 #include "controller.h"
 #include <QDebug>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QCoreApplication>
 
 Controller::Controller()
 {
@@ -42,6 +45,11 @@ Controller::State Controller::state() const
 bool Controller::isWorking() const
 {
     return (m_state == State::Working);
+}
+
+void Controller::openHelp() const
+{
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/help.pdf"));
 }
 
 void Controller::start()

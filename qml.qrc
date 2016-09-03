@@ -62,5 +62,6 @@
         <file>qml/DialogsManager.qml</file>
         <file>qml/components/helpers/LayoutImage.qml</file>
         <file>qml/components/helpers/LayoutItem.qml</file>
+        <file>resources/images/help.png</file>
     </qresource>
 </RCC>
