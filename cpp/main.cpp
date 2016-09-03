@@ -27,8 +27,9 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     Q_ASSERT(engine.rootObjects().size() == 1);
 
-    TrayManager tray(controller.settings(), dynamic_cast<QQuickWindow*>(
+    TrayManager tray(controller, dynamic_cast<QQuickWindow*>(
                          engine.rootObjects().first()) );
+    Q_UNUSED(tray);
 
     app.setQuitOnLastWindowClosed(false);
     return app.exec();

@@ -7,12 +7,11 @@
 #include <QProcess>
 #endif
 
-#include "controller/settingscontroller.h"
+#include "controller/controller.h"
 
-TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow, QObject *parent)
-    : QObject(parent), m_settings(settings), m_mainWindow(mainWindow)
+TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObject *parent)
+    : QObject(parent), m_controller(controller), m_mainWindow(mainWindow)
 {
-//    Q_ASSERT_X(settings, Q_FUNC_INFO, "Settings Controller class for Tray Manager cannot be null.");
     Q_ASSERT_X(mainWindow, Q_FUNC_INFO, "Main Window class for Tray Manager cannot be null.");
 
     m_isAvailable = QSystemTrayIcon::isSystemTrayAvailable();
@@ -21,7 +20,7 @@ TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow,
         m_isAvailable = false;
     }
 #endif
-    m_settings.setTrayAvailable(m_isAvailable);
+    m_controller.settings().setTrayAvailable(m_isAvailable);
 
     if (m_isAvailable) {
         m_trayIcon.setIcon(QApplication::windowIcon());
@@ -39,6 +38,11 @@ TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow,
         connect(action, &QAction::triggered, this, &TrayManager::showWindow);
         m_trayMenu->addSeparator();
 
+        action = m_trayMenu->addAction(QIcon(":/resources/images/break.png"), tr("Take a break!"));
+        connect(action, &QAction::triggered, this, &TrayManager::takeBreak);
+        m_breakAction = action;
+        m_trayMenu->addSeparator();
+
         action = m_trayMenu->addAction(QIcon(":/resources/images/settings.png"), tr("Settings"));
         connect(action, &QAction::triggered, this, &TrayManager::showSettings);
         action = m_trayMenu->addAction(QIcon(":/resources/images/about.png"), tr("About"));
@@ -52,8 +56,14 @@ TrayManager::TrayManager(SettingsController &settings, QQuickWindow *mainWindow,
 
         m_trayIcon.show();
 
+        // change enable for break action
+        connect(&m_controller, &Controller::stateChanged, this, &TrayManager::checkBreakAvailability);
+        connect(&m_controller.timer(), &TimerController::activePeriodTypeChanged,
+                this, &TrayManager::checkBreakAvailability);
+        checkBreakAvailability();
+
         // check default visibility state
-        if (m_settings.autoHide()) {
+        if (m_controller.settings().autoHide()) {
             m_mainWindow->setVisibility(QWindow::Hidden);
         }
     }
@@ -91,7 +101,7 @@ void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
 
 void TrayManager::onWindowClosed()
 {
-    if (m_settings.hideOnClose()) {
+    if (m_controller.settings().hideOnClose()) {
         showInformationDialog();
     }
     else {
@@ -108,7 +118,7 @@ void TrayManager::onTrayActivated(QSystemTrayIcon::ActivationReason activationRe
 
 void TrayManager::showInformationDialog()
 {
-    if (!m_settings.showTrayInfo())
+    if (!m_controller.settings().showTrayInfo())
         return;
 
     QMessageBox infoMessage(QMessageBox::Icon::Information,
@@ -120,7 +130,19 @@ void TrayManager::showInformationDialog()
     infoMessage.checkBox()->setChecked(true);
 
     infoMessage.exec();
-    m_settings.setShowTrayInfo(infoMessage.checkBox()->checkState() != Qt::Checked);
+    m_controller.settings().setShowTrayInfo(infoMessage.checkBox()->checkState() != Qt::Checked);
+}
+
+void TrayManager::checkBreakAvailability()
+{
+    m_breakAction->setEnabled(m_controller.state() == Controller::State::Working &&
+                              m_controller.timer().activePeriodType() == TimerController::PeriodType::Work);
+}
+
+void TrayManager::takeBreak()
+{
+    m_controller.startBreak();
+    QMetaObject::invokeMethod(m_mainWindow, "showBreakDialog");
 }
 
 void TrayManager::changeVisibility()

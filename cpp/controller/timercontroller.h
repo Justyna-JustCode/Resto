@@ -11,6 +11,7 @@ class TimerController final : public QObject
     Q_PROPERTY(int elapsedBreakDuration READ elapsedBreakDuration NOTIFY elapsedBreakDurationChanged)
     Q_PROPERTY(int elapsedWorkPeriod READ elapsedWorkPeriod NOTIFY elapsedWorkPeriodChanged)
     Q_PROPERTY(int elapsedWorkTime READ elapsedWorkTime NOTIFY elapsedWorkTimeChanged)
+    Q_PROPERTY(PeriodType activePeriodType READ activePeriodType NOTIFY activePeriodTypeChanged)
 
 public:
     enum class PeriodType : qint8
@@ -25,10 +26,14 @@ public:
     int elapsedWorkPeriod() const;
     int elapsedWorkTime() const;
 
+    PeriodType activePeriodType() const;
+
 signals:
     void elapsedBreakDurationChanged(int elapsedBreakDuration) const;
     void elapsedWorkPeriodChanged(int elapsedWorkPeriod) const;
     void elapsedWorkTimeChanged(int elapsedWorkTime) const;
+
+    void activePeriodTypeChanged(PeriodType activePeriodType) const;
 
 public slots:
     void start(bool restart);
