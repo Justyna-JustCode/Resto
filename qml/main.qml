@@ -25,8 +25,10 @@ Window {
     Component.onCompleted: {
         width = controller.settings.windowSize.width
         height = controller.settings.windowSize.height
-        x = controller.settings.windowPosition.x
-        y = controller.settings.windowPosition.y
+        x = controller.settings.windowPosition.x >= 0 ?
+                    controller.settings.windowPosition.x : (Screen.width - width)/2
+        y = controller.settings.windowPosition.y >= 0 ?
+                    controller.settings.windowPosition.y : (Screen.height - height)/2
     }
 
     onWidthChanged: {

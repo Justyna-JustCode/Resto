@@ -120,8 +120,8 @@ void Settings::setHideOnClose(bool hide)
 
 QPoint Settings::windowPosition() const
 {
-    return { value(sc_viewGroupName, sc_windowPositionXKey).toInt(),
-                value(sc_viewGroupName, sc_windowPositionYKey).toInt() };
+    return { value(sc_viewGroupName, sc_windowPositionXKey, -1).toInt(),
+                value(sc_viewGroupName, sc_windowPositionYKey, -1).toInt() };
 }
 
 void Settings::setWindowPosition(const QPoint &position)
