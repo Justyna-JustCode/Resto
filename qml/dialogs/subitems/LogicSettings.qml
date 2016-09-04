@@ -51,7 +51,9 @@ SettingsPage {
 
         TimeSelector {
             id: breakDurationSelector
+
             showSeconds: false
+            minTime: 60
         }
     }
     FormElement {
@@ -59,7 +61,9 @@ SettingsPage {
 
         TimeSelector {
             id: breakIntervalSelector
+
             showSeconds: false
+            minTime: 60
         }
     }
     FormElement {
@@ -67,7 +71,9 @@ SettingsPage {
 
         TimeSelector {
             id: postponeTimeSelector
+
             showSeconds: false
+            minTime: 60
         }
     }
     FormElement {
@@ -75,7 +81,9 @@ SettingsPage {
 
         TimeSelector {
             id: workTimeSelector
+
             showSeconds: false
+            minTime: 60
         }
     }
 

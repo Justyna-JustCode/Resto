@@ -6,13 +6,18 @@ import "../components"
 // TODO: change into pretty tumbler
 RowLayout {
     property int time   // in seconds
+    property int minTime: 0
 
     property bool showHours: true
     property bool showMinutes: true
     property bool showSeconds: true
 
+
     onTimeChanged: {
         d.update()
+    }
+    onMinTimeChanged: {
+        d.updateMin()
     }
 
     QtObject {
@@ -21,18 +26,18 @@ RowLayout {
         property int minutes
         property int seconds
 
+        property int minHours
+        property int minMinutes
+        property int minSeconds
+
         function update() {
-            var remainSecs = time;
-
-            var hs = Math.floor(remainSecs/3600)
-            remainSecs -= hs*3600;
-
-            var mins = Math.floor(remainSecs/60)
-            remainSecs -= mins*60;
+            var hs = Math.floor(time/3600)
+            var mins = Math.floor( (time%3600)/60 )
+            var secs = time%60;
 
             hours = hs;
             minutes = mins;
-            seconds = remainSecs;
+            seconds = secs;
         }
         function calculateTime() {
             var timeSec = seconds +
@@ -42,14 +47,26 @@ RowLayout {
             time = timeSec;
         }
 
+        function updateMin() {
+            var hs = Math.floor(minTime/3600)
+            var mins = Math.floor( (minTime%3600)/60 )
+            var secs = minTime%60;
+
+            minHours = hs;
+            minMinutes = mins;
+            minSeconds = secs;
+        }
+
         onHoursChanged: calculateTime();
         onMinutesChanged: calculateTime();
         onSecondsChanged: calculateTime();
     }
 
     SpinBox {
+        id: hoursSpin
+
         maximumValue: 23
-        minimumValue: showHours ? (showMinutes ? 0 : 1) : 0
+        minimumValue: d.minHours
         suffix: "h"
 
         visible: showHours
@@ -60,8 +77,11 @@ RowLayout {
         }
     }
     SpinBox {
+        id: minutesSpin
+
         maximumValue: 59
-        minimumValue: showMinutes ? (showSeconds ? 0 : 1) : 0
+        minimumValue: (hoursSpin.value > d.minHours)
+                      ? 0 : d.minMinutes
         suffix: "m"
 
         visible: showMinutes
@@ -73,7 +93,10 @@ RowLayout {
     }
     SpinBox {
         maximumValue: 59
-        minimumValue: showSeconds ? 1 : 0
+        minimumValue: (hoursSpin.value > d.minHours ||
+                       minutesSpin.value > d.minMinutes)
+                      ? 0 : d.minSeconds
+
         suffix: "s"
 
         visible: showSeconds
