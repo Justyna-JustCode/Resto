@@ -43,7 +43,7 @@ public slots:
     void initialize();
 
 private:
-    static const int sc_defaultInterval = 60;   // default interval (in secs)
+    static const int sc_defaultInterval = 5*60;   // default interval (in secs)
     static const QLatin1String sc_fileName;
 
     QTimer m_timer; //! used to trigger next backup

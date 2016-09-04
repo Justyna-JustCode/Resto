@@ -52,7 +52,7 @@ void BackupManager::setupFile()
 
 void BackupManager::restartTimer()
 {
-    m_timer.setInterval(m_interval);
+    m_timer.setInterval(m_interval*1000);
     m_timer.start();
 }
 
