@@ -33,7 +33,6 @@ LinearGradient {
     }
 
     anchors.fill: parent
-    source: parent
 
     start: Qt.point(0, 0)
     end: Qt.point(width, 0)
