@@ -31,18 +31,9 @@ ColumnLayout {
     function save() {}
     function discard() {}
 
-    /* this additional item is to support Qt 5.7
-       for some reason it doesn't work well without it */
-    Item {
+    ColumnLayout {
+        id: layout
         Layout.margins: Style.smallMargins
-        implicitHeight: layout.implicitHeight
-        implicitWidth: layout.implicitWidth
-
-        ColumnLayout {
-            id: layout
-
-            anchors.centerIn: parent
-        }
     }
 
     Spacer {

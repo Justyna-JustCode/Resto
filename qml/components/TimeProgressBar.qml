@@ -99,9 +99,10 @@ Item {
         text: d.formatTime(value) + " / " +
               d.formatTime(maxValue)
 
-        BarTextGradient {
-            value: d.valuePercent
-        }
+    }
+    BarTextGradient {
+        source: text
+        value: d.valuePercent
     }
 }
 

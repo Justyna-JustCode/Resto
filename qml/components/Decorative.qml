@@ -40,18 +40,18 @@ Image {
     opacity: Style.background.opacity
 
     Image {
+        id: decorativeImage
         anchors.fill: parent
 
         source: Style.decorative.imageColor
 
         horizontalAlignment: Qt.AlignRight
         fillMode: Image.PreserveAspectFit
+    }
+    ColorOverlay {
+        anchors.fill: parent
+        source: decorativeImage
 
-        ColorOverlay {
-            anchors.fill: parent
-            source: parent
-
-            color: Style.decorative.color
-        }
+        color: Style.decorative.color
     }
 }
