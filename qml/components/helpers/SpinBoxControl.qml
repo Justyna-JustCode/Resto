@@ -24,20 +24,27 @@ import QtQuick 2.5
 import QtGraphicalEffects 1.0
 import "../../style"
 
-Image {
+Item {
     property bool increment: true
 
-    scale: 0.7
-    fillMode: Image.PreserveAspectFit
+    implicitWidth: spinImage.sourceSize.width
+    implicitHeight: spinImage.sourceSize.height
 
-    source: increment
-            ? Style.spinBox.incrementImage
-            : Style.spinBox.decrementImage
+    Image {
+        id: spinImage
+        anchors.fill: parent
+
+        fillMode: Image.PreserveAspectFit
+
+        source: increment
+                ? Style.spinBox.incrementImage
+                : Style.spinBox.decrementImage
+    }
 
     ColorOverlay {
         anchors.fill: parent
-        source: parent
+
+        source: spinImage
         color: Style.spinBox.font.color
     }
-
 }
