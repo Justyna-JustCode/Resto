@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Resto</Name>
+    <Version>1.0.2</Version>
+    <Title>Resto installer</Title>
+    <Publisher>JustCode</Publisher>
+    <ProductUrl>http://just-code.org/applications/resto</ProductUrl>
+    <StartMenuDir>JustCode</StartMenuDir>
+    <TargetDir>@HomeDir@/@Publisher@/@ProductName@/</TargetDir>
+    <AdminTargetDir>@ApplicationsDir@/@Publisher@/@ProductName@/</AdminTargetDir>
+    <MaintenanceToolName>Uninstall</MaintenanceToolName>
+    <InstallerWindowIcon>installericon</InstallerWindowIcon>
+    <InstallerApplicationIcon>installericon</InstallerApplicationIcon>
+    <ControlScript>control.qs</ControlScript>
+    <AllowSpaceInPath>true</AllowSpaceInPath>
+</Installer>

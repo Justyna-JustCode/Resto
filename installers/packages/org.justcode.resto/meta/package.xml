@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<Package>
+    <DisplayName>Resto</DisplayName>
+    <Description>Application for work time management</Description>
+    <Version>1.0.2</Version>
+    <ReleaseDate>2016-09-08</ReleaseDate>
+    <Name>org.justcode.resto</Name>
+    <Licenses>
+        <License name="License Agreement" file="license.txt" />
+    </Licenses>
+    <UpdateText></UpdateText>
+    <Default>true</Default>
+    <ForcedInstallation>true</ForcedInstallation>
+    <Essential>false</Essential>
+    
+    <Script>installscript.qs</Script>
+    <UserInterfaces>
+        <UserInterface>openhelpform.ui</UserInterface>
+    </UserInterfaces>
+</Package>
