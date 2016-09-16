@@ -1,4 +1,11 @@
-DEFINES += ORG_NAME='"\\\"JustCode\\\""'
+
+VERSION = 1.0.3
+QMAKE_TARGET_COMPANY = "JustCode"
+QMAKE_TARGET_PRODUCT = "Resto"
+QMAKE_TARGET_DESCRIPTION = "A small application for work time management"
+QMAKE_TARGET_COPYRIGHT = $$QMAKE_TARGET_COMPANY
+
+DEFINES += ORG_NAME='"\\\"$$QMAKE_TARGET_COMPANY\\\""'
 DEFINES += ORG_DOMAIN=\\\"just-code.org\\\"
-DEFINES += APP_NAME=\\\"Resto\\\"
-DEFINES += APP_VERSION=\\\"1.0.2\\\"
+DEFINES += APP_NAME='"\\\"$$QMAKE_TARGET_PRODUCT\\\""'
+DEFINES += APP_VERSION='"\\\"$$VERSION\\\""'
