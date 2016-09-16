@@ -71,3 +71,5 @@ Thumbs.db
 *.dll
 *.exe
 
+# Installers files
+*.7z
