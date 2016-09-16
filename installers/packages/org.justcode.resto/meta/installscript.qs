@@ -14,16 +14,20 @@ Component.prototype.createOperations = function()
         component.addOperation("CreateShortcut", "@TargetDir@/@ProductName@.exe", "@StartMenuDir@/@ProductName@.lnk");
     }
     else if (systemInfo.kernelType === "linux") {
+        var desktopEntry = "Version=@ProductVersion@\nType=Application\nTerminal=false\nExec=@TargetDir@/runner\nName=@ProductName@\nComment=A small application for work time management\nIcon=@TargetDir@/ico.png\nCategories=Office;\n"
+    
+        // add desktop file in package
         component.addOperation("Delete", "@TargetDir@/@ProductName@.desktop");
-        component.addOperation("CreateDesktopEntry", "@TargetDir@/@ProductName@.desktop", "Version=@ProductVersion@\nType=Application\nTerminal=false\nExec=@TargetDir@/runner\nName=@ProductName@\nIcon=@TargetDir@/ico.png\n");
-            
-        if (installer.gainAdminRights() ) {
-            component.addOperation("Mkdir", "/usr/share/applications");
-            component.addOperation("Copy", "@TargetDir@/@ProductName@.desktop", "/usr/share/applications/@ProductName@.desktop");
+        component.addOperation("CreateDesktopEntry", "@TargetDir@/@ProductName@.desktop", desktopEntry);
+        
+        // add other desktop files
+        if (installer.value("HomeDir") == "/root") { // check for root
+            component.addOperation("Mkdir", "/usr/share/applications/");
+            component.addOperation("CreateDesktopEntry", "/usr/share/applications/@ProductName@.desktop", desktopEntry);
         }
         else {
             component.addOperation("Mkdir", "@HomeDir@/.local/share/applications/");
-            component.addOperation("CreateDesktopEntry", "@TargetDir@/@ProductName@.desktop", "@HomeDir@/.local/share/applications/@ProductName@.desktop");
+            component.addOperation("CreateDesktopEntry", "@HomeDir@/.local/share/applications/@ProductName@.desktop", desktopEntry);
         }
     }
 }
