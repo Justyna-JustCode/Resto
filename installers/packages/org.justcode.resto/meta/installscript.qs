@@ -1,7 +1,5 @@
 function Component()
 {
-    installer.setDefaultPageVisible(QInstaller.ComponentSelection, false); // hide component selection
-    
     // connect open help pages
     installer.installationFinished.connect(this, Component.prototype.installationFinishedPageIsShown);
     installer.finishButtonClicked.connect(this, Component.prototype.installationFinished);
@@ -11,10 +9,22 @@ Component.prototype.createOperations = function()
 {
     component.createOperations();
     
-    if (installer.value("os") === "x11")
-    {
-        component.addOperation("Mkdir", "@HomeDir@/.local/share/applications/");
-        component.addOperation("CreateDesktopEntry", "@HomeDir@/.local/share/applications/@ProductName@.desktop", "Version=@ProductVersion@\nType=Application\nTerminal=false\nExec=@TargetDir@/runner\nName=@ProductName@\nIcon=@TargetDir@/ico.png\n");
+    if (systemInfo.kernelType === "winnt") {
+        component.addOperation("Mkdir", "@StartMenuDir@");
+        component.addOperation("CreateShortcut", "@TargetDir@/@ProductName@.exe", "@StartMenuDir@/@ProductName@.lnk");
+    }
+    else if (systemInfo.kernelType === "linux") {
+        component.addOperation("Delete", "@TargetDir@/@ProductName@.desktop");
+        component.addOperation("CreateDesktopEntry", "@TargetDir@/@ProductName@.desktop", "Version=@ProductVersion@\nType=Application\nTerminal=false\nExec=@TargetDir@/runner\nName=@ProductName@\nIcon=@TargetDir@/ico.png\n");
+            
+        if (installer.gainAdminRights() ) {
+            component.addOperation("Mkdir", "/usr/share/applications");
+            component.addOperation("Copy", "@TargetDir@/@ProductName@.desktop", "/usr/share/applications/@ProductName@.desktop");
+        }
+        else {
+            component.addOperation("Mkdir", "@HomeDir@/.local/share/applications/");
+            component.addOperation("CreateDesktopEntry", "@TargetDir@/@ProductName@.desktop", "@HomeDir@/.local/share/applications/@ProductName@.desktop");
+        }
     }
 }
 
