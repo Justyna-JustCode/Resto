@@ -25,6 +25,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QCoreApplication>
+#include <QCursor>
 
 Controller::Controller()
 {
@@ -70,6 +71,12 @@ Controller::State Controller::state() const
 bool Controller::isWorking() const
 {
     return (m_state == State::Working);
+}
+
+QPoint Controller::cursorPos() const
+{
+    // this is needed as a workaround for Ubuntu window move issue
+    return QCursor::pos();
 }
 
 void Controller::openHelp() const

@@ -132,7 +132,7 @@ void Settings::setAutoHide(bool hide)
 
 bool Settings::hideOnClose() const
 {
-    return value(sc_logicGroupName, sc_hideOnCloseKey, false).toBool();
+    return value(sc_logicGroupName, sc_hideOnCloseKey, true).toBool();
 }
 
 void Settings::setHideOnClose(bool hide)
