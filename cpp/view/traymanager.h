@@ -60,6 +60,7 @@ public:
 signals:
 
 public slots:
+    void showWindow();
 
 private:
     bool m_isAvailable; //! Defines if system tray is available for current system
@@ -89,7 +90,7 @@ private slots:
     void takeBreak();
 
     void changeVisibility();
-    void showWindow();
+
     void showSettings();
     void showAbout();
     void quit();
