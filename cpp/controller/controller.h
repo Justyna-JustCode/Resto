@@ -56,6 +56,8 @@ public:
     State state() const;
     bool isWorking() const;
 
+    Q_INVOKABLE QPoint cursorPos() const;
+
     Q_INVOKABLE void openHelp() const;
 
 signals:
