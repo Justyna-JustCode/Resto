@@ -63,23 +63,26 @@ Window {
         border.width: Style.background.borderWidth
 
         MouseArea {
-            property var startPos
+            property var startDialogPos
+            property var startCursorPos
 
             anchors.fill: parent
 
             onPressed: {
                 // remember starting position
-                startPos = Qt.point(mouse.x, mouse.y)
+                startDialogPos = Qt.point(dialog.x, dialog.y);
+                startCursorPos = controller.cursorPos();
             }
 
             onPositionChanged: {
                 // count difference
-                var difference = Qt.point(mouse.x - startPos.x,
-                                          mouse.y - startPos.y);
+                var newCursorPos = controller.cursorPos();
+                var difference = Qt.point(newCursorPos.x - startCursorPos.x,
+                                          newCursorPos.y - startCursorPos.y);
 
                 // update position
-                dialog.x += difference.x;
-                dialog.y += difference.y;
+                dialog.x = startDialogPos.x + difference.x;
+                dialog.y = startDialogPos.y + difference.y;
             }
         }
     }
