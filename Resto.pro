@@ -11,7 +11,8 @@ SOURCES += cpp/main.cpp \
     cpp/controller/settingscontroller.cpp \
     cpp/controller/timercontroller.cpp \
     cpp/workers/backupmanager.cpp \
-    cpp/view/traymanager.cpp
+    cpp/view/traymanager.cpp \
+    cpp/workers/singleappmanager.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,7 +25,8 @@ HEADERS += \
     cpp/controller/settingscontroller.h \
     cpp/controller/timercontroller.h \
     cpp/workers/backupmanager.h \
-    cpp/view/traymanager.h
+    cpp/view/traymanager.h \
+    cpp/workers/singleappmanager.h
 
 include(appInfo.pri)
 

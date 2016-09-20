@@ -96,6 +96,12 @@ bool TrayManager::isAvailable() const
     return m_isAvailable;
 }
 
+void TrayManager::showWindow()
+{
+    m_mainWindow->show();
+    m_mainWindow->requestActivate();
+}
+
 #ifdef Q_OS_LINUX
 bool TrayManager::checkIsGnome()
 {
@@ -177,11 +183,7 @@ void TrayManager::changeVisibility()
     }
 }
 
-void TrayManager::showWindow()
-{
-    m_mainWindow->show();
-    m_mainWindow->requestActivate();
-}
+
 
 void TrayManager::showSettings()
 {

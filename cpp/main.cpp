@@ -29,6 +29,7 @@
 
 #include "controller/controller.h"
 #include "view/traymanager.h"
+#include "workers/singleappmanager.h"
 
 int main(int argc, char *argv[])
 {
@@ -38,6 +39,10 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(ORG_DOMAIN);
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
+
+    SingleAppManager sam;
+    if (!sam.tryRun())
+        return 1;
 
     Controller controller;
     qmlRegisterUncreatableType<Controller>("Resto.Types", 1, 0, "Controller", "Controller class");
@@ -51,7 +56,7 @@ int main(int argc, char *argv[])
 
     TrayManager tray(controller, dynamic_cast<QQuickWindow*>(
                          engine.rootObjects().first()) );
-    Q_UNUSED(tray);
+    QObject::connect(&sam, &SingleAppManager::anotherAppStarted, &tray, &TrayManager::showWindow);
 
     app.setQuitOnLastWindowClosed(false);
     return app.exec();
