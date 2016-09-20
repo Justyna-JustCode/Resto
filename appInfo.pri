@@ -1,5 +1,5 @@
 
-VERSION = 1.0.3
+VERSION = 1.0.4
 QMAKE_TARGET_COMPANY = "JustCode"
 QMAKE_TARGET_PRODUCT = "Resto"
 QMAKE_TARGET_DESCRIPTION = "A small application for work time management"
