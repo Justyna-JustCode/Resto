@@ -183,8 +183,6 @@ void TrayManager::changeVisibility()
     }
 }
 
-
-
 void TrayManager::showSettings()
 {
     QMetaObject::invokeMethod(m_mainWindow, "showSettingsDialog");
