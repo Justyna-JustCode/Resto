@@ -90,6 +90,9 @@ TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObje
         if (m_controller.settings().autoHide()) {
             m_mainWindow->setVisibility(QWindow::Hidden);
         }
+    } else {
+        connect(m_mainWindow.data(), SIGNAL(closing(QQuickCloseEvent*)), // QTBUG-36453 -> cannot use C++11 style connect
+                this, SLOT(onWindowClosed()) );
     }
 }
 
@@ -131,11 +134,22 @@ void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
 
 void TrayManager::onWindowClosed()
 {
-    if (m_controller.settings().hideOnClose()) {
-        showInformationDialog();
+    if (!m_isAvailable) {
+        if (m_controller.state() != Controller::State::Off &&
+                QMessageBox::question(nullptr, tr("Save"), tr("Do you want to save your state?")) == QMessageBox::Yes) {
+            saveAndQuit();
+        }
+        else {
+            quit();
+        }
     }
     else {
-        quit();
+        if (m_controller.settings().hideOnClose()) {
+            showInformationDialog();
+        }
+        else {
+            quit();
+        }
     }
 }
 
