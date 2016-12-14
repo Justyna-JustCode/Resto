@@ -53,11 +53,17 @@ public:
     int interval() const;
     void setInterval(int interval);
 
+    /*!
+     * \brief Cleaning all data.
+     * Used when application is closed properly.
+     */
+    void cleanup();
+
     Data &data();
 
 signals:
     void backupData(const Data &data);
-    
+
 public slots:
     /*!
      * \brief Initialize the object and start backups.
@@ -84,11 +90,6 @@ private slots:
      * \brief Reinitialize time with current interval.
      */
     void restartTimer();
-    /*!
-     * \brief Cleaning all data.
-     * Used when application is closed properly.
-     */
-    void cleanup();
 
     /*!
      * \brief Cheks if previous backup exist and restore it.

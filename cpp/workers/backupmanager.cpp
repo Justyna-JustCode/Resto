@@ -51,6 +51,17 @@ void BackupManager::setInterval(int backupInterval)
     restartTimer();
 }
 
+void BackupManager::cleanup()
+{
+    /* write empty data in case
+     * of removing failiture */
+    m_data = Data();
+    doBackup();
+
+    // remove file
+    m_dataFile.remove();
+}
+
 void BackupManager::initialize()
 {
     // check if previous backup file exist and restore if so
@@ -78,16 +89,7 @@ void BackupManager::restartTimer()
     m_timer.start();
 }
 
-void BackupManager::cleanup()
-{
-    /* write empty data in case
-     * of removing failiture */
-    m_data = Data();
-    doBackup();
 
-    // remove file
-    m_dataFile.remove();
-}
 
 void BackupManager::checkAndRestore()
 {

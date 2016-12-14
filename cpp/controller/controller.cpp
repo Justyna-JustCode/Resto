@@ -120,6 +120,7 @@ void Controller::stop()
     case State::Working:
         setState(State::Off);
         timer().stop();
+        m_backupManager.cleanup();
         break;
     default:
         qWarning() << "Stop requested in unsupported state";
