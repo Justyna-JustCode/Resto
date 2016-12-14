@@ -134,18 +134,13 @@ void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
 
 void TrayManager::onWindowClosed()
 {
-    if (!m_isAvailable) {
+    if (m_isAvailable && m_controller.settings().hideOnClose()) {
+        showInformationDialog();
+    }
+    else {
         if (m_controller.state() != Controller::State::Off &&
                 QMessageBox::question(nullptr, tr("Save"), tr("Do you want to save your state?")) == QMessageBox::Yes) {
             saveAndQuit();
-        }
-        else {
-            quit();
-        }
-    }
-    else {
-        if (m_controller.settings().hideOnClose()) {
-            showInformationDialog();
         }
         else {
             quit();
