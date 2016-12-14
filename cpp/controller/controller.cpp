@@ -81,6 +81,11 @@ void Controller::save()
     m_saveManager.save();
 }
 
+void Controller::clear()
+{
+    m_backupManager.cleanup();
+}
+
 QPoint Controller::cursorPos() const
 {
     // this is needed as a workaround for Ubuntu window move issue

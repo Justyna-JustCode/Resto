@@ -217,5 +217,6 @@ void TrayManager::saveAndQuit()
 
 void TrayManager::quit()
 {
+    m_controller.clear();
     QApplication::quit();
 }

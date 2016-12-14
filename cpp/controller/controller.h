@@ -58,6 +58,7 @@ public:
     bool isWorking() const;
 
     void save();
+    void clear();
 
     Q_INVOKABLE QPoint cursorPos() const;
 

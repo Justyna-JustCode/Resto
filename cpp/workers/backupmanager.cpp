@@ -37,9 +37,7 @@ BackupManager::BackupManager(int backupInterval, QObject *parent)
 {}
 
 BackupManager::~BackupManager()
-{
-    cleanup();
-}
+{}
 
 int BackupManager::interval() const
 {
