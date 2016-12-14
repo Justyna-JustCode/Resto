@@ -71,6 +71,8 @@ TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObje
         connect(action, &QAction::triggered, this, &TrayManager::showAbout);
         m_trayMenu->addSeparator();
 
+        action = m_trayMenu->addAction(tr("Save && Quit"));
+        connect(action, &QAction::triggered, this, &TrayManager::saveAndQuit);
         action = m_trayMenu->addAction(tr("Quit"));
         connect(action, &QAction::triggered, this, &TrayManager::quit);
 
@@ -88,6 +90,9 @@ TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObje
         if (m_controller.settings().autoHide()) {
             m_mainWindow->setVisibility(QWindow::Hidden);
         }
+    } else {
+        connect(m_mainWindow.data(), SIGNAL(closing(QQuickCloseEvent*)), // QTBUG-36453 -> cannot use C++11 style connect
+                this, SLOT(onWindowClosed()) );
     }
 }
 
@@ -129,11 +134,17 @@ void TrayManager::onWindowVisibilityChanged(QWindow::Visibility visibility)
 
 void TrayManager::onWindowClosed()
 {
-    if (m_controller.settings().hideOnClose()) {
+    if (m_isAvailable && m_controller.settings().hideOnClose()) {
         showInformationDialog();
     }
     else {
-        quit();
+        if (m_controller.state() != Controller::State::Off &&
+                QMessageBox::question(nullptr, tr("Save"), tr("Do you want to save your state?")) == QMessageBox::Yes) {
+            saveAndQuit();
+        }
+        else {
+            quit();
+        }
     }
 }
 
@@ -193,7 +204,14 @@ void TrayManager::showAbout()
     QMetaObject::invokeMethod(m_mainWindow, "showAboutDialog");
 }
 
+void TrayManager::saveAndQuit()
+{
+    m_controller.save();
+    quit();
+}
+
 void TrayManager::quit()
 {
+    m_controller.clear();
     QApplication::quit();
 }
