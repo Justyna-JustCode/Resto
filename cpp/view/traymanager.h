@@ -93,6 +93,7 @@ private slots:
 
     void showSettings();
     void showAbout();
+    void saveAndQuit();
     void quit();
 
 };

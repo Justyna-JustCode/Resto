@@ -48,7 +48,18 @@ int BackupManager::interval() const
 void BackupManager::setInterval(int backupInterval)
 {
     m_interval = backupInterval;
-    restartTimer();
+    updateInterval();
+}
+
+void BackupManager::start()
+{
+    doBackup();
+    m_timer.start();
+}
+
+void BackupManager::stop()
+{
+    m_timer.stop();
 }
 
 void BackupManager::cleanup()
@@ -62,6 +73,16 @@ void BackupManager::cleanup()
     m_dataFile.remove();
 }
 
+void BackupManager::forceBackup()
+{
+    doBackup();
+}
+
+QString BackupManager::backupPath() const
+{
+    return QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(sc_fileName);
+}
+
 void BackupManager::initialize()
 {
     // check if previous backup file exist and restore if so
@@ -70,7 +91,7 @@ void BackupManager::initialize()
 
     // initialize next backup checking
     connect(&m_timer, &QTimer::timeout, this, &BackupManager::doBackup);
-    restartTimer();
+    updateInterval();
 }
 
 BackupManager::Data &BackupManager::data()
@@ -80,16 +101,13 @@ BackupManager::Data &BackupManager::data()
 
 void BackupManager::setupFile()
 {
-    m_dataFile.setFileName(QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(sc_fileName));
+    m_dataFile.setFileName(backupPath());
 }
 
-void BackupManager::restartTimer()
+void BackupManager::updateInterval()
 {
     m_timer.setInterval(m_interval*1000);
-    m_timer.start();
 }
-
-
 
 void BackupManager::checkAndRestore()
 {

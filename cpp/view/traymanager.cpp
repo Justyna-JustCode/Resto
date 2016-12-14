@@ -71,6 +71,8 @@ TrayManager::TrayManager(Controller &controller, QQuickWindow *mainWindow, QObje
         connect(action, &QAction::triggered, this, &TrayManager::showAbout);
         m_trayMenu->addSeparator();
 
+        action = m_trayMenu->addAction(tr("Save && Quit"));
+        connect(action, &QAction::triggered, this, &TrayManager::saveAndQuit);
         action = m_trayMenu->addAction(tr("Quit"));
         connect(action, &QAction::triggered, this, &TrayManager::quit);
 
@@ -191,6 +193,12 @@ void TrayManager::showSettings()
 void TrayManager::showAbout()
 {
     QMetaObject::invokeMethod(m_mainWindow, "showAboutDialog");
+}
+
+void TrayManager::saveAndQuit()
+{
+    m_controller.save();
+    quit();
 }
 
 void TrayManager::quit()

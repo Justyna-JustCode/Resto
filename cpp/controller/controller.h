@@ -29,6 +29,7 @@
 #include "timercontroller.h"
 
 #include "workers/backupmanager.h"
+#include "workers/savemanager.h"
 
 class Controller final : public QObject
 {
@@ -55,6 +56,8 @@ public:
 
     State state() const;
     bool isWorking() const;
+
+    void save();
 
     Q_INVOKABLE QPoint cursorPos() const;
 
@@ -83,6 +86,7 @@ private:
 
     // workers
     BackupManager m_backupManager;
+    SaveManager m_saveManager;
 
     // values
     State m_state = State::Off; //! current state

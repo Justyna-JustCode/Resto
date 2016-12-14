@@ -53,11 +53,21 @@ public:
     int interval() const;
     void setInterval(int interval);
 
+    void start();   //! start process of backups
+    void stop();    //! stop prcoess of backups
+
     /*!
      * \brief Cleaning all data.
      * Used when application is closed properly.
      */
     void cleanup();
+
+    /*!
+     * \brief Doing a backup even if interval not yet passed.
+     */
+    void forceBackup();
+
+    QString backupPath() const;
 
     Data &data();
 
@@ -87,9 +97,9 @@ private slots:
      */
     void setupFile();
     /*!
-     * \brief Reinitialize time with current interval.
+     * \brief Reinitialize timer with current interval.
      */
-    void restartTimer();
+    void updateInterval();
 
     /*!
      * \brief Cheks if previous backup exist and restore it.
