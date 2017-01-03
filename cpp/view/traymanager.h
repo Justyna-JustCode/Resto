@@ -79,6 +79,10 @@ private:
     bool checkIsGnome();
 #endif
 
+    void initTrayIcon();
+    void initTrayMenu();
+    void checkInitState();
+
 private slots:
     void onWindowVisibilityChanged(QWindow::Visibility visibility);
     void onWindowClosed();
@@ -90,6 +94,7 @@ private slots:
     void takeBreak();
 
     void changeVisibility();
+    void updateToolTip();
 
     void showSettings();
     void showAbout();
