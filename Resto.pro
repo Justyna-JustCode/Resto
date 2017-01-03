@@ -14,6 +14,7 @@ SOURCES += cpp/main.cpp \
     cpp/view/traymanager.cpp \
     cpp/workers/singleappmanager.cpp \
     cpp/workers/savemanager.cpp \
+    cpp/utility/helpers.cpp
 
 RESOURCES += qml.qrc
 
@@ -29,6 +30,7 @@ HEADERS += \
     cpp/view/traymanager.h \
     cpp/workers/singleappmanager.h \
     cpp/workers/savemanager.h \
+    cpp/utility/helpers.h
 
 include(appInfo.pri)
 
