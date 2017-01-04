@@ -223,11 +223,11 @@ void TrayManager::changeVisibility()
 
 void TrayManager::updateToolTip()
 {
-    static const QString tooltipTemplate = "NEXT BREAK:\n"
-                                           "%1 / %2\n"
-                                           "\n"
-                                           "WORK TIME:\n"
-                                           "%3 / %4";
+    static const QString tooltipTemplate = tr("NEXT BREAK:\n"
+                                              "%1 / %2\n"
+                                              "\n"
+                                              "WORK TIME:\n"
+                                              "%3 / %4");
     m_trayIcon.setToolTip(tooltipTemplate
                           .arg(Helpers::formatTime(m_controller.timer().elapsedWorkPeriod()) )
                           .arg(Helpers::formatTime(m_controller.settings().breakInterval()) )
