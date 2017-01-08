@@ -28,7 +28,7 @@
 #include <QCursor>
 
 Controller::Controller()
-    : m_updateController(QUrl("TODO")), m_saveManager(m_backupManager)
+    : m_updateController(QUrl(APP_VERSION_URL)), m_saveManager(m_backupManager)
 {
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
     connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);

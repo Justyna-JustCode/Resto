@@ -1,11 +1,16 @@
+# application info
+APP_NAME = "Resto"
+APP_DESCRIPTION = "A small application for work time management"
+APP_VERSION = 1.0.4
+APP_VERSION_URL = "$$ORG_DOMAIN/applications/$$APP_NAME/version"
 
-VERSION = 1.0.4
-QMAKE_TARGET_COMPANY = "JustCode"
-QMAKE_TARGET_PRODUCT = "Resto"
-QMAKE_TARGET_DESCRIPTION = "A small application for work time management"
-QMAKE_TARGET_COPYRIGHT = $$QMAKE_TARGET_COMPANY
+# add defines
+DEFINES += APP_NAME='"\\\"$$APP_NAME\\\""'
+DEFINES += APP_DESCRIPTION='"\\\"$$APP_DESCRIPTION\\\""'
+DEFINES += APP_VERSION='"\\\"$$APP_VERSION\\\""'
+DEFINES += APP_VERSION_URL='"\\\"$$APP_VERSION_URL\\\""'
 
-DEFINES += ORG_NAME='"\\\"$$QMAKE_TARGET_COMPANY\\\""'
-DEFINES += ORG_DOMAIN=\\\"just-code.org\\\"
-DEFINES += APP_NAME='"\\\"$$QMAKE_TARGET_PRODUCT\\\""'
-DEFINES += APP_VERSION='"\\\"$$VERSION\\\""'
+# set qmake variables
+VERSION = APP_VERSION
+QMAKE_TARGET_PRODUCT = $$APP_NAME
+QMAKE_TARGET_DESCRIPTION = $$APP_DESCRIPTION

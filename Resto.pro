@@ -34,6 +34,7 @@ HEADERS += \
     cpp/utility/helpers.h \
     cpp/controller/updatecontroller.h
 
+include(orgInfo.pri)
 include(appInfo.pri)
 
 win32:RC_ICONS += resources/images/app-logo.ico
