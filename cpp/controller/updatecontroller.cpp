@@ -136,11 +136,19 @@ void UpdateController::parseVersionResponse(const QByteArray &response)
 void UpdateController::onNetworReply(QNetworkReply *reply)
 {
     Q_ASSERT (reply == m_curReply);
-    if (reply->error() == QNetworkReply::NoError) {
-        parseVersionResponse(reply->readAll());
-        emit checkFinished();
+
+    auto httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (reply->error() == QNetworkReply::NoError
+            && (httpStatusCode == 200 || httpStatusCode == 301)) {
+        if (httpStatusCode == 301) { // redirect
+            m_versionUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
+            getVersionResponse();
+        } else {
+            parseVersionResponse(reply->readAll());
+            emit checkFinished();
+        }
     } else {
-        qWarning() << "[UpdateManager]" << "Network error:" << reply->errorString();
+        qWarning() << "[UpdateManager]" << "Network error:" << httpStatusCode << reply->errorString();
         if (m_retryCounter++ < sc_retryMaxCount) {
             QTimer::singleShot(sc_retryInterval, this, &UpdateController::getVersionResponse);
         } else {
