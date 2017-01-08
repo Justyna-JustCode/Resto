@@ -28,7 +28,7 @@
 class BackupManager;
 
 /*!
- * \brief Class to save state..
+ * \brief Class to save state.
  */
 class SaveManager final : public QObject
 {

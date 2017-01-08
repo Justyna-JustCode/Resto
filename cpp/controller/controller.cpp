@@ -28,7 +28,7 @@
 #include <QCursor>
 
 Controller::Controller()
-    : m_saveManager(m_backupManager)
+    : m_updateController(QUrl("TODO")), m_saveManager(m_backupManager)
 {
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
     connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);
@@ -61,9 +61,19 @@ TimerController &Controller::timer()
 {
     return m_timerController;
 }
+
+UpdateController &Controller::updater()
+{
+    return m_updateController;
+}
 TimerController *Controller::timerPtr()
 {
     return &m_timerController;
+}
+
+UpdateController *Controller::updaterPtr()
+{
+    return &m_updateController;
 }
 
 Controller::State Controller::state() const

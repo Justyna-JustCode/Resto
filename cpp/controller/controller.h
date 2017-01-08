@@ -27,6 +27,7 @@
 
 #include "settingscontroller.h"
 #include "timercontroller.h"
+#include "updatecontroller.h"
 
 #include "workers/backupmanager.h"
 #include "workers/savemanager.h"
@@ -38,6 +39,7 @@ class Controller final : public QObject
 
     Q_PROPERTY(SettingsController* settings READ settingsPtr CONSTANT)
     Q_PROPERTY(TimerController* timer READ timerPtr CONSTANT)
+    Q_PROPERTY(UpdateController* updater READ updaterPtr CONSTANT)
 
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
 
@@ -53,6 +55,7 @@ public:
     Controller();
     SettingsController &settings();
     TimerController &timer();
+    UpdateController &updater();
 
     State state() const;
     bool isWorking() const;
@@ -88,6 +91,7 @@ private:
     // workers
     BackupManager m_backupManager;
     SaveManager m_saveManager;
+    UpdateController m_updateController;
 
     // values
     State m_state = State::Off; //! current state
@@ -96,6 +100,7 @@ private:
 
     SettingsController *settingsPtr();
     TimerController *timerPtr();
+    UpdateController *updaterPtr();
 
 private slots:
     void setState(State state);
