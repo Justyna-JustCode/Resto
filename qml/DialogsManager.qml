@@ -42,6 +42,9 @@ Item {
     function showSettingsDialog() {
         d.showDialog(settingsDialog)
     }
+    function showUpdateInfoDialog() {
+        d.showDialog(updateInfoDialog)
+    }
     // -------------------------------------------------------------------
 
     // logic -------------------------------------------------------------
@@ -130,6 +133,22 @@ Item {
         id: settingsDialog
 
         SettingsDialog {}
+    }
+
+    Component {
+        id: updateInfoDialog
+
+        UpdateInfoDialog {
+            onAccept: {
+                controller.updater.download();
+            }
+            onPostpone: {
+                controller.updater.postpone();
+            }
+            onSkip: {
+                controller.updater.skip();
+            }
+        }
     }
     // -------------------------------------------------------------------
 }

@@ -57,9 +57,32 @@ void UpdateController::checkUpdateAvailable()
     getVersionResponse();
 }
 
+void UpdateController::download()
+{
+    // TODO
+    qDebug() << "download";
+}
+
+void UpdateController::postpone()
+{
+    // TODO
+    qDebug() << "postpone";
+}
+
+void UpdateController::skip()
+{
+    // TODO
+    qDebug() << "skip";
+}
+
 QString UpdateController::newestVersion() const
 {
     return m_newestVersion;
+}
+
+QString UpdateController::releaseNotes() const
+{
+    return m_releaseNotes;
 }
 
 QUrl UpdateController::platformDownloadUrl() const
@@ -105,6 +128,15 @@ void UpdateController::setNewestVersion(QString newestVersion)
     emit newestVersionChanged(newestVersion);
 }
 
+void UpdateController::setReleaseNotes(QString releaseNotes)
+{
+    if (m_releaseNotes == releaseNotes)
+        return;
+
+    m_releaseNotes = releaseNotes;
+    emit releaseNotesChanged(releaseNotes);
+}
+
 void UpdateController::setPlatformDownloadUrl(QUrl platformDownloadUrl)
 {
     if (m_platformDownloadUrl == platformDownloadUrl)
@@ -126,6 +158,8 @@ void UpdateController::parseVersionResponse(const QByteArray &response)
     auto updateAvailable = curVersion < newestVersion;
 
     if (updateAvailable) {
+        setReleaseNotes(updateInfoObj.value("releaseNotes").toString());
+
         auto downloadUrl = updateInfoObj.value("urls").toObject()
                 .value(m_platformType).toObject().value(m_platformWordSize).toString();
         setPlatformDownloadUrl(downloadUrl);

@@ -33,10 +33,6 @@ CustomDialog {
                                          "<a href=\"http://" + app.organizationDomain + "\">" + app.organizationName + "</a>"
     property string resourcesMessage: qsTr("<b>Resources:</b><br/>") + ResourceInfo.getInfo()
 
-    signal accept()
-    signal postpone()
-    signal skip()
-
     title: qsTr("About") + " " + app.applicationName + "\n(" +qsTr("ver.") + " " + app.applicationVersion + ")"
     description: aboutMessage
 

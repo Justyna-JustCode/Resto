@@ -35,8 +35,9 @@ class QNetworkReply;
 class UpdateController final : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool updateAvailable READ updateAvailable WRITE setUpdateAvailable NOTIFY updateAvailableChanged)
-    Q_PROPERTY(QString newestVersion READ newestVersion WRITE setNewestVersion NOTIFY newestVersionChanged)
+    Q_PROPERTY(bool updateAvailable READ updateAvailable NOTIFY updateAvailableChanged)
+    Q_PROPERTY(QString newestVersion READ newestVersion NOTIFY newestVersionChanged)
+    Q_PROPERTY(QString releaseNotes READ releaseNotes NOTIFY releaseNotesChanged)
     Q_PROPERTY(QUrl platformDownloadUrl READ platformDownloadUrl WRITE setPlatformDownloadUrl NOTIFY platformDownloadUrlChanged)
 
 public:
@@ -44,6 +45,8 @@ public:
 
     bool updateAvailable() const;
     QString newestVersion() const;
+
+    QString releaseNotes() const;
     QUrl platformDownloadUrl() const;
 
 public slots:
@@ -52,9 +55,23 @@ public slots:
      */
     void checkUpdateAvailable();
 
+    /*!
+     * \brief Downloads the newest package.
+     */
+    void download();
+    /*!
+     * \brief Postpones download (remind me later).
+     */
+    void postpone();
+    /*!
+     * \brief Skips current newest version.
+     */
+    void skip();
+
 signals:
     void updateAvailableChanged(bool updateAvailable) const;
     void newestVersionChanged(QString newestVersion) const;
+    void releaseNotesChanged(QString releaseNotes) const;
     void platformDownloadUrlChanged(QUrl platformDownloadUrl) const;
 
     void checkFinished() const;
@@ -70,6 +87,7 @@ private:
 
     bool m_updateAvailable = false;
     QString m_newestVersion;
+    QString m_releaseNotes;
     QUrl m_platformDownloadUrl;
 
     QNetworkAccessManager m_nam;
@@ -84,6 +102,7 @@ private:
 private slots:
     void setUpdateAvailable(bool updateAvailable);
     void setNewestVersion(QString newestVersion);
+    void setReleaseNotes(QString releaseNotes);
     void setPlatformDownloadUrl(QUrl platformDownloadUrl);
 
     void onNetworReply(QNetworkReply *reply);
