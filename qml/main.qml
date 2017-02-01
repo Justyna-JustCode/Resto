@@ -87,11 +87,19 @@ Window {
         }
     }
     Connections {
+        property bool initialCheck: true
+
         target: controller.updater
 
-        onUpdateAvailableChanged: {
+        onCheckFinished: {
             if (controller.updater.updateAvailable) {
                 dialogsManager.showUpdateInfoDialog();
+            }
+
+            if (initialCheck) {
+                initialCheck = false;
+            } else if (!controller.updater.updateAvailable) {
+                dialogsManager.showNoUpdateDialog();
             }
         }
     }

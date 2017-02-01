@@ -48,7 +48,13 @@ CustomDialog {
 
             onClicked: {
                 close();
-                accept();
+            }
+        }
+        TextButton {
+            text: qsTr("Check update")
+
+            onClicked: {
+                controller.updater.checkUpdateAvailable();
             }
         }
     }

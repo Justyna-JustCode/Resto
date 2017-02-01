@@ -45,6 +45,9 @@ Item {
     function showUpdateInfoDialog() {
         d.showDialog(updateInfoDialog)
     }
+    function showNoUpdateDialog() {
+        d.showDialog(noUpdateDialog)
+    }
     // -------------------------------------------------------------------
 
     // logic -------------------------------------------------------------
@@ -148,6 +151,14 @@ Item {
             onSkip: {
                 controller.updater.skip();
             }
+        }
+    }
+    Component {
+        id: noUpdateDialog
+
+        CustomDialog {
+            title: qsTr("You have the latest version!")
+            description: qsTr("No updates available.")
         }
     }
     // -------------------------------------------------------------------
