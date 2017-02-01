@@ -26,6 +26,7 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <QDebug>
+#include <QStandardPaths>
 
 #include "workers/backupmanager.h"
 
@@ -60,5 +61,5 @@ bool SaveManager::save()
 
 QString SaveManager::savePath() const
 {
-    return QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(sc_saveName);
+    return QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).absoluteFilePath(sc_saveName);
 }
