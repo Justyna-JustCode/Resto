@@ -71,7 +71,7 @@ void UpdateController::checkPlatformInfo()
 {
 #ifdef Q_OS_LINUX
     m_platformType = "linux";
-#elif Q_OS_WIN
+#elif defined(Q_OS_WIN)
     m_platformType = "windows";
 #endif
 
