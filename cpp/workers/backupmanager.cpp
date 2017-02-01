@@ -26,6 +26,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QDataStream>
+#include <QStandardPaths>
 
 const QLatin1String BackupManager::sc_fileName = QLatin1String(".backup.dat"); // hidden file
 
@@ -62,11 +63,6 @@ void BackupManager::stop()
 
 void BackupManager::cleanup()
 {
-    /* write empty data in case
-     * of removing failiture */
-    m_data = Data();
-    doBackup();
-
     // remove file
     m_dataFile.remove();
 }
@@ -78,7 +74,7 @@ void BackupManager::forceBackup()
 
 QString BackupManager::backupPath() const
 {
-    return QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(sc_fileName);
+    return QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).absoluteFilePath(sc_fileName);
 }
 
 void BackupManager::initialize()
