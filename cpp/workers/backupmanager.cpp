@@ -63,11 +63,6 @@ void BackupManager::stop()
 
 void BackupManager::cleanup()
 {
-    /* write empty data in case
-     * of removing failiture */
-    m_data = Data();
-    doBackup();
-
     // remove file
     m_dataFile.remove();
 }
