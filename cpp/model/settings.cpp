@@ -22,8 +22,11 @@
 
 #include "settings.h"
 
+#include <QDateTime>
+
 const QLatin1String Settings::sc_systemGroupName = QLatin1String("system");
 const QLatin1String Settings::sc_logicGroupName = QLatin1String("logic");
+const QLatin1String Settings::sc_updateGroupName = QLatin1String("update");
 const QLatin1String Settings::sc_viewGroupName = QLatin1String("view");
 
 const QLatin1String Settings::sc_trayAvailableKey = QLatin1String("trayAvailable");
@@ -36,6 +39,9 @@ const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime")
 const QLatin1String Settings::sc_autoStartKey = QLatin1String("autoStart");
 const QLatin1String Settings::sc_autoHideKey = QLatin1String("autoHide");
 const QLatin1String Settings::sc_hideOnCloseKey = QLatin1String("hideOnClose");
+
+const QLatin1String Settings::sc_updateVersionKey = QLatin1String("updateVersion");
+const QLatin1String Settings::sc_nextUpdateCheckKey = QLatin1String("nextUpdateCheck");
 
 const QLatin1String Settings::sc_windowPositionXKey = QLatin1String("window-x");
 const QLatin1String Settings::sc_windowPositionYKey = QLatin1String("window-y");
@@ -138,6 +144,26 @@ bool Settings::hideOnClose() const
 void Settings::setHideOnClose(bool hide)
 {
     setValue(sc_logicGroupName, sc_hideOnCloseKey, hide);
+}
+
+QString Settings::updateVersion() const
+{
+    return value(sc_updateGroupName, sc_updateVersionKey).toString();
+}
+
+void Settings::setUpdateVersion(const QString &version)
+{
+    setValue(sc_updateGroupName, sc_updateVersionKey, version);
+}
+
+QDateTime Settings::nextUpdateCheck() const
+{
+    return QDateTime::fromString(value(sc_updateGroupName, sc_nextUpdateCheckKey).toString(), Qt::ISODate);
+}
+
+void Settings::setNextUpdateCheck(const QDateTime &checkDate)
+{
+    setValue(sc_updateGroupName, sc_nextUpdateCheckKey, checkDate.toString(Qt::ISODate));
 }
 
 QPoint Settings::windowPosition() const

@@ -92,63 +92,73 @@ bool SettingsController::hideOnClose() const
     return m_settings.hideOnClose();
 }
 
-void SettingsController::setBreakDuration(int _breakDuration)
+QString SettingsController::updateVersion() const
 {
-    if (breakDuration() == _breakDuration)
-        return;
-
-    m_settings.setBreakDuration(_breakDuration);
-    emit breakDurationChanged(_breakDuration);
-}
-void SettingsController::setBreakInterval(int _breakInterval)
-{
-    if (breakInterval() == _breakInterval)
-        return;
-
-    m_settings.setBreakInterval(_breakInterval);
-    emit breakIntervalChanged(_breakInterval);
-}
-void SettingsController::setWorkTime(int _workTime)
-{
-    if (workTime() == _workTime)
-        return;
-
-    m_settings.setWorkTime(_workTime);
-    emit workTimeChanged(_workTime);
-}
-void SettingsController::setPostponeTime(int _postponeTime)
-{
-    if (postponeTime() == _postponeTime)
-        return;
-
-    m_settings.setPostponeTime(_postponeTime);
-    emit postponeTimeChanged(_postponeTime);
-}
-void SettingsController::setAutoStart(bool _autoStart)
-{
-    if (autoStart() == _autoStart)
-        return;
-
-    m_settings.setAutoStart(_autoStart);
-    emit autoStartChanged(_autoStart);
+    return m_settings.updateVersion();
 }
 
-void SettingsController::setWindowPosition(const QPoint &_windowPosition)
+QDateTime SettingsController::nextUpdateCheck() const
 {
-    if (windowPosition() == _windowPosition)
-        return;
-
-    m_settings.setWindowPosition(_windowPosition);
-    emit windowPositionChanged(_windowPosition);
+    return m_settings.nextUpdateCheck();
 }
 
-void SettingsController::setWindowSize(const QSize &_windowSize)
+void SettingsController::setBreakDuration(int breakDuration)
 {
-    if (m_settings.windowSize() == _windowSize)
+    if (m_settings.breakDuration() == breakDuration)
         return;
 
-    m_settings.setWindowSize(_windowSize);
-    emit windowSizeChanged(_windowSize);
+    m_settings.setBreakDuration(breakDuration);
+    emit breakDurationChanged(breakDuration);
+}
+void SettingsController::setBreakInterval(int breakInterval)
+{
+    if (m_settings.breakInterval() == breakInterval)
+        return;
+
+    m_settings.setBreakInterval(breakInterval);
+    emit breakIntervalChanged(breakInterval);
+}
+void SettingsController::setWorkTime(int workTime)
+{
+    if (m_settings.workTime() == workTime)
+        return;
+
+    m_settings.setWorkTime(workTime);
+    emit workTimeChanged(workTime);
+}
+void SettingsController::setPostponeTime(int postponeTime)
+{
+    if (m_settings.postponeTime() == postponeTime)
+        return;
+
+    m_settings.setPostponeTime(postponeTime);
+    emit postponeTimeChanged(postponeTime);
+}
+void SettingsController::setAutoStart(bool autoStart)
+{
+    if (m_settings.autoStart() == autoStart)
+        return;
+
+    m_settings.setAutoStart(autoStart);
+    emit autoStartChanged(autoStart);
+}
+
+void SettingsController::setWindowPosition(const QPoint &windowPosition)
+{
+    if (m_settings.windowPosition() == windowPosition)
+        return;
+
+    m_settings.setWindowPosition(windowPosition);
+    emit windowPositionChanged(windowPosition);
+}
+
+void SettingsController::setWindowSize(const QSize &windowSize)
+{
+    if (m_settings.windowSize() == windowSize)
+        return;
+
+    m_settings.setWindowSize(windowSize);
+    emit windowSizeChanged(windowSize);
 }
 
 void SettingsController::setApplicationColor(QColor color)
@@ -160,38 +170,56 @@ void SettingsController::setApplicationColor(QColor color)
     emit applicationColorChanged(color);
 }
 
-void SettingsController::setTrayAvailable(bool _trayAvailable)
+void SettingsController::setTrayAvailable(bool trayAvailable)
 {
-    if (m_settings.trayAvailable() == _trayAvailable)
+    if (m_settings.trayAvailable() == trayAvailable)
         return;
 
-    m_settings.setTrayAvailable(_trayAvailable);
-    emit trayAvailableChanged(_trayAvailable);
+    m_settings.setTrayAvailable(trayAvailable);
+    emit trayAvailableChanged(trayAvailable);
 }
 
-void SettingsController::setShowTrayInfo(bool _showTrayInfo)
+void SettingsController::setShowTrayInfo(bool showTrayInfo)
 {
-    if (m_settings.showTrayInfo() == _showTrayInfo)
+    if (m_settings.showTrayInfo() == showTrayInfo)
         return;
 
-    m_settings.setShowTrayInfo(_showTrayInfo);
-    emit showTrayInfoChanged(_showTrayInfo);
+    m_settings.setShowTrayInfo(showTrayInfo);
+    emit showTrayInfoChanged(showTrayInfo);
 }
 
-void SettingsController::setAutoHide(bool _autoHide)
+void SettingsController::setAutoHide(bool autoHide)
 {
-    if (m_settings.autoHide() == _autoHide)
+    if (m_settings.autoHide() == autoHide)
         return;
 
-    m_settings.setAutoHide(_autoHide);
-    emit autoHideChanged(_autoHide);
+    m_settings.setAutoHide(autoHide);
+    emit autoHideChanged(autoHide);
 }
 
-void SettingsController::setHideOnClose(bool _hideOnClose)
+void SettingsController::setHideOnClose(bool hideOnClose)
 {
-    if (m_settings.hideOnClose() == _hideOnClose)
+    if (m_settings.hideOnClose() == hideOnClose)
         return;
 
-    m_settings.setHideOnClose(_hideOnClose);
-    emit hideOnCloseChanged(_hideOnClose);
+    m_settings.setHideOnClose(hideOnClose);
+    emit hideOnCloseChanged(hideOnClose);
+}
+
+void SettingsController::setUpdateVersion(const QString &updateVersion)
+{
+    if (m_settings.updateVersion() == updateVersion)
+        return;
+
+    m_settings.setUpdateVersion(updateVersion);
+    emit updateVersionChanged(updateVersion);
+}
+
+void SettingsController::setNextUpdateCheck(const QDateTime &nextUpdateCheck)
+{
+    if (m_settings.nextUpdateCheck() == nextUpdateCheck)
+        return;
+
+    m_settings.setNextUpdateCheck(nextUpdateCheck);
+    emit nextUpdateCheckChanged(nextUpdateCheck);
 }

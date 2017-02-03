@@ -42,6 +42,15 @@ Item {
     function showSettingsDialog() {
         d.showDialog(settingsDialog)
     }
+    function showUpdateInfoDialog() {
+        d.showDialog(updateInfoDialog)
+    }
+    function showNoUpdateDialog() {
+        d.showDialog(noUpdateDialog)
+    }
+    function showUpdateErrorDialog() {
+        d.showDialog(updateErrorDialog)
+    }
     // -------------------------------------------------------------------
 
     // logic -------------------------------------------------------------
@@ -130,6 +139,38 @@ Item {
         id: settingsDialog
 
         SettingsDialog {}
+    }
+
+    Component {
+        id: updateInfoDialog
+
+        UpdateInfoDialog {
+            onAccept: {
+                controller.updater.download();
+            }
+            onPostpone: {
+                controller.updater.postpone();
+            }
+            onSkip: {
+                controller.updater.skip();
+            }
+        }
+    }
+    Component {
+        id: noUpdateDialog
+
+        CustomDialog {
+            title: qsTr("You have the latest version!")
+            description: qsTr("No updates available.")
+        }
+    }
+    Component {
+        id: updateErrorDialog
+
+        CustomDialog {
+            title: qsTr("Cannot get update information")
+            description: qsTr("Please check your internet connection and try again.")
+        }
     }
     // -------------------------------------------------------------------
 }

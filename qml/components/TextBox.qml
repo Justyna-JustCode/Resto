@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2017 JustCode Justyna Kulinska
 **
 ** This file is part of Resto.
 **
@@ -20,20 +20,27 @@
 **
 ********************************************/
 
-#ifndef HELPERS_H
-#define HELPERS_H
+import QtQuick 2.0
+import "../style"
 
-#include <QString>
+Rectangle {
+    property alias text: textItem.text
 
-/*!
- * \brief Small utility functions
- */
-class Helpers final
-{
-public:
-    Helpers() = delete;
+    color: Style.textBox.backgroundColor
+    border.width: Style.textBox.borderWidth
+    border.color: Style.textBox.borderColor
 
-    static QString formatTime(int sec, const QString &format = "hh:mm:ss");
-};
+    implicitWidth: textItem.implicitWidth + textItem.anchors.leftMargin + textItem.anchors.rightMargin
+    implicitHeight: textItem.implicitHeight + textItem.anchors.topMargin + textItem.anchors.bottomMargin
 
-#endif // HELPERS_H
+    Label {
+        id: textItem
+        anchors {
+            fill: parent
+            margins: Style.font.smallerText.size
+        }
+
+        fontStyle: Style.font.smallerText
+        textFormat: Text.RichText
+    }
+}

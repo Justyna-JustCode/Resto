@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2017 JustCode Justyna Kulinska
 **
 ** This file is part of Resto.
 **
@@ -20,20 +20,14 @@
 **
 ********************************************/
 
-#ifndef HELPERS_H
-#define HELPERS_H
+import QtQuick 2.0
 
-#include <QString>
+Label {
+    signal clicked();
 
-/*!
- * \brief Small utility functions
- */
-class Helpers final
-{
-public:
-    Helpers() = delete;
+    MouseArea {
+        anchors.fill: parent
 
-    static QString formatTime(int sec, const QString &format = "hh:mm:ss");
-};
-
-#endif // HELPERS_H
+        onClicked: parent.clicked();
+    }
+}

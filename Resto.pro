@@ -14,7 +14,8 @@ SOURCES += cpp/main.cpp \
     cpp/view/traymanager.cpp \
     cpp/workers/singleappmanager.cpp \
     cpp/workers/savemanager.cpp \
-    cpp/utility/helpers.cpp
+    cpp/utility/helpers.cpp \
+    cpp/controller/updatecontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,8 +31,10 @@ HEADERS += \
     cpp/view/traymanager.h \
     cpp/workers/singleappmanager.h \
     cpp/workers/savemanager.h \
-    cpp/utility/helpers.h
+    cpp/utility/helpers.h \
+    cpp/controller/updatecontroller.h
 
+include(orgInfo.pri)
 include(appInfo.pri)
 
 win32:RC_ICONS += resources/images/app-logo.ico

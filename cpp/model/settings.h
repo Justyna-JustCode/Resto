@@ -144,6 +144,26 @@ public:
     void setHideOnClose(bool hide);
     /* ============================================= */
 
+    /* ============== update accessors ============== */
+    /*!
+     * \brief Returns previous update version check.
+     */
+    QString updateVersion() const;
+    /*!
+     * \brief Sets update version check.
+     */
+    void setUpdateVersion(const QString &version);
+
+    /*!
+     * \brief Returns next update check date.
+     */
+    QDateTime nextUpdateCheck() const;
+    /*!
+     * \brief Sets next update check date.
+     */
+    void setNextUpdateCheck(const QDateTime &checkDate);
+    /* ============================================= */
+
     /* =============== view accessors ============== */
     /*!
      * \brief Returns the lastest position of the main window.
@@ -180,6 +200,7 @@ private:
 
     static const QLatin1String sc_systemGroupName;  //! a name for the system settings group
     static const QLatin1String sc_logicGroupName;   //! a name for the logic settings group
+    static const QLatin1String sc_updateGroupName;   //! a name for the logic settings group
     static const QLatin1String sc_viewGroupName;    //! a name for the view settings group
 
     // system keys
@@ -193,6 +214,9 @@ private:
     static const QLatin1String sc_autoStartKey;         //! key used for settings: auto start
     static const QLatin1String sc_autoHideKey;          //! key used for settings: auto hide
     static const QLatin1String sc_hideOnCloseKey;       //! key used for settings: hide on close
+    // update keys
+    static const QLatin1String sc_updateVersionKey;     //! key used for settings: update version
+    static const QLatin1String sc_nextUpdateCheckKey;   //! key used for settings: next update check
     // view keys
     static const QLatin1String sc_windowPositionXKey;    //! key used for settings: window position x value
     static const QLatin1String sc_windowPositionYKey;    //! key used for settings: window position y value
