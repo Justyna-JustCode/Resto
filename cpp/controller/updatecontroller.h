@@ -28,6 +28,7 @@
 #include <QUrl>
 
 class QNetworkReply;
+class SettingsController;
 
 /*!
  * \brief Class to check availability of new software version.
@@ -41,7 +42,7 @@ class UpdateController final : public QObject
     Q_PROPERTY(QUrl platformDownloadUrl READ platformDownloadUrl WRITE setPlatformDownloadUrl NOTIFY platformDownloadUrlChanged)
 
 public:
-    UpdateController(const QUrl &versionUrl, QObject *parent = 0);
+    UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent = 0);
 
     bool updateAvailable() const;
     QString newestVersion() const;
@@ -80,6 +81,9 @@ signals:
 private:
     static const int sc_retryInterval = 1000; // ms
     static const int sc_retryMaxCount = 5;
+    static const int sc_postponeInterval = 7;   // days
+
+    SettingsController &m_settingsController;
 
     QUrl m_versionUrl;
     QString m_platformType; // os

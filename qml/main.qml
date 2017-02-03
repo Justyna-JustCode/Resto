@@ -75,45 +75,12 @@ Window {
         Decorative {}
     }
 
-    // connections
-    Connections {
-        target: controller
-
-        onBreakStartRequest: {
-            dialogsManager.showBreakRequestDialog();
-        }
-        onWorkEndRequest: {
-            dialogsManager.showEndWorkRequestDialog();
-        }
-    }
-    Connections {
-        property bool initialCheck: true
-
-        target: controller.updater
-
-        onCheckFinished: {
-            if (controller.updater.updateAvailable) {
-                dialogsManager.showUpdateInfoDialog();
-            }
-
-            if (initialCheck) {
-                initialCheck = false;
-            } else if (!controller.updater.updateAvailable) {
-                dialogsManager.showNoUpdateDialog();
-            }
-        }
-        onCheckError: {
-            if (initialCheck) {
-                initialCheck = false;
-            } else {
-                dialogsManager.showUpdateErrorDialog();
-            }
-        }
-    }
-
-    // dialogs
+    // logic
     DialogsManager {
         id: dialogsManager
+    }
+    ConnectionsManager {
+        dialogsManager: dialogsManager
     }
 
     // content

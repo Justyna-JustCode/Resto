@@ -28,8 +28,8 @@
 #include <QCursor>
 
 Controller::Controller()
-    : m_saveManager(m_backupManager),
-      m_updateController(QUrl(QString("http://%1").arg(APP_VERSION_URL)) )
+    : m_updateController(m_settingsController, QUrl(QString("http://%1").arg(APP_VERSION_URL)) ),
+      m_saveManager(m_backupManager)
 {
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
     connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);

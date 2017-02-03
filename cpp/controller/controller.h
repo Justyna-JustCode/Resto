@@ -87,11 +87,11 @@ private:
     // controllers
     SettingsController m_settingsController;
     TimerController m_timerController;
+    UpdateController m_updateController;
 
     // workers
     BackupManager m_backupManager;
     SaveManager m_saveManager;
-    UpdateController m_updateController;
 
     // values
     State m_state = State::Off; //! current state

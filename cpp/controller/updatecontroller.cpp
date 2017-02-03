@@ -30,9 +30,12 @@
 #include <QApplication>
 #include <QVersionNumber>
 #include <QTimer>
+#include <QDesktopServices>
 
-UpdateController::UpdateController(const QUrl &versionUrl, QObject *parent)
-    : QObject(parent), m_versionUrl(versionUrl)
+#include "controller/settingscontroller.h"
+
+UpdateController::UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent)
+    : QObject(parent), m_settingsController(settingsController), m_versionUrl(versionUrl)
 {
     checkPlatformInfo();
 
@@ -59,20 +62,19 @@ void UpdateController::checkUpdateAvailable()
 
 void UpdateController::download()
 {
-    // TODO
-    qDebug() << "download";
+    QDesktopServices::openUrl(m_platformDownloadUrl);
 }
 
 void UpdateController::postpone()
 {
-    // TODO
-    qDebug() << "postpone";
+    m_settingsController.setUpdateVersion(m_newestVersion);
+    m_settingsController.setNextUpdateCheck(QDateTime::currentDateTime().addDays(sc_postponeInterval));
 }
 
 void UpdateController::skip()
 {
-    // TODO
-    qDebug() << "skip";
+    m_settingsController.setUpdateVersion(m_newestVersion);
+    m_settingsController.setNextUpdateCheck({});
 }
 
 QString UpdateController::newestVersion() const

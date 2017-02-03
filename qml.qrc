@@ -66,5 +66,6 @@
         <file>qml/dialogs/UpdateInfoDialog.qml</file>
         <file>qml/components/ClickableLabel.qml</file>
         <file>qml/components/TextBox.qml</file>
+        <file>qml/ConnectionsManager.qml</file>
     </qresource>
 </RCC>
