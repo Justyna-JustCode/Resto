@@ -48,6 +48,9 @@ Item {
     function showNoUpdateDialog() {
         d.showDialog(noUpdateDialog)
     }
+    function showUpdateErrorDialog() {
+        d.showDialog(updateErrorDialog)
+    }
     // -------------------------------------------------------------------
 
     // logic -------------------------------------------------------------
@@ -159,6 +162,14 @@ Item {
         CustomDialog {
             title: qsTr("You have the latest version!")
             description: qsTr("No updates available.")
+        }
+    }
+    Component {
+        id: updateErrorDialog
+
+        CustomDialog {
+            title: qsTr("Cannot get update information")
+            description: qsTr("Please check your internet connection and try again.")
         }
     }
     // -------------------------------------------------------------------

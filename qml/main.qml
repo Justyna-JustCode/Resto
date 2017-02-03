@@ -102,6 +102,13 @@ Window {
                 dialogsManager.showNoUpdateDialog();
             }
         }
+        onCheckError: {
+            if (initialCheck) {
+                initialCheck = false;
+            } else {
+                dialogsManager.showUpdateErrorDialog();
+            }
+        }
     }
 
     // dialogs
