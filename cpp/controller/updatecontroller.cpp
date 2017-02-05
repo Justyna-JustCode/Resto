@@ -28,7 +28,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QApplication>
-#include <QVersionNumber>
+//#include <QVersionNumber> // temporary do not use this to keep support for Qt 5.5.1
 #include <QTimer>
 #include <QDesktopServices>
 
@@ -90,6 +90,28 @@ QString UpdateController::releaseNotes() const
 QUrl UpdateController::platformDownloadUrl() const
 {
     return m_platformDownloadUrl;
+}
+
+int UpdateController::compareVersions(const QString &vStr1, const QString &vStr2) const
+{
+    auto v1Vec = vStr1.split('.');
+    auto v2Vec = vStr2.split('.');
+    if (v1Vec.count() == v2Vec.count()) {
+        auto size = v1Vec.count();
+        for (int i = 0; i < size; ++i) {
+            auto diff = v1Vec.at(i).toInt() - v2Vec.at(i).toInt();
+            if (diff)
+                return diff;
+        }
+    } else { // versions are having different length
+        return (v1Vec.count() - v2Vec.count());
+    }
+    return 0;
+
+    /* temporary do not use QVersionNumber to keep support for Qt 5.5.1
+     * auto v1 = QVersionNumber::fromString(vStr1);
+     * auto v2 = QVersionNumber::fromString(vStr2);
+     * return QVersionNumber::compare(v1, v2); */
 }
 
 void UpdateController::checkPlatformInfo()
@@ -155,10 +177,7 @@ void UpdateController::parseVersionResponse(const QByteArray &response)
     auto versionString = updateInfoObj.value("version").toString();
     setNewestVersion(versionString);
 
-    auto curVersion = QVersionNumber::fromString(QApplication::applicationVersion());
-    auto newestVersion = QVersionNumber::fromString(versionString);
-    auto updateAvailable = curVersion < newestVersion;
-
+    auto updateAvailable = (compareVersions(QApplication::applicationVersion(), versionString) < 0);
     if (updateAvailable) {
         setReleaseNotes(updateInfoObj.value("releaseNotes").toString());
 
