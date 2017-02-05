@@ -1,7 +1,7 @@
 # application info
 APP_NAME = "Resto"
 APP_DESCRIPTION = "A small application for work time management"
-APP_VERSION = 1.0.4
+APP_VERSION = 1.0.5
 APP_VERSION_URL = "$$ORG_DOMAIN/applications/$$APP_NAME/version"
 
 # add defines
