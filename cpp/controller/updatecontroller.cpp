@@ -92,6 +92,13 @@ QUrl UpdateController::platformDownloadUrl() const
     return m_platformDownloadUrl;
 }
 
+int UpdateController::compareVersions(const QString &vStr1, const QString &vStr2) const
+{
+    auto v1 = QVersionNumber::fromString(vStr1);
+    auto v2 = QVersionNumber::fromString(vStr2);
+    return QVersionNumber::compare(v1, v2);
+}
+
 void UpdateController::checkPlatformInfo()
 {
 #ifdef Q_OS_LINUX
@@ -155,10 +162,7 @@ void UpdateController::parseVersionResponse(const QByteArray &response)
     auto versionString = updateInfoObj.value("version").toString();
     setNewestVersion(versionString);
 
-    auto curVersion = QVersionNumber::fromString(QApplication::applicationVersion());
-    auto newestVersion = QVersionNumber::fromString(versionString);
-    auto updateAvailable = curVersion < newestVersion;
-
+    auto updateAvailable = (compareVersions(QApplication::applicationVersion(), versionString) < 0);
     if (updateAvailable) {
         setReleaseNotes(updateInfoObj.value("releaseNotes").toString());
 

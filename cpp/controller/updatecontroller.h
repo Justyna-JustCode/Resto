@@ -50,6 +50,8 @@ public:
     QString releaseNotes() const;
     QUrl platformDownloadUrl() const;
 
+    Q_INVOKABLE int compareVersions(const QString &vStr1, const QString &vStr2) const;
+
 public slots:
     /*!
      * \brief Check if new version of software is available.

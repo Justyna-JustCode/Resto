@@ -44,8 +44,8 @@ QtObject {
         function onInitialCheckFinished() {
             if (controller.updater.updateAvailable) {
                 var showUpdateDialog = false;
-                if (controller.updater.newestVersion >
-                        controller.settings.updateVersion) {
+                if (controller.updater.compareVersions(controller.updater.newestVersion,
+                                                       controller.settings.updateVersion) > 0) {
                     showUpdateDialog = true;
                 } else {
                     var postponeDate = controller.settings.nextUpdateCheck;
