@@ -74,7 +74,7 @@ void BackupManager::forceBackup()
 
 QString BackupManager::backupPath() const
 {
-    return QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).absoluteFilePath(sc_fileName);
+    return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).absoluteFilePath(sc_fileName);
 }
 
 void BackupManager::initialize()
@@ -95,6 +95,10 @@ BackupManager::Data &BackupManager::data()
 
 void BackupManager::setupFile()
 {
+    auto backupPathDir = QFileInfo(backupPath()).absoluteDir();
+    if (!backupPathDir.exists())
+        backupPathDir.mkpath(backupPathDir.absolutePath());
+
     m_dataFile.setFileName(backupPath());
 }
 

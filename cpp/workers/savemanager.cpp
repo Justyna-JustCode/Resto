@@ -50,6 +50,10 @@ void SaveManager::initialize()
         if (!saveFile.rename(backupPath)) {
             qWarning() << "Cannot restore saved file.";
         }
+    } else {
+        auto savePathDir = QFileInfo(savePath()).absoluteDir();
+        if (!savePathDir.exists())
+            savePathDir.mkpath(savePathDir.absolutePath());
     }
 }
 
@@ -61,5 +65,5 @@ bool SaveManager::save()
 
 QString SaveManager::savePath() const
 {
-    return QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).absoluteFilePath(sc_saveName);
+    return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).absoluteFilePath(sc_saveName);
 }
