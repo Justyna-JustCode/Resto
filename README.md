@@ -10,4 +10,4 @@ More information and prebuild packages available on a project webpage: http://ju
 
 ## Build information
 Built and tested with Qt 5.5.
-Currently not support Qt 5.7 because of some regressions.
+Tested to work properly with Qt 5.8.

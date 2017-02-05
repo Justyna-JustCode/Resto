@@ -51,6 +51,9 @@ Window {
                     controller.settings.windowPosition.x : (Screen.width - width)/2
         y = controller.settings.windowPosition.y >= 0 ?
                     controller.settings.windowPosition.y : (Screen.height - height)/2
+
+        // check if update available
+        controller.updater.checkUpdateAvailable();
     }
 
     onWidthChanged: {
@@ -72,20 +75,12 @@ Window {
         Decorative {}
     }
 
-    Connections {
-        target: controller
-
-        onBreakStartRequest: {
-            dialogsManager.showBreakRequestDialog();
-        }
-        onWorkEndRequest: {
-            dialogsManager.showEndWorkRequestDialog();
-        }
-    }
-
-    // dialogs
+    // logic
     DialogsManager {
         id: dialogsManager
+    }
+    ConnectionsManager {
+        dialogsManager: dialogsManager
     }
 
     // content

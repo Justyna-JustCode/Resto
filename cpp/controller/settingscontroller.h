@@ -24,6 +24,7 @@
 #define SETTINGSCONTROLLER_H
 
 #include <QObject>
+#include <QDateTime>
 
 #include "model/settings.h"
 
@@ -51,6 +52,9 @@ class SettingsController final : public QObject
     Q_PROPERTY(bool autoHide READ autoHide WRITE setAutoHide NOTIFY autoHideChanged)
     Q_PROPERTY(bool hideOnClose READ hideOnClose WRITE setHideOnClose NOTIFY hideOnCloseChanged)
 
+    Q_PROPERTY(QString updateVersion READ updateVersion WRITE setUpdateVersion NOTIFY updateVersionChanged)
+    Q_PROPERTY(QDateTime nextUpdateCheck READ nextUpdateCheck WRITE setNextUpdateCheck NOTIFY nextUpdateCheckChanged)
+
 public:
     explicit SettingsController(QObject *parent = 0);
 
@@ -71,6 +75,9 @@ public:
     bool autoHide() const;
     bool hideOnClose() const;
 
+    QString updateVersion() const;
+    QDateTime nextUpdateCheck() const;
+
 signals:
     void breakDurationChanged(int breakDuration) const;
     void breakIntervalChanged(int breakInterval) const;
@@ -86,6 +93,9 @@ signals:
     void showTrayInfoChanged(bool showTrayInfo) const;
     void autoHideChanged(bool autoHide) const;
     void hideOnCloseChanged(bool hideOnClose) const;
+
+    void updateVersionChanged(QString updateVersion) const;
+    void nextUpdateCheckChanged(QDateTime nextUpdateCheck) const;
 
 public slots:
     void setBreakDuration(int breakDuration);
@@ -103,6 +113,9 @@ public slots:
     void setAutoHide(bool autoHide);
     void setHideOnClose(bool hideOnClose);
 
+    void setUpdateVersion(const QString &updateVersion);
+    void setNextUpdateCheck(const QDateTime &nextUpdateCheck);
+
 private:
     /*!
      * \brief Settings model class.
@@ -111,7 +124,5 @@ private:
 
     static const QStringList sc_availableColors;
 };
-
-
 
 #endif // SETTINGSCONTROLLER_H

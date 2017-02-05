@@ -26,6 +26,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QDataStream>
+#include <QStandardPaths>
 
 const QLatin1String BackupManager::sc_fileName = QLatin1String(".backup.dat"); // hidden file
 
@@ -37,9 +38,7 @@ BackupManager::BackupManager(int backupInterval, QObject *parent)
 {}
 
 BackupManager::~BackupManager()
-{
-    cleanup();
-}
+{}
 
 int BackupManager::interval() const
 {
@@ -48,7 +47,34 @@ int BackupManager::interval() const
 void BackupManager::setInterval(int backupInterval)
 {
     m_interval = backupInterval;
-    restartTimer();
+    updateInterval();
+}
+
+void BackupManager::start()
+{
+    doBackup();
+    m_timer.start();
+}
+
+void BackupManager::stop()
+{
+    m_timer.stop();
+}
+
+void BackupManager::cleanup()
+{
+    // remove file
+    m_dataFile.remove();
+}
+
+void BackupManager::forceBackup()
+{
+    doBackup();
+}
+
+QString BackupManager::backupPath() const
+{
+    return QDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)).absoluteFilePath(sc_fileName);
 }
 
 void BackupManager::initialize()
@@ -59,7 +85,7 @@ void BackupManager::initialize()
 
     // initialize next backup checking
     connect(&m_timer, &QTimer::timeout, this, &BackupManager::doBackup);
-    restartTimer();
+    updateInterval();
 }
 
 BackupManager::Data &BackupManager::data()
@@ -69,24 +95,16 @@ BackupManager::Data &BackupManager::data()
 
 void BackupManager::setupFile()
 {
-    m_dataFile.setFileName(QDir(QCoreApplication::applicationDirPath()).absoluteFilePath(sc_fileName));
+    auto backupPathDir = QFileInfo(backupPath()).absoluteDir();
+    if (!backupPathDir.exists())
+        backupPathDir.mkpath(backupPathDir.absolutePath());
+
+    m_dataFile.setFileName(backupPath());
 }
 
-void BackupManager::restartTimer()
+void BackupManager::updateInterval()
 {
     m_timer.setInterval(m_interval*1000);
-    m_timer.start();
-}
-
-void BackupManager::cleanup()
-{
-    /* write empty data in case
-     * of removing failiture */
-    m_data = Data();
-    doBackup();
-
-    // remove file
-    m_dataFile.remove();
 }
 
 void BackupManager::checkAndRestore()
