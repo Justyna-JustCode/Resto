@@ -63,5 +63,9 @@
         <file>qml/components/helpers/LayoutImage.qml</file>
         <file>qml/components/helpers/LayoutItem.qml</file>
         <file>resources/images/help.png</file>
+        <file>qml/dialogs/UpdateInfoDialog.qml</file>
+        <file>qml/components/ClickableLabel.qml</file>
+        <file>qml/components/TextBox.qml</file>
+        <file>qml/ConnectionsManager.qml</file>
     </qresource>
 </RCC>

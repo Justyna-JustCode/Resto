@@ -34,7 +34,15 @@ Window {
     property int minHeight: 100
     property string description: ""
     property alias image: imageItem
-    property ObjectModel buttons
+    property ObjectModel buttons: ObjectModel {
+        TextButton {
+            text: qsTr("Ok")
+
+            onClicked: {
+                close();
+            }
+        }
+    }
     property alias additionalContent: additionalContentItem
 
     signal showing

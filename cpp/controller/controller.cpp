@@ -28,6 +28,8 @@
 #include <QCursor>
 
 Controller::Controller()
+    : m_updateController(m_settingsController, QUrl(QString("http://%1").arg(APP_VERSION_URL)) ),
+      m_saveManager(m_backupManager)
 {
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
     connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);
@@ -37,6 +39,8 @@ Controller::Controller()
     connect(&m_settingsController, &SettingsController::workTimeChanged, this, &Controller::onWorkTimeChanged);
 
     connect(&m_backupManager, &BackupManager::backupData, this, &Controller::onBackupData);
+
+    m_saveManager.initialize(); // need to be done before backup manager
     m_backupManager.initialize();
 
     if (settings().autoStart())
@@ -58,9 +62,19 @@ TimerController &Controller::timer()
 {
     return m_timerController;
 }
+
+UpdateController &Controller::updater()
+{
+    return m_updateController;
+}
 TimerController *Controller::timerPtr()
 {
     return &m_timerController;
+}
+
+UpdateController *Controller::updaterPtr()
+{
+    return &m_updateController;
 }
 
 Controller::State Controller::state() const
@@ -71,6 +85,16 @@ Controller::State Controller::state() const
 bool Controller::isWorking() const
 {
     return (m_state == State::Working);
+}
+
+void Controller::save()
+{
+    m_saveManager.save();
+}
+
+void Controller::clear()
+{
+    m_backupManager.cleanup();
 }
 
 QPoint Controller::cursorPos() const
@@ -94,6 +118,7 @@ void Controller::start()
     case State::Recovered:
         timer().start( (m_state == State::Off) ); // restart only from Off
         setState(State::Working);
+        m_backupManager.start();
         break;
     default:
         qWarning() << "Start requested in unsupported state";
@@ -107,6 +132,7 @@ void Controller::pause()
     case State::Working:
         setState(State::Paused);
         timer().stop();
+        m_backupManager.stop();
         break;
     default:
         qWarning() << "Pause requested in unsupported state";
@@ -120,6 +146,8 @@ void Controller::stop()
     case State::Working:
         setState(State::Off);
         timer().stop();
+        m_backupManager.stop();
+        m_backupManager.cleanup();
         break;
     default:
         qWarning() << "Stop requested in unsupported state";

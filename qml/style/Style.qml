@@ -52,6 +52,14 @@ QtObject {
 
     readonly property var font: QtObject {
         readonly property var text: StyleFont {}
+        readonly property var smallerText: StyleFont {
+            size: style.font.text.size*0.9
+        }
+        readonly property var smallerHeader: StyleFont {
+            size: style.font.smallerText.size
+            bold: true
+            capitalization: Font.SmallCaps
+        }
         readonly property var textButton: StyleFont {
             bold: true
             capitalization: Font.SmallCaps
@@ -130,7 +138,6 @@ QtObject {
         }
     }
     readonly property var spinBox: QtObject {
-
         readonly property var font: StyleFont {
             size: 0.85*style.font.text.size
             bold: true
@@ -141,5 +148,11 @@ QtObject {
 
         readonly property string incrementImage: "qrc:/resources/images/inc.png"
         readonly property string decrementImage: "qrc:/resources/images/dec.png"
+    }
+    readonly property var textBox: QtObject {
+        readonly property var font: style.font.smallerFont
+        readonly property color backgroundColor: ColorPallete.secondaryLightColor
+        readonly property color borderColor: ColorPallete.secondaryDarkColor
+        readonly property int borderWidth: 1
     }
 }
