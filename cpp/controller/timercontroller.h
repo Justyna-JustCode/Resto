@@ -68,6 +68,9 @@ public slots:
     void setElapsedWorkPeriod(int elapsedWorkPeriod);
     void setElapsedWorkTime(int elapsedWorkTime);
 
+    void addTime(int time);
+    void removeTime(int time);
+
 private:
     QTimer m_timer;
 

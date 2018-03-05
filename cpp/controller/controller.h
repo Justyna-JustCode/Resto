@@ -73,6 +73,7 @@ signals:
     void breakStartRequest() const;
     void breakEndRequest() const;
     void workEndRequest() const;
+    void changeTimeRequest() const;
 
 public slots:
     void start();

@@ -67,5 +67,9 @@
         <file>qml/components/ClickableLabel.qml</file>
         <file>qml/components/TextBox.qml</file>
         <file>qml/ConnectionsManager.qml</file>
+        <file alias="add">resources/images/plus.svg</file>
+        <file alias="remove">resources/images/minus.svg</file>
+        <file>qml/dialogs/ChangeTimeDialog.qml</file>
+        <file alias="change-time">resources/images/change-time.svg</file>
     </qresource>
 </RCC>

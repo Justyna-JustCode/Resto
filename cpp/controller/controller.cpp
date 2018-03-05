@@ -259,4 +259,3 @@ void Controller::onWorkTimeChanged(int workTime)
         emit workEndRequest(); // inform about it
     }
 }
-

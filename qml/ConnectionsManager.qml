@@ -35,6 +35,9 @@ QtObject {
         onWorkEndRequest: {
             dialogsManager.showEndWorkRequestDialog();
         }
+        onChangeTimeRequest: {
+            dialogsManager.showChangeTimeDialog();
+        }
     }
 
     // update controller

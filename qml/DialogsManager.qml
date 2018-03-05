@@ -51,6 +51,10 @@ Item {
     function showUpdateErrorDialog() {
         d.showDialog(updateErrorDialog)
     }
+    function showChangeTimeDialog() {
+        d.showDialog(changeTimeDialog)
+    }
+
     // -------------------------------------------------------------------
 
     // logic -------------------------------------------------------------
@@ -172,5 +176,19 @@ Item {
             description: qsTr("Please check your internet connection and try again.")
         }
     }
+    Component {
+        id: changeTimeDialog
+
+        ChangeTimeDialog {
+
+            onAddTime: {
+                controller.timer.addTime(time)
+            }
+            onRemoveTime: {
+                controller.timer.removeTime(time)
+            }
+        }
+    }
+
     // -------------------------------------------------------------------
 }

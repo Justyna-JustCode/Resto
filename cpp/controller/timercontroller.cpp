@@ -144,3 +144,23 @@ void TimerController::onTimeTic()
         Q_ASSERT(false);
     }
 }
+
+void TimerController::addTime(int time)
+{
+    const int newTime = time * 60;
+    setElapsedWorkPeriod(newTime + elapsedWorkPeriod());
+    setElapsedWorkTime(newTime + elapsedWorkTime());
+}
+
+void TimerController::removeTime(int time)
+{
+    const int newTime = time * 60;
+    int newElapsedWork = elapsedWorkTime() - newTime;
+    if (newElapsedWork < 0)
+        newElapsedWork = 0;
+    int newElapsedPeriod = elapsedWorkPeriod() - newTime;
+    if (newElapsedPeriod < 0)
+        newElapsedPeriod = 0;
+    setElapsedWorkPeriod(newElapsedPeriod);
+    setElapsedWorkTime(newElapsedWork);
+}

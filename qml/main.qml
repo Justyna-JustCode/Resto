@@ -183,6 +183,14 @@ Window {
         }
 
         ImageButton {
+            iconSource: "qrc:/change-time"
+            tooltip: qsTr("Add/Remove time")
+
+            styleFont: Style.font.imageButtonSmall
+
+            onClicked: controller.changeTimeRequest()
+        }
+        ImageButton {
             styleFont: Style.font.imageButtonSmall
             type: "settings"
             tooltip: qsTr("Change settings")
