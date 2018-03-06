@@ -152,7 +152,7 @@ void TimerController::addTime(int time)
     setElapsedWorkTime(newTime + elapsedWorkTime());
 }
 
-void TimerController::removeTime(int time)
+void TimerController::substractTime(int time)
 {
     const int newTime = time * 60;
     int newElapsedWork = elapsedWorkTime() - newTime;

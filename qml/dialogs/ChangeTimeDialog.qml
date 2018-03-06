@@ -29,15 +29,15 @@ import "../components"
 CustomDialog {
 
     signal addTime(int time)
-    signal removeTime(int time)
+    signal substractTime(int time)
 
     onShowing: {
         addButton.text = qsTr("Add")
-        removeButton.text = qsTr("Remove")
+        removeButton.text = qsTr("Substract")
         cancelButton.text = qsTr("Cancel")
     }
 
-    title: qsTr("Add time")
+    title: qsTr("Add/Substract time")
 
     image.source: "qrc:/change-time"
     image.preferredWidth: 20
@@ -68,7 +68,7 @@ CustomDialog {
 
             onClicked: {
                 close();
-                removeTime(timerSpinbox.value)
+                substractTime(timerSpinbox.value)
             }
         }
 
@@ -85,6 +85,7 @@ CustomDialog {
     additionalContent.data: SpinBox {
         id: timerSpinbox
 
+        width: 275
         maximumValue: 999
         minimumValue: 1
         suffix: "min"

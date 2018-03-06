@@ -184,8 +184,8 @@ Item {
             onAddTime: {
                 controller.timer.addTime(time)
             }
-            onRemoveTime: {
-                controller.timer.removeTime(time)
+            onSubstractTime: {
+                controller.timer.substractTime(time)
             }
         }
     }

@@ -69,7 +69,7 @@ public slots:
     void setElapsedWorkTime(int elapsedWorkTime);
 
     void addTime(int time);
-    void removeTime(int time);
+    void substractTime(int time);
 
 private:
     QTimer m_timer;
