@@ -69,6 +69,7 @@ Window {
     onYChanged: {
         controller.settings.windowPosition.y = y;
     }
+
     // ----------------------------------------------
 
     Background {
@@ -203,6 +204,23 @@ Window {
             tooltip: qsTr("About resto")
 
             onClicked: dialogsManager.showAboutDialog()
+        }
+    }
+
+    // ----------------------------------------------
+
+    // Key events handling
+    Item {
+        anchors.fill: parent
+        focus: true
+
+        Keys.onSpacePressed: {
+            if (controller.state == Controller.Working) {
+                controller.pause()
+            }
+            else {
+                controller.start()
+            }
         }
     }
 
