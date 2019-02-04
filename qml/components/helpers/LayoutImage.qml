@@ -20,7 +20,7 @@
 **
 ********************************************/
 
-import QtQuick 2.5
+import QtQuick 2.12
 
 Image {
     property int preferredWidth: implicitWidth

@@ -20,9 +20,9 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Window 2.0
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Window 2.11
+import QtQuick.Layouts 1.3
 import QtQml.Models 2.2
 import "../components"
 import "../components/helpers"

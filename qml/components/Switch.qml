@@ -20,54 +20,49 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick 2.12
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.4
 import "../style"
 import "../components"
 
 Switch {
+    id: switchControl
     property string onStateName: qsTr("On")
     property string offStateName: qsTr("Off")
 
-    style: SwitchStyle {
-        handle: Rectangle {
-            id: handle
-            implicitWidth: control.width*0.6
-            implicitHeight: Style.switchControl.font.size*1.5
+    implicitWidth: 90
+    implicitHeight: Style.switchControl.font.size * 1.5
 
-            color: Style.switchControl.handleColor
-            border.width: 2
-            border.color: text.fontStyle.color
+    indicator: Rectangle {
+        width: switchControl.width * 0.6
+        height: switchControl.height
 
-            radius: Style.switchControl.font.size/2
+        x: switchControl.visualPosition * (switchControl.width - width)
 
-            Label {
-                id: text
-                anchors {
-                    centerIn: parent
-                }
-                horizontalAlignment: Qt.AlignHCenter
-                verticalAlignment: Qt.AlignVCenter
+        color: Style.switchControl.handleColor
+        border.width: 2
+        border.color: contentItem.fontStyle.color
 
-                fontStyle: Style.switchControl.font
+        radius: Style.switchControl.font.size / 2
+    }
+    background: Rectangle {
+        border.width: Style.switchControl.borderWidth
+        border.color: Style.switchControl.handleColor
 
-                text: control.checked ? control.onStateName : control.offStateName
-            }
-        }
-        groove: Rectangle {
-            implicitWidth: 90
-            implicitHeight: Style.switchControl.font.size*1.5
+        radius: Style.switchControl.font.size / 2
 
-            border.width: Style.switchControl.borderWidth
-            border.color: Style.switchControl.handleColor
+        color: switchControl.pressed
+               ? Qt.darker(Style.switchControl.backgroundColor, 1.1)
+               : Style.switchControl.backgroundColor
+    }
+    contentItem: Label {
+        anchors.fill: indicator
+        horizontalAlignment: Qt.AlignHCenter
+        verticalAlignment: Qt.AlignVCenter
 
-            radius: Style.switchControl.font.size/2
+        fontStyle: Style.switchControl.font
 
-            color: control.pressed
-                   ? Qt.darker(Style.switchControl.backgroundColor, 1.1)
-                   : Style.switchControl.backgroundColor
-        }
+        text: switchControl.checked ? switchControl.onStateName : switchControl.offStateName
     }
 }

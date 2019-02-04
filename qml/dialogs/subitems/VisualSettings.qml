@@ -20,13 +20,12 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Layouts 1.3
 import "../../components"
 import "../../style"
 
 SettingsPage {
-
     QtObject {
         id: d
 

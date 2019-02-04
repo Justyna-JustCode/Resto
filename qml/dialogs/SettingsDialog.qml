@@ -20,9 +20,9 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import QtQml.Models 2.2
 import "../components"
 import "subitems"
@@ -34,48 +34,22 @@ CustomDialog {
 
     function save() {
         for (var i=0; i<tabView.count; ++i) {
-            tabView.getTab(i).active = true;
-            tabView.getTab(i).item.save();
+            tabView.getTab(i).save();
         }
     }
     function discard() {
         for (var i=0; i<tabView.count; ++i) {
-            tabView.getTab(i).active = true;
-            tabView.getTab(i).item.discard();
+            tabView.getTab(i).discard();
         }
     }
 
     additionalContent.data: TabView {
         id: tabView
 
-        onCountChanged: {
-            // calculate max size of tabs
-            var maxWidth = 0; var maxHeight = 0;
-            for (var i=0; i<count; ++i) {
-                tabView.getTab(i).active = true;
+        tabNames: [ qsTr("Behaviour"), qsTr("Appearance") ]
 
-                if (getTab(i).implicitWidth > maxWidth)
-                    maxWidth = getTab(i).implicitWidth;
-
-                if (getTab(i).implicitHeight > maxHeight)
-                    maxHeight = getTab(i).implicitHeight;
-
-                tabView.getTab(i).active = false;
-            }
-            implicitWidth = Math.max(implicitWidth, maxWidth);
-            implicitHeight = Math.max(implicitHeight, maxHeight + tabsHeight);
-        }
-
-        Tab {
-            title: qsTr("Behaviour")
-
-            LogicSettings {}
-        }
-        Tab {
-            title: qsTr("Appearance")
-
-            VisualSettings {}
-        }
+        LogicSettings {}
+        VisualSettings {}
     }
 
     buttons: ObjectModel {

@@ -20,9 +20,9 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import "../components"
 
 // TODO: change into pretty tumbler
@@ -87,9 +87,10 @@ RowLayout {
     SpinBox {
         id: hoursSpin
 
-        maximumValue: 23
-        minimumValue: d.minHours
+        from: 23
+        to: d.minHours
         suffix: "h"
+        maxCharCount: 4
 
         visible: showHours
 
@@ -101,10 +102,11 @@ RowLayout {
     SpinBox {
         id: minutesSpin
 
-        maximumValue: 59
-        minimumValue: (hoursSpin.value > d.minHours)
+        from: 59
+        to: (hoursSpin.value > d.minHours)
                       ? 0 : d.minMinutes
         suffix: "m"
+        maxCharCount: 4
 
         visible: showMinutes
 
@@ -114,12 +116,13 @@ RowLayout {
         }
     }
     SpinBox {
-        maximumValue: 59
-        minimumValue: (hoursSpin.value > d.minHours ||
+        from: 59
+        to: (hoursSpin.value > d.minHours ||
                        minutesSpin.value > d.minMinutes)
                       ? 0 : d.minSeconds
 
         suffix: "s"
+        maxCharCount: 4
 
         visible: showSeconds
 

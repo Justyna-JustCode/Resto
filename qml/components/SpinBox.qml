@@ -20,45 +20,70 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick 2.12
+import QtQuick.Controls 2.4
 import "../components"
 import "../components/helpers"
 import "../style"
 
 SpinBox {
-    style: SpinBoxStyle {
-        property var fontStyle: Style.spinBox.font
-        property int maxCharCount: prefix.length + suffix.length + Math.ceil(Math.log(control.maximumValue) / Math.log(10))
+    id: spinBox
+    property string prefix
+    property string suffix
 
-        FontMetrics {
-            id: fontMetrics
-            font: font
-        }
+    property int maxCharCount: prefix.length + suffix.length + charCount(to)
 
-        font {
-            family: fontStyle.family
-            bold: fontStyle.bold
-            italic: fontStyle.italic
-            pixelSize: fontStyle.size
-        }
+    QtObject {
+        id: d
+        function charCount(value) { return value ? Math.ceil(Math.log(value) / Math.log(10)) : 1; }
+    }
 
-        textColor: fontStyle.color
-        selectionColor: textColor
-        selectedTextColor: Style.spinBox.selectedTextColor
+    textFromValue: function(value) {
+        return prefix + value + suffix
+    }
 
-        background: Item {
-            implicitHeight: fontStyle.size * 1.5
-            implicitWidth: (maxCharCount + 1) * fontMetrics.maximumCharacterWidth + Style.spacing/2
-        }
+    valueFromText: function(text) {
+        return text.substring(prefix.length, text.length - suffix.length)
+    }
 
-        // increment component
-        incrementControl: SpinBoxControl {
-            increment: true
+    implicitWidth: (maxCharCount + 1) * fontMetrics.averageCharacterWidth + Style.spacing / 2 + up.implicitIndicatorWidth
+
+    FontMetrics {
+        id: fontMetrics
+        font: font
+    }
+
+    contentItem: LabelInput {
+        fontStyle: Style.spinBox.font
+        text: spinBox.textFromValue(spinBox.value, spinBox.locale)
+
+        readOnly: !spinBox.editable
+        validator: spinBox.validator
+        inputMethodHints: Qt.ImhFormattedNumbersOnly
+
+        horizontalAlignment: Qt.AlignHCenter
+        verticalAlignment: Qt.AlignVCenter
+    }
+
+    background: Item {}
+
+    // increment component
+    up.indicator: SpinBoxControl {
+        anchors {
+            right: parent.right
+            top: mirrored ? parent.top : undefined
+            bottom: mirrored ? undefined : parent.bottom
         }
-        decrementControl: SpinBoxControl {
-            increment: false
+        height: 0.45 * parent.height
+        increment: mirrored
+    }
+    down.indicator: SpinBoxControl {
+        anchors {
+            right: parent.right
+            top: mirrored ? undefined : parent.top
+            bottom: mirrored ? parent.bottom : undefined
         }
+        height: 0.45 * parent.height
+        increment: !mirrored
     }
 }
