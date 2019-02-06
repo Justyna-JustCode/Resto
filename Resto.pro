@@ -19,9 +19,6 @@ SOURCES += cpp/main.cpp \
 
 RESOURCES += qml.qrc
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
 HEADERS += \
     cpp/controller/controller.h \
     cpp/model/settings.h \
@@ -34,7 +31,7 @@ HEADERS += \
     cpp/utility/helpers.h \
     cpp/controller/updatecontroller.h
 
+include(platforms/platforms.pri)
+
 include(orgInfo.pri)
 include(appInfo.pri)
-
-win32:RC_ICONS += resources/images/app-logo.ico
