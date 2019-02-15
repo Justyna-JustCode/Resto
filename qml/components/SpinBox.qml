@@ -35,6 +35,11 @@ SpinBox {
 
     QtObject {
         id: d
+
+        property var fontMetrics: FontMetrics {
+            font: font
+        }
+
         function charCount(value) { return value ? Math.ceil(Math.log(value) / Math.log(10)) : 1; }
     }
 
@@ -46,12 +51,8 @@ SpinBox {
         return text.substring(prefix.length, text.length - suffix.length)
     }
 
-    implicitWidth: (maxCharCount + 1) * fontMetrics.averageCharacterWidth + Style.spacing / 2 + up.implicitIndicatorWidth
+    implicitWidth: (maxCharCount + 1) * d.fontMetrics.averageCharacterWidth + Style.spacing / 2 + up.implicitIndicatorWidth
 
-    FontMetrics {
-        id: fontMetrics
-        font: font
-    }
 
     contentItem: LabelInput {
         fontStyle: Style.spinBox.font
@@ -67,7 +68,6 @@ SpinBox {
 
     background: Item {}
 
-    // increment component
     up.indicator: SpinBoxControl {
         anchors {
             right: parent.right
