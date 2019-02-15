@@ -31,6 +31,14 @@ HEADERS += \
     cpp/utility/helpers.h \
     cpp/controller/updatecontroller.h
 
+delivery {
+    CONFIG(debug, debug|release) {
+        error("Cannot build a debug version for a delivery!")
+    } else {
+        message("Building a delivery version.")
+    }
+}
+
 include(platforms/platforms.pri)
 
 include(orgInfo.pri)
