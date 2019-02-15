@@ -94,9 +94,18 @@ QUrl UpdateController::platformDownloadUrl() const
 
 int UpdateController::compareVersions(const QString &vStr1, const QString &vStr2) const
 {
-    auto v1 = QVersionNumber::fromString(vStr1);
-    auto v2 = QVersionNumber::fromString(vStr2);
-    return QVersionNumber::compare(v1, v2);
+    auto suffixIdx1 = 0, suffixIdx2 = 0;
+    auto v1 = QVersionNumber::fromString(vStr1, &suffixIdx1);
+    auto v2 = QVersionNumber::fromString(vStr2, &suffixIdx2);
+    auto res = QVersionNumber::compare(v1, v2);
+
+    if (res == 0) {
+        // same versions - check suffixes
+        auto suffixLen1 = vStr1.length() - suffixIdx1;
+        auto suffixLen2 = vStr2.length() - suffixIdx2;
+        res = (suffixLen2 - suffixLen1);
+    }
+    return res;
 }
 
 void UpdateController::checkPlatformInfo()

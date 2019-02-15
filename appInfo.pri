@@ -7,7 +7,7 @@ BUILD_NUMBER = $$system(git --git-dir $$PWD/.git --work-tree $$PWD log --pretty=
 delivery {
     APP_VERSION = $${APP_DELIVERY_VERSION}
 } else {
-    APP_VERSION = $${APP_DELIVERY_VERSION}.$${BUILD_NUMBER}
+    APP_VERSION = $${APP_DELIVERY_VERSION}_$${BUILD_NUMBER}
 }
 
 delivery {
