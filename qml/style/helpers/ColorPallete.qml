@@ -21,7 +21,7 @@
 ********************************************/
 
 pragma Singleton
-import QtQuick 2.5
+import QtQuick 2.12
 
 QtObject {
     id: style

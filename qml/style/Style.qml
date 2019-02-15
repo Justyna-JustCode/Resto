@@ -21,7 +21,7 @@
 ********************************************/
 
 pragma Singleton
-import QtQuick 2.5
+import QtQuick 2.12
 import "."
 import "helpers"
 
@@ -31,6 +31,11 @@ QtObject {
     property color mainColor: ColorPallete.mainColor
     onMainColorChanged: {
         ColorPallete.mainColor = mainColor;
+    }
+
+    readonly property var tooltip: QtObject {
+        readonly property int delay: 1000
+        readonly property int timeout: 10000
     }
 
     readonly property int margins: 20
@@ -139,12 +144,11 @@ QtObject {
     }
     readonly property var spinBox: QtObject {
         readonly property var font: StyleFont {
-            size: 0.85*style.font.text.size
+            size: 0.85 * style.font.text.size
             bold: true
             capitalization: Font.SmallCaps
             color: ColorPallete.mainColor
         }
-        readonly property color selectedTextColor: ColorPallete.secondaryLightColor
 
         readonly property string incrementImage: "qrc:/resources/images/inc.png"
         readonly property string decrementImage: "qrc:/resources/images/dec.png"

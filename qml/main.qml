@@ -20,10 +20,10 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Window 2.11
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import Resto.Types 1.0
 import "components"
