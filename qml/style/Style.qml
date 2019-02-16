@@ -54,6 +54,9 @@ QtObject {
         readonly property string imageColor: "qrc:/resources/images/pattern-color.png"
         readonly property color color: ColorPallete.mainColor
     }
+    readonly property var overlay: QtObject {
+        readonly property string color: ColorPallete.shadowColor
+    }
 
     readonly property var font: QtObject {
         readonly property var text: StyleFont {}
