@@ -78,6 +78,8 @@ Window {
     // logic
     DialogsManager {
         id: dialogsManager
+
+        overlayItem: overlay
     }
     ConnectionsManager {
         dialogsManager: dialogsManager
@@ -198,5 +200,8 @@ Window {
         }
     }
 
+    Overlay {
+        id: overlay
+    }
 }
 

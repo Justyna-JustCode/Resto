@@ -26,6 +26,8 @@ import "dialogs"
 Item {
     id: root
 
+    property Item overlayItem
+
     // accessors ---------------------------------------------------------
     function showBreakRequestDialog() {
         d.showDialog(breakRequestDialog)
@@ -66,12 +68,14 @@ Item {
 
                     onClosing: {
                         d.loadersMap[id] = "";
+                        d.activeWindowsCount--;
                         destroy();
                     }
                 }
             }
         }
         property var loadersMap: new Object
+        property int activeWindowsCount: 0
 
         function showDialog(component) {
             var id = component.toString();
@@ -86,9 +90,16 @@ Item {
             loaderItem.active = true;
             loaderItem.item.show();
 
+            d.activeWindowsCount++;
             loadersMap[id] = loaderItem;
         }
     }
+    Binding {
+        property: "visible"
+        target: overlayItem
+        value: d.activeWindowsCount
+    }
+
     // -------------------------------------------------------------------
 
     // components --------------------------------------------------------
