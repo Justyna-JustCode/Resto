@@ -39,7 +39,8 @@ delivery {
     }
 }
 
-include(platforms/platforms.pri)
-
 include(orgInfo.pri)
 include(appInfo.pri)
+
+include(platforms/platforms.pri)
+include(deployment.pri)
