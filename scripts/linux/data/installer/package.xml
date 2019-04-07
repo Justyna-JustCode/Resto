@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <Package>
-    <DisplayName>Resto</DisplayName>
-    <Description>Application for work time management</Description>
-    <Version>1.0.5</Version>
-    <ReleaseDate>2017-02-05</ReleaseDate>
-    <Name>org.justcode.resto</Name>
+    <DisplayName>${APP_NAME}</DisplayName>
+    <Description>${APP_DESC}</Description>
+    <Version>${APP_VERSION}</Version>
+    <ReleaseDate>${RELEASE_DATE}</ReleaseDate>
+    <Name>${PACKAGE_NAME}</Name>
     <Licenses>
         <License name="License Agreement" file="license.txt" />
     </Licenses>
