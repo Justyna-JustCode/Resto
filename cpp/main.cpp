@@ -21,6 +21,7 @@
 ********************************************/
 
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickItem>
@@ -39,6 +40,10 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(ORG_DOMAIN);
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
+
+    QCommandLineParser cmdParser;
+    cmdParser.addVersionOption();
+    cmdParser.process(app);
 
     SingleAppManager sam;
     if (!sam.tryRun())
