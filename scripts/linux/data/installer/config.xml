@@ -13,4 +13,11 @@
     <InstallerApplicationIcon>installericon</InstallerApplicationIcon>
     <ControlScript>control.qs</ControlScript>
     <AllowSpaceInPath>true</AllowSpaceInPath>
+
+    <RemoteRepositories>
+        <Repository>
+            <Url>${ORG_URL}/DATA/applications/${APP_NAME_LOWER}/packages</Url>
+            <DisplayName>Main Repository</DisplayName>
+        </Repository>
+    </RemoteRepositories>
 </Installer>

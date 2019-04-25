@@ -2,9 +2,11 @@ function Controller()
 {
     // aditional properties
     var appBit = "${APP_BIT}"; // TODO is there a better solution?
-    
-    installer.setDefaultPageVisible(QInstaller.ComponentSelection, false); // hide component selection
-    
+
+    if (installer.isInstaller()) {
+        installer.setDefaultPageVisible(QInstaller.ComponentSelection, false); // hide component selection
+    }
+
     // set different target dir for different windows (do not install in home dir)
     if (systemInfo.kernelType === "winnt") {
         installer.setValue("TargetDir", "@ApplicationsDir@/@Publisher@/@ProductName@/");
@@ -16,20 +18,6 @@ function Controller()
             }
         }
 
-    }
-}
-
-Controller.prototype.IntroductionPageCallback = function()
-{
-    if (installer.isUninstaller()) {
-        // Get the current wizard page
-        var widget = gui.currentPageWidget(); 
-        if (widget != null) {
-            // Don't show buttons because we just want to uninstall the software
-            widget.findChild("PackageManagerRadioButton").visible = false;
-            widget.findChild("UpdaterRadioButton").visible = false;
-            widget.findChild("UninstallerRadioButton").visible = false;
-        }
     }
 }
 
