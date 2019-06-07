@@ -29,18 +29,21 @@ GridLayout {
     property alias labelText: label.text
     property bool strechHorizontally: true
     property bool strechVertically: false
+    property real horizontalSpacing: spacer.size
 
     Label {
         id: label
         fontStyle: Style.font.formLabel
     }
     Spacer {
+        id: spacer
         Layout.fillWidth: strechHorizontally &&
                           (flow == GridLayout.LeftToRight)
         Layout.fillHeight: strechVertically &&
                           (flow == GridLayout.TopToBottom)
 
-        size: 1
+        horizontal: true
+        size: Style.hugeSpacing
         visible: Layout.fillWidth || Layout.fillHeight
     }
 }
