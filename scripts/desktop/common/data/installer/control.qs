@@ -9,7 +9,7 @@ function Controller()
     if (systemInfo.kernelType === "winnt") {
         installer.setValue("TargetDir", "@ApplicationsDir@/@Publisher@/@ProductName@/");
         
-        if (appBit == "64-bit") { // change to 64bit program files if 64bit app binary
+        if (appBit == "x86-64") { // change to 64bit program files if 64bit app binary
             var programFiles = installer.environmentVariable("ProgramW6432");
             if (programFiles != "") {
                 installer.setValue("TargetDir", programFiles + "/@Publisher@/@ProductName@/");

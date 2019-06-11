@@ -1,7 +1,8 @@
 #!/bin/bash
 
 SCRIPTS_DIR=$(dirname "$0")
-PROJECT_DIR=$(readlink -m "${SCRIPTS_DIR}/../../")
+COMMON_SCRIPTS_DIR="$(dirname "$0")/../common"
+PROJECT_DIR=$(readlink -m "${SCRIPTS_DIR}/../../../")
 
 # setup up this with your variables ==================
 # QT:
