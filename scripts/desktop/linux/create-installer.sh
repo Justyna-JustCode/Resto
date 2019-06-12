@@ -95,7 +95,7 @@ INSTALLER_DATA_DIR="${PROJECT_DIR}/installers"
 ConfigOutputFile="${INSTALLER_DATA_DIR}/config/config.xml"
 echo "Creating an installer config file:"
 echo ${ConfigOutputFile}
-ConfigTemplateFile="${SCRIPTS_DIR}/data/installer/config.xml"
+ConfigTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/config.xml"
 export "APP_NAME=${APP_NAME}" "ORG_NAME=${ORG_NAME}" "APP_VERSION=${APP_VERSION}" "APP_URL=${APP_URL}" "ORG_URL=${ORG_URL}" "APP_NAME_LOWER=${APP_NAME,,}"
 envsubst < "${ConfigTemplateFile}" > "${ConfigOutputFile}"
 echo -e "------------------------------------------------\n"
@@ -106,7 +106,7 @@ APP_BIT=${FileInfo[2]}
 ControlOutputFile="${INSTALLER_DATA_DIR}/config/control.qs"
 echo "Creating a control file:"
 echo ${ControlOutputFile}
-ControlTemplateFile="${SCRIPTS_DIR}/data/installer/control.qs"
+ControlTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/control.qs"
 export "APP_BIT=${APP_BIT}"
 envsubst < "${ControlTemplateFile}" > "${ControlOutputFile}"
 echo -e "------------------------------------------------\n"
@@ -119,7 +119,7 @@ RELEASE_DATE=$(date +'%Y-%m-%d')
 PackageOutputFile="${INSTALLER_DATA_DIR}/packages/${PACKAGE_NAME}/meta/package.xml"
 echo "Creating an installer package file:"
 echo ${PackageOutputFile}
-PackageTemplateFile="${SCRIPTS_DIR}/data/installer/package.xml"
+PackageTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/package.xml"
 export "APP_DESC=${APP_DESC}" "PACKAGE_NAME=${PACKAGE_NAME}" "RELEASE_DATE=${RELEASE_DATE}"
 envsubst < "${PackageTemplateFile}" > "${PackageOutputFile}"
 echo -e "------------------------------------------------\n"
@@ -133,7 +133,7 @@ export "DE_DATA=${DE_DATA}"
 InstallscriptOutputFile="${INSTALLER_DATA_DIR}/packages/${PACKAGE_NAME}/meta/installscript.qs"
 echo "Creating an installscript file:"
 echo ${InstallscriptOutputFile}
-InstallscriptTemplateFile="${SCRIPTS_DIR}/data/installer/installscript.qs"
+InstallscriptTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/installscript.qs"
 envsubst < "${InstallscriptTemplateFile}" > "${InstallscriptOutputFile}"
 echo -e "================================================\n"
 

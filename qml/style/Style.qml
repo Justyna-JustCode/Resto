@@ -41,6 +41,7 @@ QtObject {
     readonly property int margins: 20
     readonly property int smallMargins: 10
     readonly property int spacing: 10
+    readonly property int hugeSpacing: 100
 
     readonly property var background: QtObject {
         readonly property string color: ColorPallete.secondaryLightColor
