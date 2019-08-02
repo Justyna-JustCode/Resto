@@ -10,7 +10,7 @@ QT_PATH="/c/Qt/"
 QT_VERSION="5.12.2"
 QT_COMPILER="msvc2017_64"
 WINDEPLOYQT_FILE=$(readlink -m "${QT_PATH}/${QT_VERSION}/${QT_COMPILER}/bin/windeployqt.exe")
-QT_INSTALLER_FRAMEWORK_BIN="${QT_PATH}/Tools/QtInstallerFramework/3.0/bin/"
+QT_INSTALLER_FRAMEWORK_BIN="${QT_PATH}/Tools/QtInstallerFramework/3.1/bin/"
 
 VC_REDIST_DIR="/c/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Redist/MSVC/14.16.27012/x64/Microsoft.VC141.CRT/"
 VC_REDIST_NUM="140"
