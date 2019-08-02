@@ -21,9 +21,10 @@ SEVEN_ZIP="/c/Program Files/7-Zip/7z.exe"
 QMAKE_FILE=$(readlink -m "${QT_PATH}/${QT_VERSION}/${QT_COMPILER}/bin/qmake")
 
 # application specific variables =====================
+ORG_NAME="JustCode"
+ORG_URL="http://just-code.org"
 APP_NAME="Resto"
 APP_DESC="A small application for work time management"
-APP_URL="http://just-code.org/applications/resto"
+APP_URL="${ORG_URL}/applications/${APP_NAME,,}"
 APP_CATEGORIES="Utility;Office;"
-ORG_NAME="JustCode"
 # ====================================================

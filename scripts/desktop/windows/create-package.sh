@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e	# to exit the script if any subcommand fail
 
-# help message and parameters =============================================
-
 usage="$(basename "$0") [-h -z] buildDir outputDir -- create an output package directory for a given build
 
 where:
@@ -12,43 +10,48 @@ where:
     -h	show this help text
     -z	create a zipped folder instead of a simple directory"
 
+SCRIPTS_DIR=$(dirname "$0")
+
+# ========================================================================
+# positional parameters ==================================================
+
 ZIPPED=false
 while getopts ':hz' option; do
   case "$option" in
-    h) echo "$usage"
+    h) echo "$usage" >&2
        exit
        ;;
     z) ZIPPED=true
        ;;
-    *) echo "$usage"
+    *) echo "Invalid option: -${OPTARG}" >&2
+       echo "$usage" >&2
        exit 1
        ;;
   esac
 done
 shift $(( OPTIND - 1 ))
 
-# ========================================================================
-# positional parameters ==================================================
-
-SCRIPTS_DIR=$(dirname "$0")
-
 if [[ $# -lt 1 ]]; then
-	echo "You have to specify the input, build directory with an executable."
-	exit
+	echo "You have to specify the input, build directory with an executable." >&2
+	exit 1
 fi
 if [[ $# -lt 2 ]]; then
-	echo "You have to specify the output directory for a package."
-	exit
+	echo "You have to specify an output directory for the package." >&2
+	exit 1
 fi
-
+if [[ $# -gt 2 ]]; then
+	echo "Too many arguments." >&2
+	echo "$usage" >&2
+	exit 1
+fi
 
 BUILD_DIR=$(readlink -m "$1")
 OUTPUT_DIR=$(readlink -m "$2")
 
 if [ "${ZIPPED}" = false ]; then
 	if [[ -e ${OUTPUT_DIR} ]]; then
-		echo "Output directory already exist."
-		exit
+		echo "Output directory already exist." >&2
+		exit 1
 	fi
 else
 	mkdir -p "${OUTPUT_DIR}"
@@ -110,7 +113,9 @@ echo -e "------------------------------------------------\n"
 if [ "${ZIPPED}" = false ]; then
 	mv "${TEMP_PACKAGE_DIR}" "${OUTPUT_DIR}"
 else
-	(cd "${TEMP_PACKAGE_DIR}/.." && "${SEVEN_ZIP}" a -tzip "${OUTPUT_DIR}/${APP_NAME}.zip" "*")
+	VersionInfo=($("${TEMP_PACKAGE_DIR}/${APP_NAME}.exe" -v))
+	APP_VERSION=${VersionInfo[1]}
+	(cd "${TEMP_PACKAGE_DIR}/.." && "${SEVEN_ZIP}" a -tzip "${OUTPUT_DIR}/${APP_NAME}_${APP_VERSION}.zip" "*")
 fi
 
 echo "DONE."
