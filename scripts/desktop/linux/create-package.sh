@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e	# to exit the script if any subcommand fail
 
-# help message and parameters =============================================
-
 usage="$(basename "$0") [-h -i] buildDir outputDir -- create an output package directory for a given build
 
 where:
@@ -10,45 +8,51 @@ where:
     outputDir	an output directory for a package
 
     -h	show this help text
-    -i	create an appImage instead of a simple directory"
+    -i	creates an appImage instead of a simple directory"
+
+SCRIPTS_DIR=$(dirname "$0")
+
+# ========================================================================
+# positional parameters ==================================================
 
 APP_IMAGE=""
+
 while getopts ':hi' option; do
   case "$option" in
-    h) echo "$usage"
-       exit
-       ;;
     i) APP_IMAGE="-appimage"
        ;;
-    *) echo "$usage"
+    h) echo "$usage" >&2
+       exit
+       ;;
+    *) echo "Invalid option: -${OPTARG}" >&2
+       echo "$usage" >&2
        exit 1
        ;;
   esac
 done
 shift $(( OPTIND - 1 ))
 
-# ========================================================================
-# positional parameters ==================================================
-
-SCRIPTS_DIR=$(dirname "$0")
-
 if [[ $# -lt 1 ]]; then
-	echo "You have to specify the input, build directory with an executable."
-	exit
+	echo "You have to specify the input, build directory with an executable." >&2
+	exit 1
 fi
 if [[ $# -lt 2 ]]; then
-	echo "You have to specify the output directory for a package."
-	exit
+	echo "You have to specify an output directory for the package." >&2
+	exit 1
 fi
-
+if [[ $# -gt 2 ]]; then
+	echo "Too many arguments." >&2
+	echo "$usage" >&2
+	exit 1
+fi
 
 BUILD_DIR=$(readlink -m "$1")
 OUTPUT_DIR=$(readlink -m "$2")
 
 if [ -z "$APP_IMAGE" ]; then
 	if [[ -e ${OUTPUT_DIR} ]]; then
-		echo "Output directory already exist."
-		exit
+		echo "Output directory already exist." >&2
+		exit 1
 	fi
 else
 	mkdir -p "${OUTPUT_DIR}"
@@ -144,7 +148,10 @@ fi
 if [ -z "$APP_IMAGE" ]; then
 	mv "${TEMP_PACKAGE_DIR}" "${OUTPUT_DIR}"
 else
-	mv "${TEMP_DIR}"/${APP_NAME}*.AppImage "${OUTPUT_DIR}/"
+	VersionInfo=($("${BUILD_DIR}/${APP_NAME}" -v))
+	APP_VERSION=${VersionInfo[1]}
+
+	mv "${TEMP_DIR}"/${APP_NAME}*.AppImage "${OUTPUT_DIR}/${APP_NAME}_${APP_VERSION}.AppImage"
 fi
 
 echo "DONE."
