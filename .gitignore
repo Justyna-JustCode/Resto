@@ -72,4 +72,8 @@ Thumbs.db
 *.exe
 
 # Installers files
-*.7z
+installers/config/config.xml
+installers/config/control.qs
+installers/packages/org.justcode.resto/data/*
+installers/packages/org.justcode.resto/meta/installscript.qs
+installers/packages/org.justcode.resto/meta/package.xml
