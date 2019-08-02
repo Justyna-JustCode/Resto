@@ -14,7 +14,7 @@ Component.prototype.createOperations = function()
         component.addOperation("CreateShortcut", "@TargetDir@/@ProductName@.exe", "@StartMenuDir@/@ProductName@.lnk");
     }
     else if (systemInfo.kernelType === "linux") {
-        var desktopEntry = "Version=@ProductVersion@\nType=Application\nTerminal=false\nExec=@TargetDir@/runner\nName=@ProductName@\nComment=A small application for work time management\nIcon=@TargetDir@/ico.png\nCategories=Office;\n"
+        var desktopEntry = "${DE_DATA}"
     
         // add desktop file in package
         component.addOperation("Delete", "@TargetDir@/@ProductName@.desktop");

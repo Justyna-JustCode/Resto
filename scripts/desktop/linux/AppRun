@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+APP_DIR="$(dirname $0)"
+
+cd "${APP_DIR}"
+LD_LIBRARY_PATH="${APP_DIR}/usr/lib/":"$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH
+exec "usr/bin/Resto" "$@"
