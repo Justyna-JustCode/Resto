@@ -7,7 +7,7 @@ PROJECT_DIR=$(readlink -m "${SCRIPTS_DIR}/../../../")
 # setup up this with your variables ==================
 # QT:
 QT_PATH="/home/tester/Qt/"
-QT_VERSION="5.12.1"
+QT_VERSION="5.13.0"
 QT_COMPILER="gcc_64"
 LINUXDEPLOYQT_FILE="${QT_PATH}/Tools/linuxdeployqt.AppImage"
 QT_INSTALLER_FRAMEWORK_BIN="${QT_PATH}/Tools/QtInstallerFramework/3.1/bin/"

@@ -80,7 +80,11 @@ source ${SCRIPTS_DIR}/variables.sh
 
 VersionInfo=($("${BUILD_DIR}/${APP_NAME}" -v))
 APP_VERSION=${VersionInfo[1]}
-
+IsDevelop=($("${PACKAGE_DIR}/${APP_NAME}.exe" -d))
+APP_DEVELOP=""
+if [ "${IsDevelop}" = true ]; then
+	APP_DEVELOP="_develop"
+fi
 
 PACKAGE_DIR="$(mktemp -d)/package"
 echo "Creating a package for a build in:"
@@ -96,7 +100,7 @@ ConfigOutputFile="${INSTALLER_DATA_DIR}/config/config.xml"
 echo "Creating an installer config file:"
 echo ${ConfigOutputFile}
 ConfigTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/config.xml"
-export "APP_NAME=${APP_NAME}" "ORG_NAME=${ORG_NAME}" "APP_VERSION=${APP_VERSION}" "APP_URL=${APP_URL}" "ORG_URL=${ORG_URL}" "APP_NAME_LOWER=${APP_NAME,,}"
+export "APP_NAME=${APP_NAME}" "ORG_NAME=${ORG_NAME}" "APP_VERSION=${APP_VERSION}" "APP_URL=${APP_URL}" "ORG_URL=${ORG_URL}" "APP_NAME_LOWER=${APP_NAME,,}" "APP_DEVELOP=${APP_DEVELOP}"
 envsubst < "${ConfigTemplateFile}" > "${ConfigOutputFile}"
 echo -e "------------------------------------------------\n"
 
