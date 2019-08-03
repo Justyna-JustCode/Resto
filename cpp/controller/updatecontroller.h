@@ -37,6 +37,7 @@ class UpdateController final : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool updateAvailable READ updateAvailable NOTIFY updateAvailableChanged)
+    Q_PROPERTY(bool updatePossible READ updatePossible CONSTANT)
     Q_PROPERTY(QString newestVersion READ newestVersion NOTIFY newestVersionChanged)
     Q_PROPERTY(QString releaseNotes READ releaseNotes NOTIFY releaseNotesChanged)
     Q_PROPERTY(QUrl platformDownloadUrl READ platformDownloadUrl WRITE setPlatformDownloadUrl NOTIFY platformDownloadUrlChanged)
@@ -45,6 +46,7 @@ public:
     UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent = 0);
 
     bool updateAvailable() const;
+    bool updatePossible() const;
     QString newestVersion() const;
 
     QString releaseNotes() const;
@@ -62,6 +64,10 @@ public slots:
      * \brief Downloads the newest package.
      */
     void download();
+    /*!
+     * \brief Runs the updater application.
+     */
+    void update();
     /*!
      * \brief Postpones download (remind me later).
      */
@@ -85,12 +91,15 @@ private:
     static const int sc_retryMaxCount = 5;
     static const int sc_postponeInterval = 7;   // days
 
+    static const QString sc_updaterAppName;
+
     SettingsController &m_settingsController;
 
     QUrl m_versionUrl;
     QString m_platformType; // os
     QString m_platformWordSize; // 32bit or 64bit
 
+    QString m_updaterAppPath;
     bool m_updateAvailable = false;
     QString m_newestVersion;
     QString m_releaseNotes;
