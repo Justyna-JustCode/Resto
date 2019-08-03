@@ -33,7 +33,8 @@ CustomDialog {
                                          "<a href=\"http://" + app.organizationDomain + "\">" + app.organizationName + "</a>"
     property string resourcesMessage: qsTr("<b>Resources:</b><br/>") + ResourceInfo.getInfo()
 
-    title: qsTr("About") + " " + app.applicationName + "\n(" +qsTr("ver.") + " " + app.applicationVersion + ")"
+    title: qsTr("About") + " " + app.applicationName + "\n(" +qsTr("ver.") + " " + app.applicationVersion
+           + (developBuild === "true" ? "_" + buildNumber : "") + ")"
     description: aboutMessage
 
     image.source: "qrc:/resources/images/org-logo.png"

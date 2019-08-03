@@ -16,7 +16,7 @@
 
     <RemoteRepositories>
         <Repository>
-            <Url>${ORG_URL}/DATA/applications/${APP_NAME_LOWER}/packages</Url>
+            <Url>${ORG_URL}/DATA/applications/${APP_NAME_LOWER}/packages${APP_DEVELOP}</Url>
             <DisplayName>Main Repository</DisplayName>
         </Repository>
     </RemoteRepositories>
