@@ -31,11 +31,21 @@
 #include <QVersionNumber>
 #include <QTimer>
 #include <QDesktopServices>
+#include <QFile>
+#include <QDir>
+#include <QProcess>
 
 #include "controller/settingscontroller.h"
 
+#ifdef Q_OS_LINUX
+    const QString UpdateController::sc_updaterAppName = QStringLiteral("Update");
+#elif defined(Q_OS_WIN)
+    const QString UpdateController::sc_updaterAppName = QStringLiteral("Update.exe");
+#endif
+
 UpdateController::UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent)
-    : QObject(parent), m_settingsController(settingsController), m_versionUrl(versionUrl)
+    : QObject(parent), m_settingsController(settingsController), m_versionUrl(versionUrl),
+      m_updaterAppPath(QDir(QApplication::applicationDirPath()).filePath(sc_updaterAppName))
 {
     checkPlatformInfo();
 
@@ -47,6 +57,11 @@ UpdateController::UpdateController(SettingsController &settingsController, const
 bool UpdateController::updateAvailable() const
 {
     return m_updateAvailable;
+}
+
+bool UpdateController::updatePossible() const
+{
+    return QFile::exists(m_updaterAppPath);
 }
 
 void UpdateController::checkUpdateAvailable()
@@ -63,6 +78,15 @@ void UpdateController::checkUpdateAvailable()
 void UpdateController::download()
 {
     QDesktopServices::openUrl(m_platformDownloadUrl);
+}
+
+void UpdateController::update()
+{
+    if (!updatePossible()) {
+        qWarning() << "[UpdateManager]" << "Trying to update, but update not possible.";
+        return;
+    }
+    QProcess::startDetached(m_updaterAppPath, {}, QApplication::applicationDirPath());
 }
 
 void UpdateController::postpone()

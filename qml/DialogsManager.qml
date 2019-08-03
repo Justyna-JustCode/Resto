@@ -53,6 +53,11 @@ Item {
     function showUpdateErrorDialog() {
         d.showDialog(updateErrorDialog)
     }
+
+    function closeAllDialogs() {
+        d.closeAllDialogs();
+    }
+
     // -------------------------------------------------------------------
 
     // logic -------------------------------------------------------------
@@ -92,6 +97,12 @@ Item {
 
             d.activeWindowsCount++;
             loadersMap[id] = loaderItem;
+        }
+        function closeAllDialogs() {
+            const ids = Object.keys(loadersMap)
+            for (const id of ids) {
+                loadersMap[id].item.close()
+            }
         }
     }
     Binding {
@@ -156,8 +167,12 @@ Item {
         id: updateInfoDialog
 
         UpdateInfoDialog {
-            onAccept: {
+            onAcceptDownload: {
                 controller.updater.download();
+            }
+            onAcceptUpdate: {
+                controller.updater.update();
+                closeAllDialogs();
             }
             onPostpone: {
                 controller.updater.postpone();

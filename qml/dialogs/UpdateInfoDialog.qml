@@ -28,7 +28,8 @@ import "../style"
 import "../components"
 
 CustomDialog {
-    signal accept()
+    signal acceptDownload()
+    signal acceptUpdate()
     signal postpone()
     signal skip()
 
@@ -39,9 +40,21 @@ CustomDialog {
         TextButton {
             text: qsTr("Download")
 
+            visible: !controller.updater.updatePossible
+
             onClicked: {
                 close();
-                accept();
+                acceptDownload();
+            }
+        }
+        TextButton {
+            text: qsTr("Update")
+
+            visible: controller.updater.updatePossible
+
+            onClicked: {
+                close();
+                acceptUpdate();
             }
         }
         TextButton {
