@@ -38,14 +38,18 @@
 #include "controller/settingscontroller.h"
 
 #ifdef Q_OS_LINUX
-    const QString UpdateController::sc_updaterAppName = QStringLiteral("Update");
+    const QString UpdateController::sc_updaterAppName = QStringLiteral("Uninstall");
 #elif defined(Q_OS_WIN)
     const QString UpdateController::sc_updaterAppName = QStringLiteral("Update.exe");
 #endif
 
 UpdateController::UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent)
     : QObject(parent), m_settingsController(settingsController), m_versionUrl(versionUrl),
+#ifdef Q_OS_LINUX
+      m_updaterAppPath(QDir::current().filePath(sc_updaterAppName))
+#elif defined(Q_OS_WIN)
       m_updaterAppPath(QDir(QApplication::applicationDirPath()).filePath(sc_updaterAppName))
+#endif
 {
     checkPlatformInfo();
 
@@ -86,7 +90,11 @@ void UpdateController::update()
         qWarning() << "[UpdateManager]" << "Trying to update, but update not possible.";
         return;
     }
+#ifdef Q_OS_LINUX
+    QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath()); // TODO: better solution? with Update.desktop
+#elif defined(Q_OS_WIN)
     QProcess::startDetached(m_updaterAppPath, {}, QApplication::applicationDirPath());
+#endif
 }
 
 void UpdateController::postpone()
