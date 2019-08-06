@@ -80,7 +80,7 @@ source ${SCRIPTS_DIR}/variables.sh
 
 VersionInfo=($("${BUILD_DIR}/${APP_NAME}" -v))
 APP_VERSION=${VersionInfo[1]}
-IsDevelop=($("${PACKAGE_DIR}/${APP_NAME}.exe" -d))
+IsDevelop=($("${BUILD_DIR}/${APP_NAME}" -d))
 APP_DEVELOP=""
 if [ "${IsDevelop}" = true ]; then
 	APP_DEVELOP="_develop"
@@ -130,8 +130,9 @@ echo -e "------------------------------------------------\n"
 
 DesktopEntryTemplateFile="${SCRIPTS_DIR}/data/entry.desktop"
 export "APP_DESC=${APP_DESC}" "APP_CATEGORIES=${APP_CATEGORIES}" "DE_EXEC=@TargetDir@/AppRun" "DE_ICON=@TargetDir@/Resto.png"
-DesktopEntryData=$(envsubst < "${DesktopEntryTemplateFile}" | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
-DE_DATA=${DesktopEntryData#* }
+# reading a template file, without the first line, changing new lines into '\\n' sign
+DesktopEntryData=$(envsubst < "${DesktopEntryTemplateFile}" | tail -n +2 | sed -E ':a;N;$!ba;s/\r{0,1}\n/\\n/g')
+DE_DATA=${DesktopEntryData}
 export "DE_DATA=${DE_DATA}"
 
 InstallscriptOutputFile="${INSTALLER_DATA_DIR}/packages/${PACKAGE_NAME}/meta/installscript.qs"
