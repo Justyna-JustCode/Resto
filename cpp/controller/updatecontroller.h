@@ -85,6 +85,7 @@ signals:
 
     void checkFinished() const;
     void checkError() const;
+    void updateStarted() const;
 
 private:
     static const int sc_retryInterval = 1000; // ms

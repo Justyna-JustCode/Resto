@@ -90,11 +90,19 @@ void UpdateController::update()
         qWarning() << "[UpdateManager]" << "Trying to update, but update not possible.";
         return;
     }
+
+    auto started = false;
 #ifdef Q_OS_LINUX
-    QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath()); // TODO: better solution? with Update.desktop
+    started = QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath()); // TODO: better solution? with Update.desktop
 #elif defined(Q_OS_WIN)
-    QProcess::startDetached(m_updaterAppPath, {}, QApplication::applicationDirPath());
+    started = QProcess::startDetached(m_updaterAppPath, {}, QApplication::applicationDirPath());
 #endif
+
+    if (started) {
+        emit updateStarted();
+    } else {
+        qWarning() << "[UpdateManager]" << "Error while starting an updater application:" << m_updaterAppPath;
+    }
 }
 
 void UpdateController::postpone()

@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 
     Controller controller;
     qmlRegisterUncreatableType<Controller>("Resto.Types", 1, 0, "Controller", "Controller class");
+    QObject::connect(&controller, &Controller::exitRequest, &app, &QApplication::quit);
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("developBuild", DEVELOP_BUILD);
