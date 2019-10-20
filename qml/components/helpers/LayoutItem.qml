@@ -20,7 +20,7 @@
 **
 ********************************************/
 
-import QtQuick 2.5
+import QtQuick 2.12
 
 Item {
     property bool fillWidth: false

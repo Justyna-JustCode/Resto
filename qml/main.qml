@@ -20,10 +20,10 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Window 2.2
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Window 2.11
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import Resto.Types 1.0
 import "components"
@@ -43,31 +43,66 @@ Window {
         dialogsManager.showAboutDialog()
     }
 
+    QtObject {
+        id: d
+
+        property bool geometryInitialized: false
+
+        function initializeGeometry() {
+            width = controller.settings.windowSize.width
+            height = controller.settings.windowSize.height
+            x = controller.settings.windowPosition.x >= 0 ?
+                        controller.settings.windowPosition.x : (Screen.width - width)/2
+            y = controller.settings.windowPosition.y >= 0 ?
+                        controller.settings.windowPosition.y : (Screen.height - height)/2
+
+            geometryInitialized = true;
+        }
+
+        function saveCurrentWidth() {
+            if (geometryInitialized) {
+                controller.settings.windowSize.width = width;
+            }
+        }
+        function saveCurrentHeight() {
+            if (geometryInitialized) {
+                controller.settings.windowSize.height = height;
+            }
+        }
+        function saveCurrentX() {
+            if (geometryInitialized) {
+                controller.settings.windowPosition.x = x;
+            }
+        }
+        function saveCurrentY() {
+            if (geometryInitialized) {
+                controller.settings.windowPosition.y = y;
+            }
+        }
+
+
+    }
+
     // load and save main window position and size
     Component.onCompleted: {
-        width = controller.settings.windowSize.width
-        height = controller.settings.windowSize.height
-        x = controller.settings.windowPosition.x >= 0 ?
-                    controller.settings.windowPosition.x : (Screen.width - width)/2
-        y = controller.settings.windowPosition.y >= 0 ?
-                    controller.settings.windowPosition.y : (Screen.height - height)/2
+        d.initializeGeometry();
 
         // check if update available
         controller.updater.checkUpdateAvailable();
     }
 
     onWidthChanged: {
-        controller.settings.windowSize.width = width;
+        d.saveCurrentWidth()
     }
     onHeightChanged: {
-        controller.settings.windowSize.height = height;
+        d.saveCurrentHeight()
     }
 
     onXChanged: {
-        controller.settings.windowPosition.x = x;
+        d.saveCurrentX()
     }
     onYChanged: {
-        controller.settings.windowPosition.y = y;
+        d.saveCurrentY()
     }
     // ----------------------------------------------
 
@@ -78,6 +113,8 @@ Window {
     // logic
     DialogsManager {
         id: dialogsManager
+
+        overlayItem: overlay
     }
     ConnectionsManager {
         dialogsManager: dialogsManager
@@ -198,5 +235,8 @@ Window {
         }
     }
 
+    Overlay {
+        id: overlay
+    }
 }
 

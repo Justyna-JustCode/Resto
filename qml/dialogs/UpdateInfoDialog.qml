@@ -20,15 +20,16 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import QtQml.Models 2.2
 import "../style"
 import "../components"
 
 CustomDialog {
-    signal accept()
+    signal acceptDownload()
+    signal acceptUpdate()
     signal postpone()
     signal skip()
 
@@ -39,9 +40,21 @@ CustomDialog {
         TextButton {
             text: qsTr("Download")
 
+            visible: !controller.updater.updatePossible
+
             onClicked: {
                 close();
-                accept();
+                acceptDownload();
+            }
+        }
+        TextButton {
+            text: qsTr("Update")
+
+            visible: controller.updater.updatePossible
+
+            onClicked: {
+                close();
+                acceptUpdate();
             }
         }
         TextButton {

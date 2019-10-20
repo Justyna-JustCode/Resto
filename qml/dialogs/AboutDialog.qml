@@ -20,9 +20,9 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import QtQml.Models 2.2
 import "../components"
 import "/js/resourceInfo.js" as ResourceInfo
@@ -33,7 +33,8 @@ CustomDialog {
                                          "<a href=\"http://" + app.organizationDomain + "\">" + app.organizationName + "</a>"
     property string resourcesMessage: qsTr("<b>Resources:</b><br/>") + ResourceInfo.getInfo()
 
-    title: qsTr("About") + " " + app.applicationName + "\n(" +qsTr("ver.") + " " + app.applicationVersion + ")"
+    title: qsTr("About") + " " + app.applicationName + "\n(" +qsTr("ver.") + " " + app.applicationVersion
+           + (developBuild === "true" ? "_" + buildNumber : "") + ")"
     description: aboutMessage
 
     image.source: "qrc:/resources/images/org-logo.png"

@@ -21,7 +21,7 @@
 ********************************************/
 
 pragma Singleton
-import QtQuick 2.5
+import QtQuick 2.12
 import "."
 import "helpers"
 
@@ -33,9 +33,15 @@ QtObject {
         ColorPallete.mainColor = mainColor;
     }
 
+    readonly property var tooltip: QtObject {
+        readonly property int delay: 1000
+        readonly property int timeout: 10000
+    }
+
     readonly property int margins: 20
     readonly property int smallMargins: 10
     readonly property int spacing: 10
+    readonly property int hugeSpacing: 100
 
     readonly property var background: QtObject {
         readonly property string color: ColorPallete.secondaryLightColor
@@ -48,6 +54,9 @@ QtObject {
         readonly property string image: "qrc:/resources/images/pattern.png"
         readonly property string imageColor: "qrc:/resources/images/pattern-color.png"
         readonly property color color: ColorPallete.mainColor
+    }
+    readonly property var overlay: QtObject {
+        readonly property string color: ColorPallete.shadowColor
     }
 
     readonly property var font: QtObject {
@@ -139,12 +148,11 @@ QtObject {
     }
     readonly property var spinBox: QtObject {
         readonly property var font: StyleFont {
-            size: 0.85*style.font.text.size
+            size: 0.85 * style.font.text.size
             bold: true
             capitalization: Font.SmallCaps
             color: ColorPallete.mainColor
         }
-        readonly property color selectedTextColor: ColorPallete.secondaryLightColor
 
         readonly property string incrementImage: "qrc:/resources/images/inc.png"
         readonly property string decrementImage: "qrc:/resources/images/dec.png"

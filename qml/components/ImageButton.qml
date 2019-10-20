@@ -20,17 +20,16 @@
 **
 ********************************************/
 
-import QtQuick 2.0
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import "../style"
 import "../components"
 
-Button {
+TextButton {
     id: button
 
-    property var styleFont: Style.font.imageButton
+    styleFont: Style.font.imageButton
     property string type
 
     QtObject {
@@ -39,37 +38,34 @@ Button {
         property string extension: ".png"
     }
 
-    iconSource: d.path + type + d.extension
 
-    style: ButtonStyle {
-        background: Rectangle {
-            visible: control.text.length
-            opacity: control.pressed ? 0.8 : 1
+    background: Rectangle {
+        visible: button.text.length
+        opacity: button.pressed ? 0.8 : 1
 
-            color: "transparent"
-            border.color: control.styleFont.color
-            border.width: 1
-            radius: control.styleFont.size/5
+        color: "transparent"
+        border.color: button.styleFont.color
+        border.width: 1
+        radius: button.styleFont.size/5
+    }
+
+    contentItem: RowLayout {
+        opacity: button.pressed ? 0.8 : 1
+
+        Image {
+            id: image
+            Layout.preferredHeight: button.styleFont.size * 1.5
+            Layout.preferredWidth: (sourceSize.width / sourceSize.height) * Layout.preferredHeight
+
+            source: d.path + type + d.extension
         }
+        Label {
+            id: text
+            Layout.alignment: Qt.AlignVCenter
 
-        label: RowLayout {
-            opacity: control.pressed ? 0.8 : 1
+            fontStyle: button.styleFont
 
-            Image {
-                id: image
-                Layout.preferredHeight: control.styleFont.size*1.5
-                Layout.preferredWidth: (sourceSize.width/sourceSize.height)*Layout.preferredHeight
-
-                source: control.iconSource
-            }
-            Label {
-                id: text
-                Layout.alignment: Qt.AlignVCenter
-
-                fontStyle: control.styleFont
-
-                text: control.text
-            }
+            text: button.text
         }
     }
 }

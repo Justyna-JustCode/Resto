@@ -20,9 +20,9 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Window 2.0
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Window 2.11
+import QtQuick.Layouts 1.3
 import QtQml.Models 2.2
 import "../components"
 import "../components/helpers"
@@ -49,7 +49,6 @@ Window {
     signal hiding
 
     flags: Qt.Dialog | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
-    modality: Qt.ApplicationModal
 
     x: Screen.width/2 - width/2
     y: Screen.height/2 - height/2

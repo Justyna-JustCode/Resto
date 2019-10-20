@@ -20,8 +20,8 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Layouts 1.3
 import "../components"
 import "../style"
 
@@ -29,18 +29,21 @@ GridLayout {
     property alias labelText: label.text
     property bool strechHorizontally: true
     property bool strechVertically: false
+    property real horizontalSpacing: spacer.size
 
     Label {
         id: label
         fontStyle: Style.font.formLabel
     }
     Spacer {
+        id: spacer
         Layout.fillWidth: strechHorizontally &&
                           (flow == GridLayout.LeftToRight)
         Layout.fillHeight: strechVertically &&
                           (flow == GridLayout.TopToBottom)
 
-        size: 1
+        horizontal: true
+        size: Style.hugeSpacing
         visible: Layout.fillWidth || Layout.fillHeight
     }
 }

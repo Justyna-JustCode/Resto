@@ -20,13 +20,13 @@
 **
 ********************************************/
 
-import QtQuick 2.0
+import QtQuick 2.12
 import "../../style"
 
 Gradient {
     id: gradient
 
-    property string color
+    property color color
 
     GradientStop { position: 0.0; color: gradient.color }
     GradientStop { position: 0.35; color: gradient.color }

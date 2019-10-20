@@ -21,7 +21,7 @@
 ********************************************/
 
 pragma Singleton
-import QtQuick 2.5
+import QtQuick 2.12
 
 QtObject {
     id: style
@@ -29,4 +29,6 @@ QtObject {
     property color mainColor: controller.settings.applicationColor
     readonly property color secondaryLightColor: "white"
     readonly property color secondaryDarkColor: "#1E1E1E"
+
+    readonly property color shadowColor: "#88000000"
 }

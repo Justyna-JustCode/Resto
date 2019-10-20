@@ -20,10 +20,8 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.1
+import QtQuick 2.12
+import QtQuick.Controls 2.4
 import "../style"
 import "../components"
 
@@ -31,33 +29,27 @@ Button {
     id: button
 
     property var styleFont: Style.font.textButton
-    tooltip: text
+    property string tooltip: text
 
-    style: ButtonStyle {
-        background: Rectangle {
-            opacity: control.pressed ? 0.8 : 1
+    hoverEnabled: true
+    ToolTip.visible: hovered
+    ToolTip.delay: Style.tooltip.delay
+    ToolTip.timeout: Style.tooltip.timeout
+    ToolTip.text: tooltip
 
-            color: "transparent"
-            border.color: control.styleFont.color
-            border.width: 1
-            radius: control.styleFont.size/5
-        }
+    background: Rectangle {
+        opacity: button.pressed ? 0.8 : 1
 
-        label: GridLayout {
-            opacity: control.pressed ? 0.8 : 1
+        color: "transparent"
+        border.color: button.styleFont.color
+        border.width: 1
+        radius: button.styleFont.size/5
+    }
 
-            Label {
-                id: text
-                Layout.alignment: Qt.AlignVCenter
-                Layout.leftMargin: control.styleFont.size/2
-                Layout.rightMargin: control.styleFont.size/2
-                Layout.topMargin: control.styleFont.size/4
-                Layout.bottomMargin: control.styleFont.size/4
+    contentItem: Label {
+        fontStyle: button.styleFont
 
-                fontStyle: control.styleFont
-
-                text: control.text
-            }
-        }
+        opacity: button.pressed ? 0.8 : 1
+        text: button.text
     }
 }

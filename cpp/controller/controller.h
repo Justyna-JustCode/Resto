@@ -74,6 +74,8 @@ signals:
     void breakEndRequest() const;
     void workEndRequest() const;
 
+    void exitRequest() const;
+
 public slots:
     void start();
     void pause();

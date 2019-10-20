@@ -67,5 +67,8 @@
         <file>qml/components/ClickableLabel.qml</file>
         <file>qml/components/TextBox.qml</file>
         <file>qml/ConnectionsManager.qml</file>
+        <file>qml/components/LabelInput.qml</file>
+        <file>qml/components/TabTextButton.qml</file>
+        <file>qml/components/Overlay.qml</file>
     </qresource>
 </RCC>

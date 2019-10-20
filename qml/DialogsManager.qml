@@ -20,11 +20,13 @@
 **
 ********************************************/
 
-import QtQuick 2.5
+import QtQuick 2.12
 import "dialogs"
 
 Item {
     id: root
+
+    property Item overlayItem
 
     // accessors ---------------------------------------------------------
     function showBreakRequestDialog() {
@@ -51,6 +53,11 @@ Item {
     function showUpdateErrorDialog() {
         d.showDialog(updateErrorDialog)
     }
+
+    function closeAllDialogs() {
+        d.closeAllDialogs();
+    }
+
     // -------------------------------------------------------------------
 
     // logic -------------------------------------------------------------
@@ -66,12 +73,14 @@ Item {
 
                     onClosing: {
                         d.loadersMap[id] = "";
+                        d.activeWindowsCount--;
                         destroy();
                     }
                 }
             }
         }
         property var loadersMap: new Object
+        property int activeWindowsCount: 0
 
         function showDialog(component) {
             var id = component.toString();
@@ -86,9 +95,22 @@ Item {
             loaderItem.active = true;
             loaderItem.item.show();
 
+            d.activeWindowsCount++;
             loadersMap[id] = loaderItem;
         }
+        function closeAllDialogs() {
+            const ids = Object.keys(loadersMap)
+            for (const id of ids) {
+                loadersMap[id].item.close()
+            }
+        }
     }
+    Binding {
+        property: "visible"
+        target: overlayItem
+        value: d.activeWindowsCount
+    }
+
     // -------------------------------------------------------------------
 
     // components --------------------------------------------------------
@@ -145,8 +167,12 @@ Item {
         id: updateInfoDialog
 
         UpdateInfoDialog {
-            onAccept: {
+            onAcceptDownload: {
                 controller.updater.download();
+            }
+            onAcceptUpdate: {
+                controller.updater.update();
+                closeAllDialogs();
             }
             onPostpone: {
                 controller.updater.postpone();

@@ -20,11 +20,12 @@
 **
 ********************************************/
 
-import QtQuick 2.0
+import QtQuick 2.12
 import "helpers"
 
 QtObject {
     property color color: ColorPallete.secondaryDarkColor
+    property color selectionColor: ColorPallete.secondaryLightColor
     property color linkColor: ColorPallete.mainColor
 
     property int size: 20
