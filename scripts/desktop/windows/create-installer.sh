@@ -108,7 +108,7 @@ INSTALLER_DATA_DIR="${PROJECT_DIR}/installers"
 ConfigOutputFile="${INSTALLER_DATA_DIR}/config/config.xml"
 echo "Creating an installer config file:"
 echo ${ConfigOutputFile}
-ConfigTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/config.xml"
+ConfigTemplateFile="${SCRIPTS_DIR}/data/installer/config.xml"
 export "APP_NAME=${APP_NAME}" "ORG_NAME=${ORG_NAME}" "APP_VERSION=${APP_VERSION}" "APP_URL=${APP_URL}" "ORG_URL=${ORG_URL}" "APP_NAME_LOWER=${APP_NAME,,}" "APP_DEVELOP=${APP_DEVELOP}"
 envsubst < "${ConfigTemplateFile}" > "${ConfigOutputFile}"
 echo -e "------------------------------------------------\n"
