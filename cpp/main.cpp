@@ -21,6 +21,7 @@
 ********************************************/
 
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQuickItem>
@@ -40,14 +41,27 @@ int main(int argc, char *argv[])
     app.setApplicationName(APP_NAME);
     app.setApplicationVersion(APP_VERSION);
 
+    QCommandLineParser cmdParser;
+    auto checkDevelopOption = QCommandLineOption{"d", QCoreApplication::translate("develop", "Checks if is a develop version of the application")};
+    cmdParser.addOption(checkDevelopOption);
+    cmdParser.addVersionOption();
+    cmdParser.process(app);
+    if (cmdParser.isSet(checkDevelopOption)) {
+        fputs(qPrintable(DEVELOP_BUILD), stdout);
+        return 0;
+    }
+
     SingleAppManager sam;
     if (!sam.tryRun())
         return 1;
 
     Controller controller;
     qmlRegisterUncreatableType<Controller>("Resto.Types", 1, 0, "Controller", "Controller class");
+    QObject::connect(&controller, &Controller::exitRequest, &app, &QApplication::quit);
 
     QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("developBuild", DEVELOP_BUILD);
+    engine.rootContext()->setContextProperty("buildNumber", BUILD_NUMBER);
     engine.rootContext()->setContextProperty("controller", &controller);
     engine.rootContext()->setContextProperty("app", &app);
 

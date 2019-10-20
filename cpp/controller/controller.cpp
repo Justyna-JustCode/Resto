@@ -38,6 +38,7 @@ Controller::Controller()
     connect(&m_settingsController, &SettingsController::breakIntervalChanged, this, &Controller::onBreakIntervalChanged);
     connect(&m_settingsController, &SettingsController::workTimeChanged, this, &Controller::onWorkTimeChanged);
 
+    connect(&m_updateController, &UpdateController::updateStarted, this, &Controller::exitRequest);
     connect(&m_backupManager, &BackupManager::backupData, this, &Controller::onBackupData);
 
     m_saveManager.initialize(); // need to be done before backup manager

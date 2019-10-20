@@ -28,14 +28,28 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QApplication>
-//#include <QVersionNumber> // temporary do not use this to keep support for Qt 5.5.1
+#include <QVersionNumber>
 #include <QTimer>
 #include <QDesktopServices>
+#include <QFile>
+#include <QDir>
+#include <QProcess>
 
 #include "controller/settingscontroller.h"
 
+#ifdef Q_OS_LINUX
+    const QString UpdateController::sc_updaterAppName = QStringLiteral("Uninstall");
+#elif defined(Q_OS_WIN)
+    const QString UpdateController::sc_updaterAppName = QStringLiteral("Update.exe");
+#endif
+
 UpdateController::UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent)
-    : QObject(parent), m_settingsController(settingsController), m_versionUrl(versionUrl)
+    : QObject(parent), m_settingsController(settingsController), m_versionUrl(versionUrl),
+#ifdef Q_OS_LINUX
+      m_updaterAppPath(QDir::current().filePath(sc_updaterAppName))
+#elif defined(Q_OS_WIN)
+      m_updaterAppPath(QDir(QApplication::applicationDirPath()).filePath(sc_updaterAppName))
+#endif
 {
     checkPlatformInfo();
 
@@ -47,6 +61,11 @@ UpdateController::UpdateController(SettingsController &settingsController, const
 bool UpdateController::updateAvailable() const
 {
     return m_updateAvailable;
+}
+
+bool UpdateController::updatePossible() const
+{
+    return QFile::exists(m_updaterAppPath);
 }
 
 void UpdateController::checkUpdateAvailable()
@@ -63,6 +82,27 @@ void UpdateController::checkUpdateAvailable()
 void UpdateController::download()
 {
     QDesktopServices::openUrl(m_platformDownloadUrl);
+}
+
+void UpdateController::update()
+{
+    if (!updatePossible()) {
+        qWarning() << "[UpdateManager]" << "Trying to update, but update not possible.";
+        return;
+    }
+
+    auto started = false;
+#ifdef Q_OS_LINUX
+    started = QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath()); // TODO: better solution? with Update.desktop
+#elif defined(Q_OS_WIN)
+    started = QProcess::startDetached(m_updaterAppPath, {}, QApplication::applicationDirPath());
+#endif
+
+    if (started) {
+        emit updateStarted();
+    } else {
+        qWarning() << "[UpdateManager]" << "Error while starting an updater application:" << m_updaterAppPath;
+    }
 }
 
 void UpdateController::postpone()
@@ -94,24 +134,18 @@ QUrl UpdateController::platformDownloadUrl() const
 
 int UpdateController::compareVersions(const QString &vStr1, const QString &vStr2) const
 {
-    auto v1Vec = vStr1.split('.');
-    auto v2Vec = vStr2.split('.');
-    if (v1Vec.count() == v2Vec.count()) {
-        auto size = v1Vec.count();
-        for (int i = 0; i < size; ++i) {
-            auto diff = v1Vec.at(i).toInt() - v2Vec.at(i).toInt();
-            if (diff)
-                return diff;
-        }
-    } else { // versions are having different length
-        return (v1Vec.count() - v2Vec.count());
-    }
-    return 0;
+    auto suffixIdx1 = 0, suffixIdx2 = 0;
+    auto v1 = QVersionNumber::fromString(vStr1, &suffixIdx1);
+    auto v2 = QVersionNumber::fromString(vStr2, &suffixIdx2);
+    auto res = QVersionNumber::compare(v1, v2);
 
-    /* temporary do not use QVersionNumber to keep support for Qt 5.5.1
-     * auto v1 = QVersionNumber::fromString(vStr1);
-     * auto v2 = QVersionNumber::fromString(vStr2);
-     * return QVersionNumber::compare(v1, v2); */
+    if (res == 0) {
+        // same versions - check suffixes
+        auto suffixLen1 = vStr1.length() - suffixIdx1;
+        auto suffixLen2 = vStr2.length() - suffixIdx2;
+        res = (suffixLen2 - suffixLen1);
+    }
+    return res;
 }
 
 void UpdateController::checkPlatformInfo()

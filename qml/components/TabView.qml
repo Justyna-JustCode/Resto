@@ -20,35 +20,40 @@
 **
 ********************************************/
 
-import QtQuick 2.5
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick 2.12
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import "../style"
 
-TabView {
-    property int tabsHeight
+ColumnLayout {
+    id: tabView
 
-    style: TabViewStyle {
-        tabsAlignment: Qt.AlignHCenter
+    property var tabNames: []
+    default property alias tabs: tabsLayout.children
+    property alias count: tabBar.count
 
-        frame: Rectangle {
-            border.width: Style.tabView.borderWidth
-            border.color: Style.tabView.borderColor
+    function getTab(i) { return tabsLayout.itemAt(i) }
 
-            color: "transparent"
-        }
-        frameOverlap: Style.tabView.borderWidth
+    TabBar {
+        id: tabBar
+        Layout.fillWidth: true
 
-        tab: TextButton {
-            text: styleData.title
-            styleFont: styleData.selected ? Style.tabView.activeFont : Style.tabView.inactiveFont
+        background: Item {}
 
-            onClicked: {
-                control.currentIndex = styleData.index
-            }
-            onHeightChanged: {
-                control.tabsHeight = height;
+        Repeater {
+            model: tabView.tabNames
+
+            TabTextButton {
+                styleFont: index === tabBar.currentIndex ? Style.tabView.activeFont : Style.tabView.inactiveFont
+                text: modelData
             }
         }
+    }
+
+    StackLayout {
+        id: tabsLayout
+        Layout.fillWidth: true
+
+        currentIndex: tabBar.currentIndex
     }
 }

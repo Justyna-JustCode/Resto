@@ -20,11 +20,10 @@
 **
 ********************************************/
 
-import QtQuick 2.5
+import QtQuick 2.12
 import "../style"
 
 Rectangle {
-    id: line
     property bool horizontal: false
     property int thickness: 1
 

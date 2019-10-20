@@ -14,7 +14,11 @@ Component.prototype.createOperations = function()
         component.addOperation("CreateShortcut", "@TargetDir@/@ProductName@.exe", "@StartMenuDir@/@ProductName@.lnk");
     }
     else if (systemInfo.kernelType === "linux") {
-        var desktopEntry = "Version=@ProductVersion@\nType=Application\nTerminal=false\nExec=@TargetDir@/runner\nName=@ProductName@\nComment=A small application for work time management\nIcon=@TargetDir@/ico.png\nCategories=Office;\n"
+        // add update link in package
+        var updateDesktopEntry = "Type=Application\nName=Update\nExec=bash -c '@TargetDir@/Uninstall --updater'"
+        component.addOperation("CreateDesktopEntry", "@TargetDir@/Update.desktop", updateDesktopEntry);
+
+        var desktopEntry = "${DE_DATA}"
     
         // add desktop file in package
         component.addOperation("Delete", "@TargetDir@/@ProductName@.desktop");

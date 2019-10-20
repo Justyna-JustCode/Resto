@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Installer>
-    <Name>Resto</Name>
-    <Version>1.0.5</Version>
-    <Title>Resto installer</Title>
-    <Publisher>JustCode</Publisher>
-    <ProductUrl>http://just-code.org/applications/resto</ProductUrl>
-    <StartMenuDir>JustCode</StartMenuDir>
+    <Name>${APP_NAME}</Name>
+    <Version>${APP_VERSION}</Version>
+    <Title>${APP_NAME} installer</Title>
+    <Publisher>${ORG_NAME}</Publisher>
+    <ProductUrl>${APP_URL}</ProductUrl>
+    <StartMenuDir>${ORG_NAME}</StartMenuDir>
     <TargetDir>@HomeDir@/@Publisher@/@ProductName@/</TargetDir>
     <AdminTargetDir>@ApplicationsDir@/@Publisher@/@ProductName@/</AdminTargetDir>
     <MaintenanceToolName>Uninstall</MaintenanceToolName>
@@ -13,4 +13,11 @@
     <InstallerApplicationIcon>installericon</InstallerApplicationIcon>
     <ControlScript>control.qs</ControlScript>
     <AllowSpaceInPath>true</AllowSpaceInPath>
+
+    <RemoteRepositories>
+        <Repository>
+		<Url>${ORG_URL}/DATA/applications/${APP_NAME_LOWER}/packages${APP_DEVELOP}/windows</Url>
+            <DisplayName>Main Repository</DisplayName>
+        </Repository>
+    </RemoteRepositories>
 </Installer>
