@@ -30,7 +30,7 @@ import "components"
 import "dialogs"
 import "style"
 
-Window {
+ApplicationWindow {
     visible: true
 
     function showBreakDialog() {
@@ -106,10 +106,6 @@ Window {
     }
     // ----------------------------------------------
 
-    Background {
-        Decorative {}
-    }
-
     // logic
     DialogsManager {
         id: dialogsManager
@@ -121,6 +117,7 @@ Window {
     }
 
     MainContent {
+        id: mainContent
         anchors.fill: parent
     }
 
