@@ -116,6 +116,7 @@ void Controller::start()
     case State::Off:
     case State::Paused:
         startWork();
+        [[fallthrough]];
     case State::Recovered:
         timer().start( (m_state == State::Off) ); // restart only from Off
         setState(State::Working);
