@@ -120,9 +120,9 @@ Item {
 
                 text: d.formatTime(value)
 
-                BarTextGradient { //TODO
+                BarTextGradient {
                     source: parent
-                    value: d.valuePercent
+                    value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
                 }
             }
 
@@ -191,9 +191,9 @@ Item {
 
             text: "/"
 
-            BarTextGradient { //TODO
+            BarTextGradient {
                 source: parent
-                value: d.valuePercent
+                value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
             }
         }
 
@@ -211,9 +211,9 @@ Item {
 
             text: d.formatTime(maxValue)
 
-            BarTextGradient { //TODO
+            BarTextGradient {
                 source: parent
-                value: d.valuePercent
+                value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
             }
         }
     }
