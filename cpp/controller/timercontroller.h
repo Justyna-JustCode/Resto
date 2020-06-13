@@ -31,8 +31,8 @@ class TimerController final : public QObject
     Q_OBJECT
 
     Q_PROPERTY(int elapsedBreakDuration READ elapsedBreakDuration NOTIFY elapsedBreakDurationChanged)
-    Q_PROPERTY(int elapsedWorkPeriod READ elapsedWorkPeriod NOTIFY elapsedWorkPeriodChanged)
-    Q_PROPERTY(int elapsedWorkTime READ elapsedWorkTime NOTIFY elapsedWorkTimeChanged)
+    Q_PROPERTY(int elapsedWorkPeriod READ elapsedWorkPeriod WRITE setElapsedWorkPeriod NOTIFY elapsedWorkPeriodChanged)
+    Q_PROPERTY(int elapsedWorkTime READ elapsedWorkTime WRITE setElapsedWorkTime NOTIFY elapsedWorkTimeChanged)
     Q_PROPERTY(PeriodType activePeriodType READ activePeriodType NOTIFY activePeriodTypeChanged)
 
 public:

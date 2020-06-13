@@ -182,6 +182,13 @@ Window {
 
                 maxValue: controller.settings.breakInterval
                 value: controller.timer.elapsedWorkPeriod
+
+                onTimeValueChanged:
+                {
+                    var timeDiff = newValue - controller.timer.elapsedWorkPeriod
+                    controller.timer.elapsedWorkPeriod = newValue
+                    controller.timer.elapsedWorkTime += timeDiff
+                }
             }
             Label {
                 text: qsTr("Work time:")
@@ -191,6 +198,15 @@ Window {
 
                 maxValue: controller.settings.workTime
                 value: controller.timer.elapsedWorkTime
+
+                onTimeValueChanged:
+                {
+                    var timeDiff = newValue - controller.timer.elapsedWorkTime
+                    controller.timer.elapsedWorkTime = newValue
+
+                    var newElapsedWorkTime = controller.timer.elapsedWorkPeriod + timeDiff
+                    controller.timer.elapsedWorkPeriod = Math.max(newElapsedWorkTime, 0)
+                }
             }
         }
     }

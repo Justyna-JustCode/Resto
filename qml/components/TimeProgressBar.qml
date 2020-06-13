@@ -21,6 +21,7 @@
 ********************************************/
 
 import QtQuick 2.12
+import QtQuick.Layouts 1.3
 import "../style"
 import "helpers"
 
@@ -31,6 +32,8 @@ Item {
 
     implicitHeight: text.font.pixelSize*1.4
     implicitWidth: 200
+
+    signal timeValueChanged(var newValue)
 
     QtObject {
         id: d
@@ -50,6 +53,17 @@ Item {
             hoursStr = hours > 9 ? hours : '0' + hours
 
             return hoursStr + ':' + minsStr + ':' + secsStr
+        }
+
+        function deFormatTime(timeStr)
+        {
+            var splitted = timeStr.split(':')
+
+            var hours = parseInt(splitted[0])
+            var mins = parseInt(splitted[1])
+            var secs = parseInt(splitted[2])
+
+            return hours * 60 * 60 + mins * 60 + secs
         }
     }
 
@@ -86,23 +100,122 @@ Item {
         gradient: BarGradient { color: Style.timeBar.secondaryColor }
     }
 
-    Label {
-        id: text
+    RowLayout {
         anchors.fill: parent
+        spacing: 1
 
-        fontStyle: Style.timeBar.font
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Label {
+                id: text
+                anchors.fill: parent
+                visible: !textEditableInput.visible
+                fontStyle: Style.timeBar.font
 
-        elide: Text.ElideRight
-        horizontalAlignment: Qt.AlignHCenter
-        verticalAlignment: Qt.AlignVCenter
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignRight
 
-        text: d.formatTime(value) + " / " +
-              d.formatTime(maxValue)
+                elide: Text.ElideRight
 
-    }
-    BarTextGradient {
-        source: text
-        value: d.valuePercent
+                text: d.formatTime(value)
+
+                BarTextGradient { //TODO
+                    source: parent
+                    value: d.valuePercent
+                }
+            }
+
+            LabelInput {
+                id: textEditableInput
+                anchors.fill: parent
+                visible: false
+
+                cursorVisible: true
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignRight
+
+                fontStyle: Style.spinBox.font
+                color: "red"
+
+                inputMask: "99:99:99"
+
+                onAccepted:
+                {
+                    timeValueChanged(d.deFormatTime(textEditableInput.text))
+                    visible = false
+                }
+
+                onFocusChanged:
+                {
+                    if(!focus)
+                    {
+                        visible = false
+                    }
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                propagateComposedEvents: true
+                onPressAndHold:
+                {
+                    textEditableInput.visible = !textEditableInput.visible
+                    if(textEditableInput.visible)
+                    {
+                        textEditableInput.text = text.text.replace(/ /g, '')
+                        textEditableInput.focus = true
+                    }
+                    else
+                    {
+                        timeValueChanged(d.deFormatTime(textEditableInput.text))
+                    }
+                }
+
+                onClicked:
+                {
+                    textEditableInput.visible = false
+                }
+            }
+        }
+
+        Label {
+            Layout.fillHeight: true
+            Layout.preferredHeight: 0
+            Layout.preferredWidth: implicitWidth
+            fontStyle: Style.timeBar.font
+
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+
+            text: "/"
+
+            BarTextGradient { //TODO
+                source: parent
+                value: d.valuePercent
+            }
+        }
+
+        Label {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.preferredHeight: 0
+            Layout.preferredWidth: 0
+            fontStyle: Style.timeBar.font
+
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+
+            elide: Text.ElideRight
+
+            text: d.formatTime(maxValue)
+
+            BarTextGradient { //TODO
+                source: parent
+                value: d.valuePercent
+            }
+        }
     }
 }
 
