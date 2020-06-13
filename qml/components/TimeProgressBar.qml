@@ -151,6 +151,7 @@ Item {
                 {
                     if(!focus)
                     {
+                        timeValueChanged(d.deFormatTime(textEditableInput.text))
                         visible = false
                     }
                 }
