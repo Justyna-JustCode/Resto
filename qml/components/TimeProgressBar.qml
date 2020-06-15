@@ -137,7 +137,7 @@ Item {
                 horizontalAlignment: Text.AlignRight
 
                 fontStyle: Style.spinBox.font
-                color: "red"
+                color: "red" //TODO
 
                 inputMask: "99:99:99"
 
@@ -145,6 +145,12 @@ Item {
                 {
                     timeValueChanged(d.deFormatTime(textEditableInput.text))
                     visible = false
+                }
+
+                Keys.onEscapePressed:
+                {
+                    visible = false
+                    focus = false
                 }
 
                 onFocusChanged:
@@ -160,23 +166,26 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 propagateComposedEvents: true
-                onPressAndHold:
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onDoubleClicked:
                 {
-                    textEditableInput.visible = !textEditableInput.visible
                     if(textEditableInput.visible)
                     {
-                        textEditableInput.text = text.text.replace(/ /g, '')
-                        textEditableInput.focus = true
+                        return
                     }
-                    else
-                    {
-                        timeValueChanged(d.deFormatTime(textEditableInput.text))
-                    }
+
+                    textEditableInput.visible = true
+                    textEditableInput.focus = true
+                    textEditableInput.text = text.text.replace(/ /g, '')
                 }
 
                 onClicked:
                 {
-                    textEditableInput.visible = false
+                    if(mouse.button === Qt.RightButton)
+                    {
+                        textEditableInput.visible = false
+                        textEditableInput.focus = false
+                    }
                 }
             }
         }
