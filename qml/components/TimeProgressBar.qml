@@ -26,14 +26,30 @@ import "../style"
 import "helpers"
 
 Item {
+    id: root
+
     property int minValue: 0
     property int maxValue: 100
     property int value: 0
+
+    readonly property bool timeEditionInProgress: textEditableInput.visible
 
     implicitHeight: text.font.pixelSize*1.4
     implicitWidth: 200
 
     signal timeValueChanged(var newValue)
+
+    function startTimeEdition()
+    {
+        if(textEditableInput.visible)
+        {
+            return
+        }
+
+        textEditableInput.visible = true
+        textEditableInput.focus = true
+        textEditableInput.text = text.text.replace(/ /g, '')
+    }
 
     QtObject {
         id: d
@@ -110,7 +126,7 @@ Item {
             Label {
                 id: text
                 anchors.fill: parent
-                visible: !textEditableInput.visible
+                visible: !root.timeEditionInProgress
                 fontStyle: Style.timeBar.font
 
                 verticalAlignment: Text.AlignVCenter
@@ -169,14 +185,7 @@ Item {
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onDoubleClicked:
                 {
-                    if(textEditableInput.visible)
-                    {
-                        return
-                    }
-
-                    textEditableInput.visible = true
-                    textEditableInput.focus = true
-                    textEditableInput.text = text.text.replace(/ /g, '')
+                    startTimeEdition()
                 }
 
                 onClicked:
