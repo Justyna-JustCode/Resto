@@ -84,7 +84,7 @@ RowLayout {
         onSecondsChanged: calculateTime();
     }
 
-    SpinBox {
+    CustomSpinBox {
         id: hoursSpin
 
         from: 23
@@ -99,7 +99,7 @@ RowLayout {
             d.hours = value
         }
     }
-    SpinBox {
+    CustomSpinBox {
         id: minutesSpin
 
         from: 59
@@ -115,7 +115,7 @@ RowLayout {
             d.minutes = value
         }
     }
-    SpinBox {
+    CustomSpinBox {
         from: 59
         to: (hoursSpin.value > d.minHours ||
                        minutesSpin.value > d.minMinutes)

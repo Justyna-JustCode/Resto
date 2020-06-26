@@ -40,6 +40,8 @@ class Controller final : public QObject
     Q_PROPERTY(SettingsController* settings READ settingsPtr CONSTANT)
     Q_PROPERTY(TimerController* timer READ timerPtr CONSTANT)
     Q_PROPERTY(UpdateController* updater READ updaterPtr CONSTANT)
+    Q_PROPERTY(int currentIteration READ currentIteration NOTIFY currentIterationChanged)
+    Q_PROPERTY(bool isCycleBreak READ isCycleBreak NOTIFY isCycleBreakChanged)
 
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
 
@@ -67,6 +69,9 @@ public:
 
     Q_INVOKABLE void openHelp() const;
 
+    int currentIteration() const;
+    bool isCycleBreak() const;
+
 signals:
     void stateChanged(State state) const;
 
@@ -75,6 +80,9 @@ signals:
     void workEndRequest() const;
 
     void exitRequest() const;
+
+    void currentIterationChanged(int currentIteration);
+    void isCycleBreakChanged(bool isCycleBreak);
 
 public slots:
     void start();
@@ -99,10 +107,14 @@ private:
     State m_state = State::Off; //! current state
     int m_postponeDuration = 0;     //! sum duration for all postpones for current break
     int m_lastRequestTime = 0;     //! last time when postpone button was clicked
+    int m_currentIteration = 0; //! number of current small iterations
 
     SettingsController *settingsPtr();
     TimerController *timerPtr();
     UpdateController *updaterPtr();
+
+    void resetCurrentIteration();
+    void incrementCurrentIteration();
 
 private slots:
     void setState(State state);

@@ -31,9 +31,24 @@ SettingsController::SettingsController(QObject *parent)
     m_settings.setDefaultApplicationColor(sc_availableColors.first());
 }
 
+bool SettingsController::includeBreaks() const
+{
+    return m_settings.includeBreaks();
+}
+
 int SettingsController::breakDuration() const
 {
     return m_settings.breakDuration();
+}
+
+int SettingsController::cycleBreakDuration() const
+{
+    return m_settings.cycleBreakDuration();
+}
+
+int SettingsController::cycleIterations() const
+{
+    return m_settings.cycleIterations();
 }
 int SettingsController::breakInterval() const
 {
@@ -102,6 +117,15 @@ QDateTime SettingsController::nextUpdateCheck() const
     return m_settings.nextUpdateCheck();
 }
 
+void SettingsController::setIncludeBreaks(bool includeBreaks)
+{
+    if (m_settings.includeBreaks() == includeBreaks)
+        return;
+
+    m_settings.setIncluseBreaks(includeBreaks);
+    emit includeBreaksChanged(includeBreaks);
+}
+
 void SettingsController::setBreakDuration(int breakDuration)
 {
     if (m_settings.breakDuration() == breakDuration)
@@ -109,6 +133,24 @@ void SettingsController::setBreakDuration(int breakDuration)
 
     m_settings.setBreakDuration(breakDuration);
     emit breakDurationChanged(breakDuration);
+}
+
+void SettingsController::setCycleBreakDuration(int cycleBreakDuration)
+{
+    if (m_settings.cycleBreakDuration() == cycleBreakDuration)
+        return;
+
+    m_settings.setCycleBreakDuration(cycleBreakDuration);
+    emit cycleBreakDurationChanged(cycleBreakDuration);
+}
+
+void SettingsController::setCycleIterations(int cycleIterations)
+{
+    if (m_settings.cycleIterations() == cycleIterations)
+        return;
+
+    m_settings.setCycleIterations(cycleIterations);
+    emit cycleIterationsChanged(cycleIterations);
 }
 void SettingsController::setBreakInterval(int breakInterval)
 {

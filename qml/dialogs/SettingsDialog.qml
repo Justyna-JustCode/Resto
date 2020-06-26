@@ -46,8 +46,9 @@ CustomDialog {
     additionalContent.data: TabView {
         id: tabView
 
-        tabNames: [ qsTr("Behaviour"), qsTr("Appearance") ]
+        tabNames: [ qsTr("Behaviour"), qsTr("General"), qsTr("Appearance") ]
 
+        TimesSettings {}
         LogicSettings {}
         VisualSettings {}
     }

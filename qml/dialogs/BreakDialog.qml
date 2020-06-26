@@ -33,7 +33,8 @@ CustomDialog {
         endButton.text = qsTr("Abort");
     }
 
-    title: qsTr("Time for a break!")
+    title: controller.isCycleBreak ? qsTr("Take a long break!")
+                                   : qsTr("Time for a break!")
     description: qsTr("Break time:")
 
     image.source: "qrc:/resources/images/break.png"
@@ -63,7 +64,8 @@ CustomDialog {
     additionalContent.fillWidth: true
     additionalContent.data: TimeProgressBar {
         width: parent.width
-        maxValue: controller.settings.breakDuration
+        maxValue: controller.isCycleBreak ? controller.settings.cycleBreakDuration
+                                          : controller.settings.breakDuration
         value: controller.timer.elapsedBreakDuration
     }
 

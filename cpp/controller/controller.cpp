@@ -31,6 +31,8 @@ Controller::Controller()
     : m_updateController(m_settingsController, QUrl(QString("http://%1").arg(APP_VERSION_URL)) ),
       m_saveManager(m_backupManager)
 {
+    connect(this, &Controller::currentIterationChanged, this, [this] { emit isCycleBreakChanged(isCycleBreak()); });
+
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
     connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);
     connect(&m_timerController, &TimerController::elapsedWorkTimeChanged, this, &Controller::onElapsedWorkTimeChange);
@@ -78,6 +80,23 @@ UpdateController *Controller::updaterPtr()
     return &m_updateController;
 }
 
+void Controller::resetCurrentIteration()
+{
+    m_currentIteration = 0;
+    emit currentIterationChanged(m_currentIteration);
+}
+
+void Controller::incrementCurrentIteration()
+{
+    if (m_currentIteration == m_settingsController.cycleIterations()) {
+        m_currentIteration = 1;
+    } else {
+        m_currentIteration++;
+    }
+
+    emit currentIterationChanged(m_currentIteration);
+}
+
 Controller::State Controller::state() const
 {
     return m_state;
@@ -107,6 +126,16 @@ QPoint Controller::cursorPos() const
 void Controller::openHelp() const
 {
     QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/help.pdf"));
+}
+
+int Controller::currentIteration() const
+{
+    return m_currentIteration;
+}
+
+bool Controller::isCycleBreak() const
+{
+    return m_currentIteration == m_settingsController.cycleIterations();
 }
 
 void Controller::start()
@@ -155,6 +184,8 @@ void Controller::stop()
         qWarning() << "Stop requested in unsupported state";
         break;
     }
+
+    resetCurrentIteration();
 }
 
 void Controller::startBreak()
@@ -171,8 +202,19 @@ void Controller::postponeBreak()
 }
 void Controller::startWork()
 {
+    incrementCurrentIteration();
+
     m_postponeDuration = m_lastRequestTime = 0;
     timer().setElapsedWorkPeriod(0);
+
+    if (m_settingsController.includeBreaks()) {
+        const auto breakTimeSet = isCycleBreak() ? m_settingsController.cycleBreakDuration()
+                                                 : m_settingsController.breakDuration();
+        const auto breakTimeToInclude = qMin(timer().elapsedBreakDuration(), breakTimeSet);
+        timer().setElapsedWorkTime(timer().elapsedWorkTime() + breakTimeToInclude);
+    }
+
+
     timer().countWorkTime();
 }
 

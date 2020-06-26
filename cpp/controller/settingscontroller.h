@@ -35,7 +35,10 @@ class SettingsController final : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool includeBreaks READ includeBreaks WRITE setIncludeBreaks NOTIFY includeBreaksChanged)
     Q_PROPERTY(int breakDuration READ breakDuration WRITE setBreakDuration NOTIFY breakDurationChanged)
+    Q_PROPERTY(int cycleBreakDuration READ cycleBreakDuration WRITE setCycleBreakDuration NOTIFY cycleBreakDurationChanged)
+    Q_PROPERTY(int cycleIterations READ cycleIterations WRITE setCycleIterations NOTIFY cycleIterationsChanged)
     Q_PROPERTY(int breakInterval READ breakInterval WRITE setBreakInterval NOTIFY breakIntervalChanged)
     Q_PROPERTY(int workTime READ workTime WRITE setWorkTime NOTIFY workTimeChanged)
     Q_PROPERTY(int postponeTime READ postponeTime WRITE setPostponeTime NOTIFY postponeTimeChanged)
@@ -58,7 +61,10 @@ class SettingsController final : public QObject
 public:
     explicit SettingsController(QObject *parent = 0);
 
+    bool includeBreaks() const;
     int breakDuration() const;
+    int cycleBreakDuration() const;
+    int cycleIterations() const;
     int breakInterval() const;
     int workTime() const;
     int postponeTime() const;
@@ -79,7 +85,10 @@ public:
     QDateTime nextUpdateCheck() const;
 
 signals:
+    void includeBreaksChanged(bool includeBreaks) const;
     void breakDurationChanged(int breakDuration) const;
+    void cycleBreakDurationChanged(int cycleBreakDuration) const;
+    void cycleIterationsChanged(int cycleIterations) const;
     void breakIntervalChanged(int breakInterval) const;
     void workTimeChanged(int workTime) const;
     void postponeTimeChanged(int postponeTime) const;
@@ -98,7 +107,10 @@ signals:
     void nextUpdateCheckChanged(QDateTime nextUpdateCheck) const;
 
 public slots:
+    void setIncludeBreaks(bool includeBreaks);
     void setBreakDuration(int breakDuration);
+    void setCycleBreakDuration(int cycleBreakDuration);
+    void setCycleIterations(int cycleIterations);
     void setBreakInterval(int breakInterval);
     void setWorkTime(int workTime);
     void setPostponeTime(int postponeTime);

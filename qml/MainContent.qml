@@ -89,6 +89,13 @@ Item {
             columns: 2
 
             Label {
+                text: qsTr("Current iteration:")
+            }
+            Label {
+                text: controller.currentIteration
+            }
+
+            Label {
                 text: qsTr("Next break:")
             }
             TimeProgressBar {
@@ -97,6 +104,7 @@ Item {
                 maxValue: controller.settings.breakInterval
                 value: controller.timer.elapsedWorkPeriod
             }
+
             Label {
                 text: qsTr("Work time:")
             }

@@ -32,7 +32,10 @@ const QLatin1String Settings::sc_viewGroupName = QLatin1String("view");
 const QLatin1String Settings::sc_trayAvailableKey = QLatin1String("trayAvailable");
 const QLatin1String Settings::sc_showTrayInfoKey = QLatin1String("showTrayInfo");
 
+const QLatin1String Settings::sc_includeBreaksKey = QLatin1String("includeBreaks");
 const QLatin1String Settings::sc_breakDurationKey = QLatin1String("breakDuration");
+const QLatin1String Settings::sc_cycleBreakDurationKey = QLatin1String("cycleBreakDuration");
+const QLatin1String Settings::sc_cycleIterations = QLatin1String("cycleIterations");
 const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
 const QLatin1String Settings::sc_workTimeKey = QLatin1String("workTime");
 const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime");
@@ -49,8 +52,10 @@ const QLatin1String Settings::sc_windowWidthKey = QLatin1String("window-width");
 const QLatin1String Settings::sc_windowHeightKey = QLatin1String("window-height");
 const QLatin1String Settings::sc_applicationColorKey = QLatin1String("mainColor");
 
-const int Settings::sc_defaultBreakDuration = 10*60;  //! 10 min
-const int Settings::sc_defaultBreakInterval = 45*60; //! 45 min
+const int Settings::sc_defaultBreakDuration = 5*60;  //! 5 min
+const int Settings::sc_defaultCycleBreakDuration = 30*60;  //! 30 min
+const int Settings::sc_defaultlCycleIterations = 3;
+const int Settings::sc_defaultBreakInterval = 25*60; //! 25 min
 const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
 const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
 
@@ -81,6 +86,16 @@ void Settings::setShowTrayInfo(bool show)
     setValue(sc_systemGroupName, sc_showTrayInfoKey, show);
 }
 
+bool Settings::includeBreaks() const
+{
+    return value(sc_logicGroupName, sc_includeBreaksKey, true).toBool();
+}
+
+void Settings::setIncluseBreaks(bool include)
+{
+    setValue(sc_logicGroupName, sc_includeBreaksKey, include);
+}
+
 int Settings::breakDuration() const
 {
     return value(sc_logicGroupName, sc_breakDurationKey, sc_defaultBreakDuration).toInt();
@@ -88,6 +103,26 @@ int Settings::breakDuration() const
 void Settings::setBreakDuration(int duration)
 {
     setValue(sc_logicGroupName, sc_breakDurationKey, duration);
+}
+
+int Settings::cycleBreakDuration() const
+{
+    return value(sc_logicGroupName, sc_cycleBreakDurationKey, sc_defaultCycleBreakDuration).toInt();
+}
+
+void Settings::setCycleBreakDuration(int duration)
+{
+    setValue(sc_logicGroupName, sc_cycleBreakDurationKey, duration);
+}
+
+int Settings::cycleIterations() const
+{
+    return value(sc_logicGroupName, sc_cycleIterations, sc_defaultlCycleIterations).toInt();
+}
+
+void Settings::setCycleIterations(int iterations)
+{
+    setValue(sc_logicGroupName, sc_cycleIterations, iterations);
 }
 
 int Settings::breakInterval() const

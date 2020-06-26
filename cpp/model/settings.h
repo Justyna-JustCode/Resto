@@ -65,6 +65,15 @@ public:
 
     /* ============== logic accessors ============== */
     /*!
+     * \brief Returns an information if breaks are included in the work time.
+     */
+    bool includeBreaks() const;
+    /*!
+     * \brief Sets an information if include breaks in the work time.
+     */
+    void setIncluseBreaks(bool include);
+
+    /*!
      * \brief Returns break duration in seconds.
      */
     int breakDuration() const;
@@ -72,6 +81,24 @@ public:
      * \brief Sets break duration in seconds.
      */
     void setBreakDuration(int duration);
+
+    /*!
+     * \brief Returns a break duration in seconds after a full cycle.
+     */
+    int cycleBreakDuration() const;
+    /*!
+     * \brief Sets a break duration in seconds a full cycle.
+     */
+    void setCycleBreakDuration(int duration);
+
+    /*!
+     * \brief Returns a number of iterations for a single cycle.
+     */
+    int cycleIterations() const;
+    /*!
+     * \brief Sets a number of iterations for a single cycle.
+     */
+    void setCycleIterations(int iterations);
 
     /*!
      * \brief Returns break interval in seconds.
@@ -207,7 +234,10 @@ private:
     static const QLatin1String sc_trayAvailableKey;     //! key used for settings: tray available
     static const QLatin1String sc_showTrayInfoKey;      //! key used for settings: show tray info
     // logic keys
+    static const QLatin1String sc_includeBreaksKey;     //! key used for settings: include breaks
     static const QLatin1String sc_breakDurationKey;     //! key used for settings: break duration
+    static const QLatin1String sc_cycleBreakDurationKey;    //! key used for settings: cycle break duration
+    static const QLatin1String sc_cycleIterations;     //! key used for settings: iterations for cycle
     static const QLatin1String sc_breakIntervalKey;     //! key used for settings: break interval
     static const QLatin1String sc_workTimeKey;   //! key used for settings: work day duration
     static const QLatin1String sc_postponeTimeKey;      //! key used for settings: postpone time
@@ -225,13 +255,15 @@ private:
     static const QLatin1String sc_applicationColorKey; //! key used for settings: application main color
 
     // logic default
-    static const int sc_defaultBreakDuration;   //! default braak duration \see breakDuration()
+    static const int sc_defaultBreakDuration;   //! default break duration \see breakDuration()
+    static const int sc_defaultCycleBreakDuration;   //! default cycle break duration \see cycleBreakDuration()
+    static const int sc_defaultlCycleIterations;   //! default interations for cycle \see cycleIterations()
     static const int sc_defaultBreakInterval;   //! default break interval \see breakInterval()
     static const int sc_defaultWorkTime; //! default work day duration \see workTime()
     static const int sc_defaultPostponeTime;    //! default postpone time \see postponeTime()
     // view default
-    static const QSize sc_defaultWindowSize;    //! default postpone time \see postponeTime()
-    static QColor sc_defaultApplicationColor;    //! default postpone time \see postponeTime()
+    static const QSize sc_defaultWindowSize;    //! default window size \see windowSize()
+    static QColor sc_defaultApplicationColor;    //! default application color \see applicationColor()
 
     void setValue(const QString &groupName, const QString &key, const QVariant &value);
     QVariant value(const QString &groupName, const QString &key, const QVariant &defaultValue = QVariant()) const;
