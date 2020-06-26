@@ -109,7 +109,7 @@ Item {
 
             ImageButton {
                 enabled: !nextBreakTimeProgressBar.timeEditionInProgress
-                styleFont: Style.font.imageButtonSmall
+                styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit next break")
 
@@ -142,7 +142,7 @@ Item {
 
             ImageButton {
                 enabled: !workTimeProgressBar.timeEditionInProgress
-                styleFont: Style.font.imageButtonSmall
+                styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit work time")
 
