@@ -51,6 +51,12 @@ Item {
         textEditableInput.text = text.text.replace(/ /g, '')
     }
 
+    function endTimeEdition()
+    {
+        textEditableInput.visible = false
+        textEditableInput.focus = false
+    }
+
     QtObject {
         id: d
 
@@ -165,16 +171,14 @@ Item {
 
                 Keys.onEscapePressed:
                 {
-                    visible = false
-                    focus = false
+                    endTimeEdition()
                 }
 
                 onFocusChanged:
                 {
                     if(!focus)
                     {
-                        timeValueChanged(d.deFormatTime(textEditableInput.text))
-                        visible = false
+                        endTimeEdition()
                     }
                 }
             }
@@ -192,8 +196,7 @@ Item {
                 {
                     if(mouse.button === Qt.RightButton)
                     {
-                        textEditableInput.visible = false
-                        textEditableInput.focus = false
+                        endTimeEdition()
                     }
                 }
             }
