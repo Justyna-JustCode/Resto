@@ -2,7 +2,7 @@
 APP_NAME = "Resto"
 APP_DESCRIPTION = "A small application for work time management"
 
-APP_VERSION = 1.0.6
+APP_VERSION = 1.0.7
 BUILD_NUMBER = $$system(git --git-dir $$PWD/.git --work-tree $$PWD log --pretty=format:'%h' -n 1)
 
 delivery {
