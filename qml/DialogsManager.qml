@@ -67,6 +67,7 @@ Item {
         property var loaderComponent: Component {
             Loader {
                 property string id
+                property var parentItem
 
                 Connections {
                     target: item
@@ -74,6 +75,13 @@ Item {
                     onClosing: {
                         d.loadersMap[id] = "";
                         d.activeWindowsCount--;
+
+                        // update top most
+                        if (typeof(parentItem) !== "undefined") {
+                            parentItem.topMost = true;
+                        }
+                        d.topMostItem = parentItem
+
                         destroy();
                     }
                 }
@@ -81,6 +89,7 @@ Item {
         }
         property var loadersMap: new Object
         property int activeWindowsCount: 0
+        property var topMostItem
 
         function showDialog(component) {
             var id = component.toString();
@@ -91,12 +100,19 @@ Item {
 
             var loaderItem = loaderComponent.createObject(root);
             loaderItem.id = id;
+            loaderItem.parentItem = topMostItem
             loaderItem.sourceComponent = component;
-            loaderItem.active = true;
             loaderItem.item.show();
+            loaderItem.item.requestActivate();
 
             d.activeWindowsCount++;
             loadersMap[id] = loaderItem;
+
+            // update top most
+            if (typeof(topMostItem) !== "undefined") {
+                topMostItem.topMost = false;
+            }
+            topMostItem = loaderItem.item
         }
         function closeAllDialogs() {
             const ids = Object.keys(loadersMap)

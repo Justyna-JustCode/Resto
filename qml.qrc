@@ -70,6 +70,7 @@
         <file>qml/components/LabelInput.qml</file>
         <file>qml/components/TabTextButton.qml</file>
         <file>qml/components/Overlay.qml</file>
+        <file>qml/MainContent.qml</file>
         <file>resources/images/edit.png</file>
     </qresource>
 </RCC>
