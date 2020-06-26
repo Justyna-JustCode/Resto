@@ -30,6 +30,9 @@ QtObject {
 
     property int mainColorIndex: ColorPallete.mainColorIndex
     readonly property var availableApplicationColors: ColorPallete.availableApplicationColors
+    readonly property var adjacentApplicationColorsPrimary: ColorPallete.adjacentApplicationColorsPrimary
+    readonly property var adjacentApplicationColorsSecondary: ColorPallete.adjacentApplicationColorsSecondary
+    readonly property var complementaryApplicationColors: ColorPallete.complementaryApplicationColors
 
     onMainColorIndexChanged: {
         ColorPallete.mainColorIndex = mainColorIndex
