@@ -86,25 +86,70 @@ Item {
         }
         GridLayout {
             Layout.fillWidth: true
-            columns: 2
+            columns: 3
 
             Label {
                 text: qsTr("Next break:")
             }
+
             TimeProgressBar {
+                id: nextBreakTimeProgressBar
                 Layout.fillWidth: true
 
                 maxValue: controller.settings.breakInterval
                 value: controller.timer.elapsedWorkPeriod
+
+                onTimeValueChanged:
+                {
+                    var timeDiff = newValue - controller.timer.elapsedWorkPeriod
+                    controller.timer.elapsedWorkPeriod = newValue
+                    controller.timer.elapsedWorkTime += timeDiff
+                }
             }
+
+            ImageButton {
+                enabled: !nextBreakTimeProgressBar.timeEditionInProgress
+                styleFont: Style.font.imageButtonSmall
+                type: "edit"
+                tooltip: qsTr("Edit next break")
+
+                onClicked:
+                {
+                    nextBreakTimeProgressBar.startTimeEdition()
+                }
+            }
+
             Label {
                 text: qsTr("Work time:")
             }
+
             TimeProgressBar {
+                id: workTimeProgressBar
                 Layout.fillWidth: true
 
                 maxValue: controller.settings.workTime
                 value: controller.timer.elapsedWorkTime
+
+                onTimeValueChanged:
+                {
+                    var timeDiff = newValue - controller.timer.elapsedWorkTime
+                    controller.timer.elapsedWorkTime = newValue
+
+                    var newElapsedWorkTime = controller.timer.elapsedWorkPeriod + timeDiff
+                    controller.timer.elapsedWorkPeriod = Math.max(newElapsedWorkTime, 0)
+                }
+            }
+
+            ImageButton {
+                enabled: !workTimeProgressBar.timeEditionInProgress
+                styleFont: Style.font.imageButtonSmall
+                type: "edit"
+                tooltip: qsTr("Edit work time")
+
+                onClicked:
+                {
+                    workTimeProgressBar.startTimeEdition()
+                }
             }
         }
     }
