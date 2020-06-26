@@ -26,10 +26,7 @@ import QtQuick 2.12
 QtObject {
     id: style
 
-    readonly property var availableApplicationColors:         ["#19886F", "#EC811B", "#682C90", "#C0159B", "#008000", "#0958EC", "#666666"]
-    readonly property var adjacentApplicationColorsPrimary:   ["#49B421", "#EC2F1B", "#473494", "#6B1FB4", "#649500", "#00EAD1", "#666666"]
-    readonly property var adjacentApplicationColorsSecondary: ["#234F8B", "#ECAB1B", "#A82C7A", "#EF1A44", "#006060", "#380BED", "#525252"]
-    readonly property var complementaryApplicationColors:     ["#D36927", "#147E91", "#D7D438", "#C1F41B", "#A00000", "#FFA500", "#888888"]
+    readonly property var availableApplicationColors: ["#19886F", "#EC811B", "#682C90", "#C0159B", "#008000", "#0958EC", "#666666"]
 
     property int mainColorIndex: controller.settings.applicationColorIndex
     property color mainColor: availableApplicationColors[mainColorIndex]
