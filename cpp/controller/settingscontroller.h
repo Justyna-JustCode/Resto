@@ -44,8 +44,7 @@ class SettingsController final : public QObject
     Q_PROPERTY(QPoint windowPosition READ windowPosition WRITE setWindowPosition NOTIFY windowPositionChanged)
     Q_PROPERTY(QSize windowSize READ windowSize WRITE setWindowSize NOTIFY windowSizeChanged)
 
-    Q_PROPERTY(QStringList availableColors READ availableColors CONSTANT)
-    Q_PROPERTY(QColor applicationColor READ applicationColor WRITE setApplicationColor NOTIFY applicationColorChanged)
+    Q_PROPERTY(int applicationColorIndex READ applicationColorIndex WRITE setApplicationColorIndex NOTIFY applicationColorIndexChanged)
 
     Q_PROPERTY(bool trayAvailable READ trayAvailable WRITE setTrayAvailable NOTIFY trayAvailableChanged)
     Q_PROPERTY(bool showTrayInfo READ showTrayInfo WRITE setShowTrayInfo NOTIFY showTrayInfoChanged)
@@ -56,7 +55,7 @@ class SettingsController final : public QObject
     Q_PROPERTY(QDateTime nextUpdateCheck READ nextUpdateCheck WRITE setNextUpdateCheck NOTIFY nextUpdateCheckChanged)
 
 public:
-    explicit SettingsController(QObject *parent = 0);
+    explicit SettingsController(QObject *parent = nullptr);
 
     int breakDuration() const;
     int breakInterval() const;
@@ -67,8 +66,7 @@ public:
     QPoint windowPosition() const;
     QSize windowSize() const;
 
-    QStringList availableColors() const;
-    QColor applicationColor() const;
+    int applicationColorIndex() const;
 
     bool trayAvailable() const;
     bool showTrayInfo() const;
@@ -87,7 +85,7 @@ signals:
 
     void windowPositionChanged(const QPoint &windowPosition) const;
     void windowSizeChanged(const QSize &windowSize) const;
-    void applicationColorChanged(QColor applicationColor) const;
+    void applicationColorIndexChanged(const int applicationColorIndex) const;
 
     void trayAvailableChanged(bool trayAvailable) const;
     void showTrayInfoChanged(bool showTrayInfo) const;
@@ -106,7 +104,7 @@ public slots:
 
     void setWindowPosition(const QPoint &windowPosition);
     void setWindowSize(const QSize &windowSize);
-    void setApplicationColor(QColor applicationColor);
+    void setApplicationColorIndex(const int applicationColorIndex);
 
     void setTrayAvailable(bool trayAvailable);
     void setShowTrayInfo(bool showTrayInfo);
@@ -121,8 +119,6 @@ private:
      * \brief Settings model class.
      */
     Settings m_settings;
-
-    static const QStringList sc_availableColors;
 };
 
 #endif // SETTINGSCONTROLLER_H

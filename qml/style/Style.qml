@@ -28,9 +28,11 @@ import "helpers"
 QtObject {
     id: style
 
-    property color mainColor: ColorPallete.mainColor
-    onMainColorChanged: {
-        ColorPallete.mainColor = mainColor;
+    property int mainColorIndex: ColorPallete.mainColorIndex
+    readonly property var availableApplicationColors: ColorPallete.availableApplicationColors
+
+    onMainColorIndexChanged: {
+        ColorPallete.mainColorIndex = mainColorIndex
     }
 
     readonly property var tooltip: QtObject {

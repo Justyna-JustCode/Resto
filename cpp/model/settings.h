@@ -184,16 +184,16 @@ public:
     void setWindowSize(const QSize &size);
 
     /*!
-     * \brief Returns the application main color.
+     * \brief Returns the application main color index.
      */
-    QColor applicationColor() const;
+    int applicationColorIndex() const;
     /*!
-     * \brief Sets the application main color.
+     * \brief Sets the application main color index.
      */
-    void setApplicationColor(const QColor &color);
+    void setApplicationColorIndex(const int colorIndex);
     /* ============================================= */
 
-    static void setDefaultApplicationColor(const QColor &value);
+    static void setDefaultApplicationColorIndex(const int value);
 
 private:
     QSettings m_settings;
@@ -222,7 +222,7 @@ private:
     static const QLatin1String sc_windowPositionYKey;    //! key used for settings: window position y value
     static const QLatin1String sc_windowWidthKey;  //! key used for settings: window width
     static const QLatin1String sc_windowHeightKey; //! key used for settings: window height
-    static const QLatin1String sc_applicationColorKey; //! key used for settings: application main color
+    static const QLatin1String sc_applicationColorIndexKey; //! key used for settings: application main color index
 
     // logic default
     static const int sc_defaultBreakDuration;   //! default braak duration \see breakDuration()
@@ -230,8 +230,8 @@ private:
     static const int sc_defaultWorkTime; //! default work day duration \see workTime()
     static const int sc_defaultPostponeTime;    //! default postpone time \see postponeTime()
     // view default
-    static const QSize sc_defaultWindowSize;    //! default postpone time \see postponeTime()
-    static QColor sc_defaultApplicationColor;    //! default postpone time \see postponeTime()
+    static const QSize sc_defaultWindowSize;    //! default window size  \see windowSize()
+    static int sc_defaultApplicationColorIndex;    //! default color index  \see applicationColorIndex()
 
     void setValue(const QString &groupName, const QString &key, const QVariant &value);
     QVariant value(const QString &groupName, const QString &key, const QVariant &defaultValue = QVariant()) const;
