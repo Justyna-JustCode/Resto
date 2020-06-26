@@ -159,7 +159,7 @@ Item {
                 horizontalAlignment: Text.AlignRight
 
                 fontStyle: Style.spinBox.font
-                color: "red" //TODO
+                color: Style.highlightedApplicationColors[Style.mainColorIndex]
 
                 inputMask: "99:99:99"
 
