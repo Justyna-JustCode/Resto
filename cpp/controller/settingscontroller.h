@@ -37,11 +37,15 @@ class SettingsController final : public QObject
 
     Q_PROPERTY(bool includeBreaks READ includeBreaks WRITE setIncludeBreaks NOTIFY includeBreaksChanged)
     Q_PROPERTY(int breakDuration READ breakDuration WRITE setBreakDuration NOTIFY breakDurationChanged)
+    Q_PROPERTY(int breakInterval READ breakInterval WRITE setBreakInterval NOTIFY breakIntervalChanged)
+
+    Q_PROPERTY(bool cyclesMode READ cyclesMode WRITE setCyclesMode NOTIFY cyclesModeChanged)
     Q_PROPERTY(int cycleBreakDuration READ cycleBreakDuration WRITE setCycleBreakDuration NOTIFY cycleBreakDurationChanged)
     Q_PROPERTY(int cycleIterations READ cycleIterations WRITE setCycleIterations NOTIFY cycleIterationsChanged)
-    Q_PROPERTY(int breakInterval READ breakInterval WRITE setBreakInterval NOTIFY breakIntervalChanged)
+
     Q_PROPERTY(int workTime READ workTime WRITE setWorkTime NOTIFY workTimeChanged)
     Q_PROPERTY(int postponeTime READ postponeTime WRITE setPostponeTime NOTIFY postponeTimeChanged)
+
     Q_PROPERTY(bool autoStart READ autoStart WRITE setAutoStart NOTIFY autoStartChanged)
 
     Q_PROPERTY(QPoint windowPosition READ windowPosition WRITE setWindowPosition NOTIFY windowPositionChanged)
@@ -63,11 +67,15 @@ public:
 
     bool includeBreaks() const;
     int breakDuration() const;
+    int breakInterval() const;
+
+    bool cyclesMode() const;
     int cycleBreakDuration() const;
     int cycleIterations() const;
-    int breakInterval() const;
+
     int workTime() const;
     int postponeTime() const;
+
     bool autoStart() const;
 
     QPoint windowPosition() const;
@@ -87,11 +95,15 @@ public:
 signals:
     void includeBreaksChanged(bool includeBreaks) const;
     void breakDurationChanged(int breakDuration) const;
+    void breakIntervalChanged(int breakInterval) const;
+
+    void cyclesModeChanged(bool cyclesMode) const;
     void cycleBreakDurationChanged(int cycleBreakDuration) const;
     void cycleIterationsChanged(int cycleIterations) const;
-    void breakIntervalChanged(int breakInterval) const;
+
     void workTimeChanged(int workTime) const;
     void postponeTimeChanged(int postponeTime) const;
+
     void autoStartChanged(bool autoStart) const;
 
     void windowPositionChanged(const QPoint &windowPosition) const;
@@ -106,14 +118,19 @@ signals:
     void updateVersionChanged(QString updateVersion) const;
     void nextUpdateCheckChanged(QDateTime nextUpdateCheck) const;
 
+
 public slots:
     void setIncludeBreaks(bool includeBreaks);
     void setBreakDuration(int breakDuration);
+    void setBreakInterval(int breakInterval);
+
+    void setCyclesMode(bool cyclesMode);
     void setCycleBreakDuration(int cycleBreakDuration);
     void setCycleIterations(int cycleIterations);
-    void setBreakInterval(int breakInterval);
+
     void setWorkTime(int workTime);
     void setPostponeTime(int postponeTime);
+
     void setAutoStart(bool autoStart);
 
     void setWindowPosition(const QPoint &windowPosition);

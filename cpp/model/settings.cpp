@@ -34,11 +34,15 @@ const QLatin1String Settings::sc_showTrayInfoKey = QLatin1String("showTrayInfo")
 
 const QLatin1String Settings::sc_includeBreaksKey = QLatin1String("includeBreaks");
 const QLatin1String Settings::sc_breakDurationKey = QLatin1String("breakDuration");
+const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
+
+const QLatin1String Settings::sc_cyclesModeKey = QLatin1String("cyclesMode");
 const QLatin1String Settings::sc_cycleBreakDurationKey = QLatin1String("cycleBreakDuration");
 const QLatin1String Settings::sc_cycleIterations = QLatin1String("cycleIterations");
-const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
+
 const QLatin1String Settings::sc_workTimeKey = QLatin1String("workTime");
 const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime");
+
 const QLatin1String Settings::sc_autoStartKey = QLatin1String("autoStart");
 const QLatin1String Settings::sc_autoHideKey = QLatin1String("autoHide");
 const QLatin1String Settings::sc_hideOnCloseKey = QLatin1String("hideOnClose");
@@ -103,6 +107,16 @@ int Settings::breakDuration() const
 void Settings::setBreakDuration(int duration)
 {
     setValue(sc_logicGroupName, sc_breakDurationKey, duration);
+}
+
+bool Settings::cyclesMode() const
+{
+    return value(sc_logicGroupName, sc_cyclesModeKey, false).toBool();
+}
+
+void Settings::setCyclesMode(bool on)
+{
+    setValue(sc_logicGroupName, sc_cyclesModeKey, on);
 }
 
 int Settings::cycleBreakDuration() const

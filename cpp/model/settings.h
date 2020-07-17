@@ -83,6 +83,15 @@ public:
     void setBreakDuration(int duration);
 
     /*!
+     * \brief Returns an information if cycles mode is on.
+     */
+    bool cyclesMode() const;
+    /*!
+     * \brief Sets an information if cycles mode is on.
+     */
+    void setCyclesMode(bool on);
+
+    /*!
      * \brief Returns a break duration in seconds after a full cycle.
      */
     int cycleBreakDuration() const;
@@ -236,11 +245,15 @@ private:
     // logic keys
     static const QLatin1String sc_includeBreaksKey;     //! key used for settings: include breaks
     static const QLatin1String sc_breakDurationKey;     //! key used for settings: break duration
+    static const QLatin1String sc_breakIntervalKey;     //! key used for settings: break interval
+
+    static const QLatin1String sc_cyclesModeKey;    //! key used for settings: cycles mode
     static const QLatin1String sc_cycleBreakDurationKey;    //! key used for settings: cycle break duration
     static const QLatin1String sc_cycleIterations;     //! key used for settings: iterations for cycle
-    static const QLatin1String sc_breakIntervalKey;     //! key used for settings: break interval
+
     static const QLatin1String sc_workTimeKey;   //! key used for settings: work day duration
     static const QLatin1String sc_postponeTimeKey;      //! key used for settings: postpone time
+
     static const QLatin1String sc_autoStartKey;         //! key used for settings: auto start
     static const QLatin1String sc_autoHideKey;          //! key used for settings: auto hide
     static const QLatin1String sc_hideOnCloseKey;       //! key used for settings: hide on close

@@ -32,6 +32,7 @@ SettingsPage {
         breakIntervalSelector.time = controller.settings.breakInterval
         includeBreaksSwitch.checked = controller.settings.includeBreaks
 
+        cyclesModeSwitch.checked = controller.settings.cyclesMode
         cycleBreakDurationSelector.time = controller.settings.cycleBreakDuration
         cycleIterationsSpin.value = controller.settings.cycleIterations
 
@@ -44,6 +45,7 @@ SettingsPage {
         controller.settings.breakInterval = breakIntervalSelector.time
         controller.settings.includeBreaks = includeBreaksSwitch.checked
 
+        controller.settings.cyclesMode = cyclesModeSwitch.checked
         controller.settings.cycleBreakDuration = cycleBreakDurationSelector.time
         controller.settings.cycleIterations = cycleIterationsSpin.value
 
@@ -89,12 +91,19 @@ SettingsPage {
     Spacer {}
 
     // CYCLES SETTINGS
-    Label {
-        fontStyle: Style.font.formHeader
-        text: qsTr("Cycles")
+    FormElement {
+        labelFontStyle: Style.font.formHeader
+        labelText: qsTr("Cycles")
+
+        CustomSwitch {
+            id: cyclesModeSwitch
+            Layout.alignment: Qt.AlignRight
+        }
     }
 
     FormElement {
+        enabled: cyclesModeSwitch.checked
+
         labelText: qsTr("Cycle break duration:")
 
         TimeSelector {
@@ -105,6 +114,8 @@ SettingsPage {
         }
     }
     FormElement {
+        enabled: cyclesModeSwitch.checked
+
         labelText: qsTr("Cycle iterations:")
 
         CustomSpinBox {

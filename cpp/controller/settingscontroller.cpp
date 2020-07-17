@@ -41,6 +41,11 @@ int SettingsController::breakDuration() const
     return m_settings.breakDuration();
 }
 
+int SettingsController::breakInterval() const
+{
+    return m_settings.breakInterval();
+}
+
 int SettingsController::cycleBreakDuration() const
 {
     return m_settings.cycleBreakDuration();
@@ -50,10 +55,12 @@ int SettingsController::cycleIterations() const
 {
     return m_settings.cycleIterations();
 }
-int SettingsController::breakInterval() const
+
+bool SettingsController::cyclesMode() const
 {
-    return m_settings.breakInterval();
+    return m_settings.cyclesMode();
 }
+
 int SettingsController::workTime() const
 {
     return m_settings.workTime();
@@ -160,6 +167,16 @@ void SettingsController::setBreakInterval(int breakInterval)
     m_settings.setBreakInterval(breakInterval);
     emit breakIntervalChanged(breakInterval);
 }
+
+void SettingsController::setCyclesMode(bool cyclesMode)
+{
+    if (m_settings.cyclesMode() == cyclesMode)
+        return;
+
+    m_settings.setCyclesMode(cyclesMode);
+    emit cyclesModeChanged(cyclesMode);
+}
+
 void SettingsController::setWorkTime(int workTime)
 {
     if (m_settings.workTime() == workTime)

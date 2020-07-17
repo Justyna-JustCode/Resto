@@ -27,6 +27,8 @@ import "../style"
 
 GridLayout {
     property alias labelText: label.text
+    property alias labelFontStyle: label.fontStyle
+
     property bool strechHorizontally: true
     property bool strechVertically: false
     property real horizontalSpacing: spacer.size
