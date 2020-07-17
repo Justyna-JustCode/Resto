@@ -102,7 +102,7 @@ Item {
                 Layout.fillWidth: true
 
                 maxValue: controller.settings.breakInterval
-                value: controller.timer.elapsedWorkPeriod
+                value: controller.timer.elapsedBreakInterval
             }
 
             Label {

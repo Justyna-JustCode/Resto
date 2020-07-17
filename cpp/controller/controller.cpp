@@ -34,7 +34,7 @@ Controller::Controller()
     connect(this, &Controller::currentIterationChanged, this, [this] { emit isCycleBreakChanged(isCycleBreak()); });
 
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
-    connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);
+    connect(&m_timerController, &TimerController::elapsedBreakIntervalChanged, this, &Controller::onElapsedBreakIntervalChange);
     connect(&m_timerController, &TimerController::elapsedWorkTimeChanged, this, &Controller::onElapsedWorkTimeChange);
 
     connect(&m_settingsController, &SettingsController::breakIntervalChanged, this, &Controller::onBreakIntervalChanged);
@@ -198,14 +198,14 @@ void Controller::startBreak()
 }
 void Controller::postponeBreak()
 {
-    m_postponeDuration += (timer().elapsedWorkPeriod() - m_lastRequestTime) + settings().postponeTime();
+    m_postponeDuration += (timer().elapsedBreakInterval() - m_lastRequestTime) + settings().postponeTime();
 }
 void Controller::startWork()
 {
     incrementCurrentIteration();
 
     m_postponeDuration = m_lastRequestTime = 0;
-    timer().setElapsedWorkPeriod(0);
+    timer().setElapsedBreakInterval(0);
 
     if (m_settingsController.includeBreaks()) {
         const auto breakTimeSet = isCycleBreak() ? m_settingsController.cycleBreakDuration()
@@ -238,9 +238,9 @@ void Controller::onBackupData(const BackupManager::Data &data)
     }
 
     timer().setElapsedBreakDuration(0);
-    timer().setElapsedWorkPeriod(data.elapsedWorkPeriod);
+    timer().setElapsedBreakInterval(data.elapsedBreakInterval);
     timer().setElapsedWorkTime(data.elapsedWorkTime);
-    if (data.elapsedWorkPeriod >= settings().breakInterval()) {
+    if (data.elapsedBreakInterval >= settings().breakInterval()) {
         postponeBreak();
     }
 
@@ -259,17 +259,17 @@ void Controller::onElapsedBreakDurationChange(int elapsedBreakDuration)
     }
 }
 
-void Controller::onElapsedWorkPeriodChange(int elapsedWorkPeriod)
+void Controller::onElapsedBreakIntervalChange(int elapsedBreakInterval)
 {
     // check if break is needed:
-    if (elapsedWorkPeriod == settings().breakInterval() + m_postponeDuration) // break should be taken now
+    if (elapsedBreakInterval == settings().breakInterval() + m_postponeDuration) // break should be taken now
     {
-        m_lastRequestTime = elapsedWorkPeriod;
+        m_lastRequestTime = elapsedBreakInterval;
         emit breakStartRequest(); // inform about it
     }
 
     // update backup manager
-    m_backupManager.data().elapsedWorkPeriod = elapsedWorkPeriod;
+    m_backupManager.data().elapsedBreakInterval = elapsedBreakInterval;
 }
 
 void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
@@ -287,8 +287,8 @@ void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
 void Controller::onBreakIntervalChanged(int breakInterval)
 {
     m_postponeDuration = 0; // clear postpones
-    auto elapsedWorkPeriod = timer().elapsedWorkPeriod();
-    if (elapsedWorkPeriod > breakInterval) // break should be taken now
+    auto elapsedBreakInterval = timer().elapsedBreakInterval();
+    if (elapsedBreakInterval > breakInterval) // break should be taken now
     {
         m_lastRequestTime = breakInterval;
         emit breakStartRequest(); // inform about it

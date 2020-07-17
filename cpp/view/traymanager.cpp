@@ -97,7 +97,7 @@ void TrayManager::initTrayIcon()
             this, &TrayManager::updateToolTip);
     connect(&m_controller.settings(), &SettingsController::workTimeChanged,
             this, &TrayManager::updateToolTip);
-    connect(&m_controller.timer(), &TimerController::elapsedWorkPeriodChanged,
+    connect(&m_controller.timer(), &TimerController::elapsedBreakIntervalChanged,
             this, &TrayManager::updateToolTip);
     connect(&m_controller.timer(), &TimerController::elapsedWorkTimeChanged,
             this, &TrayManager::updateToolTip);
@@ -229,7 +229,7 @@ void TrayManager::updateToolTip()
                                               "WORK TIME:\n"
                                               "%3 / %4");
     m_trayIcon.setToolTip(tooltipTemplate
-                          .arg(Helpers::formatTime(m_controller.timer().elapsedWorkPeriod()) )
+                          .arg(Helpers::formatTime(m_controller.timer().elapsedBreakInterval()) )
                           .arg(Helpers::formatTime(m_controller.settings().breakInterval()) )
                           .arg(Helpers::formatTime(m_controller.timer().elapsedWorkTime()) )
                           .arg(Helpers::formatTime(m_controller.settings().workTime()) )

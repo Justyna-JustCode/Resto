@@ -40,7 +40,7 @@ public:
      * \brief Structure used to save and restore the data.
      */
     struct Data {
-        int elapsedWorkPeriod = 0;
+        int elapsedBreakInterval = 0;
         int elapsedWorkTime = 0;
 
         bool isEmpty();

@@ -135,9 +135,9 @@ private slots:
      * Check if break is needed and informs about it.
      * Takes into account also postponing of break.
      *
-     * \param elapsedWorkPeriod     elapsed time of work period.
+     * \param elapsedBreakInterval     elapsed time from the last break.
      */
-    void onElapsedWorkPeriodChange(int elapsedWorkPeriod);
+    void onElapsedBreakIntervalChange(int elapsedBreakInterval);
     /*!
      * \brief Method handling change in total work time elapsed.
      *
