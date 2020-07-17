@@ -21,10 +21,11 @@
 ********************************************/
 
 import QtQuick 2.12
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.5
 import "../components"
 import "../components/helpers"
 import "../style"
+import "../utils"
 
 SpinBox {
     id: spinBox
@@ -51,8 +52,7 @@ SpinBox {
         return text.substring(prefix.length, text.length - suffix.length)
     }
 
-    implicitWidth: (maxCharCount + 1) * d.fontMetrics.averageCharacterWidth + Style.spacing / 2 + up.implicitIndicatorWidth
-
+    implicitWidth: UiUtils.averageTextWidth(d.fontMetrics, maxCharCount + 1) + Style.spacing + up.implicitIndicatorWidth
 
     contentItem: LabelInput {
         fontStyle: Style.spinBox.font

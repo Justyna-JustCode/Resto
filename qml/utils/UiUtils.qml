@@ -33,4 +33,10 @@ QtObject {
         return enabled ? baseColor
                        : Qt.tint(baseColor, Style.disableTint);
     }
+
+    function averageTextWidth(fontMetrics, charsCount)
+    {
+        var AVERAGE_WIDHT_ENLARGE = 1.2;
+        return charsCount * AVERAGE_WIDHT_ENLARGE * fontMetrics.averageCharacterWidth;
+    }
 }
