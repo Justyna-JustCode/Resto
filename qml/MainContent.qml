@@ -108,14 +108,14 @@ Item {
             }
 
             ImageButton {
-                enabled: !nextBreakTimeProgressBar.timeEditionInProgress
+                enabled: !nextBreakTimeProgressBar.timeEditMode
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit next break")
 
                 onClicked:
                 {
-                    nextBreakTimeProgressBar.startTimeEdition()
+                    nextBreakTimeProgressBar.timeEditMode = true
                 }
             }
 
@@ -134,21 +134,18 @@ Item {
                 {
                     var timeDiff = newValue - controller.timer.elapsedWorkTime
                     controller.timer.elapsedWorkTime = newValue
-
-                    var newElapsedWorkTime = controller.timer.elapsedWorkPeriod + timeDiff
-                    controller.timer.elapsedWorkPeriod = Math.max(newElapsedWorkTime, 0)
                 }
             }
 
             ImageButton {
-                enabled: !workTimeProgressBar.timeEditionInProgress
+                enabled: !workTimeProgressBar.timeEditMode
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit work time")
 
                 onClicked:
                 {
-                    workTimeProgressBar.startTimeEdition()
+                    workTimeProgressBar.timeEditMode = true
                 }
             }
         }

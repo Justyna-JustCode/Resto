@@ -31,30 +31,26 @@ Item {
     property int minValue: 0
     property int maxValue: 100
     property int value: 0
-
-    readonly property bool timeEditionInProgress: textEditableInput.visible
+    property bool timeEditMode: false
 
     implicitHeight: text.font.pixelSize*1.4
     implicitWidth: 200
 
     signal timeValueChanged(var newValue)
 
-    function startTimeEdition()
+    onTimeEditModeChanged:
     {
-        if(textEditableInput.visible)
+        if(timeEditMode)
         {
-            return
+            textEditableInput.visible = true
+            textEditableInput.focus = true
+            textEditableInput.text = text.text.replace(/ /g, '')
         }
-
-        textEditableInput.visible = true
-        textEditableInput.focus = true
-        textEditableInput.text = text.text.replace(/ /g, '')
-    }
-
-    function endTimeEdition()
-    {
-        textEditableInput.visible = false
-        textEditableInput.focus = false
+        else
+        {
+            textEditableInput.visible = false
+            textEditableInput.focus = false
+        }
     }
 
     QtObject {
@@ -132,7 +128,7 @@ Item {
             Label {
                 id: text
                 anchors.fill: parent
-                visible: !root.timeEditionInProgress
+                visible: !timeEditMode
                 fontStyle: Style.timeBar.font
 
                 verticalAlignment: Text.AlignVCenter
@@ -151,7 +147,7 @@ Item {
             LabelInput {
                 id: textEditableInput
                 anchors.fill: parent
-                visible: false
+                visible: timeEditMode
 
                 cursorVisible: true
 
@@ -166,19 +162,19 @@ Item {
                 onAccepted:
                 {
                     timeValueChanged(d.deFormatTime(textEditableInput.text))
-                    visible = false
+                    timeEditMode = false
                 }
 
                 Keys.onEscapePressed:
                 {
-                    endTimeEdition()
+                    timeEditMode = false
                 }
 
                 onFocusChanged:
                 {
                     if(!focus)
                     {
-                        endTimeEdition()
+                        timeEditMode = false
                     }
                 }
             }
@@ -189,14 +185,14 @@ Item {
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onDoubleClicked:
                 {
-                    startTimeEdition()
+                    timeEditMode = true
                 }
 
                 onClicked:
                 {
                     if(mouse.button === Qt.RightButton)
                     {
-                        endTimeEdition()
+                        timeEditMode = false
                     }
                 }
             }

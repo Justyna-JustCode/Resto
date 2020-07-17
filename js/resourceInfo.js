@@ -27,7 +27,7 @@ var licences = {
     "CC-BY-SA-3.0": { "name": "CC BY-SA 3.0", "url": "https://creativecommons.org/licenses/by-sa/3.0/" },
     "CC-BY-NC-ND-3.0": { "name": "CC BY-NC-ND 3.0", "url": "https://creativecommons.org/licenses/by-nc-nd/3.0/" },
     "OFL": { "name": "OFL", "url": "http://scripts.sil.org/OFL" },
-    "Freepik": { "name": "Freepik terms of use", "url": "https://www.freepikcompany.com/legal#nav-freepik" }
+    "Flaticon": { "name": "Flaticon terms of use", "url": "https://www.freepikcompany.com/legal#nav-flaticon" }
 }
 
 var resources = [
@@ -67,11 +67,11 @@ var resources = [
                     "additionalInfo": ""
                 },
                 {
-                    "name": "flaticon",
-                    "url": "https://www.flaticon.com",
+                    "name": "Pencil edit button",
+                    "url": "https://www.flaticon.com/free-icon/pencil-edit-button_61456",
                     "author": "Freepik",
                     "authorUrl": "https://www.flaticon.com/authors/freepik",
-                    "licence": "Freepik",
+                    "licence": "Flaticon",
                     "additionalInfo": qsTr("Edit button colors changed")
                 }]
             },
