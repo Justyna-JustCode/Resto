@@ -59,6 +59,8 @@ QtObject {
         readonly property string color: ColorPallete.shadowColor
     }
 
+    readonly property string disableTint: "#CCCCCCCC"
+
     readonly property var font: QtObject {
         readonly property var text: StyleFont {}
         readonly property var smallerText: StyleFont {

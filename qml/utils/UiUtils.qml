@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2020 JustCode Justyna Kulinska
 **
 ** This file is part of Resto.
 **
@@ -20,33 +20,17 @@
 **
 ********************************************/
 
+pragma Singleton
 import QtQuick 2.12
-import QtGraphicalEffects 1.0
-import "../../style"
-import "../../utils"
+import "."
+import "../style"
 
-Item {
-    id: spinBoxControl
-    property bool increment: true
+QtObject {
+    id: uiUtils
 
-    implicitWidth: spinImage.sourceSize.width
-    implicitHeight: spinImage.sourceSize.height
-
-    Image {
-        id: spinImage
-        anchors.fill: parent
-
-        fillMode: Image.PreserveAspectFit
-
-        source: increment
-                ? Style.spinBox.incrementImage
-                : Style.spinBox.decrementImage
-    }
-
-    ColorOverlay {
-        anchors.fill: parent
-
-        source: spinImage
-        color: UiUtils.resolveControlColor(Style.spinBox.font.color, spinBoxControl.enabled)
+    function resolveControlColor(baseColor, enabled)
+    {
+        return enabled ? baseColor
+                       : Qt.tint(baseColor, Style.disableTint);
     }
 }

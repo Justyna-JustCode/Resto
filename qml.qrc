@@ -72,5 +72,7 @@
         <file>qml/components/Overlay.qml</file>
         <file>qml/MainContent.qml</file>
         <file>qml/dialogs/subitems/TimesSettings.qml</file>
+        <file>qml/utils/UiUtils.qml</file>
+        <file>qml/utils/qmldir</file>
     </qresource>
 </RCC>
