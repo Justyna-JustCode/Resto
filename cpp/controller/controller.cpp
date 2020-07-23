@@ -80,21 +80,31 @@ UpdateController *Controller::updaterPtr()
     return &m_updateController;
 }
 
+void Controller::setCurrentIteration(int iteration)
+{
+    if (m_currentIteration == iteration)
+        return;
+
+    m_currentIteration = iteration;
+    emit currentIterationChanged(m_currentIteration);
+
+    // update backup manager
+    m_backupManager.data().currentIteration = m_currentIteration;
+}
+
 void Controller::resetCurrentIteration()
 {
-    m_currentIteration = 0;
-    emit currentIterationChanged(m_currentIteration);
+    setCurrentIteration(0);
 }
 
 void Controller::incrementCurrentIteration()
 {
-    if (m_currentIteration == m_settingsController.cycleIterations()) {
-        m_currentIteration = 1;
-    } else {
-        m_currentIteration++;
+    auto iteration = m_currentIteration + 1;
+    if (iteration > m_settingsController.cycleIterations()) {
+        iteration = 1;
     }
 
-    emit currentIterationChanged(m_currentIteration);
+    setCurrentIteration(iteration);
 }
 
 Controller::State Controller::state() const
@@ -109,7 +119,9 @@ bool Controller::isWorking() const
 
 void Controller::save()
 {
-    m_saveManager.save();
+    if (isWorking()) {
+        m_saveManager.save();
+    }
 }
 
 void Controller::clear()
@@ -192,9 +204,6 @@ void Controller::startBreak()
 {
     timer().setElapsedBreakDuration(0);
     timer().countBreakTime();
-
-    // update backup manager
-    m_backupManager.data().elapsedWorkTime = 0;
 }
 void Controller::postponeBreak()
 {
@@ -243,6 +252,8 @@ void Controller::onBackupData(const BackupManager::Data &data)
     if (data.elapsedBreakInterval >= settings().breakInterval()) {
         postponeBreak();
     }
+
+    setCurrentIteration(data.currentIteration);
 
     setState(State::Recovered); // set recovered state to avoid restart
     if (wasWorking) {

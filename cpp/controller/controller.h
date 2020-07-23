@@ -113,6 +113,7 @@ private:
     TimerController *timerPtr();
     UpdateController *updaterPtr();
 
+    void setCurrentIteration(int iteration);
     void resetCurrentIteration();
     void incrementCurrentIteration();
 
