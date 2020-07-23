@@ -155,9 +155,9 @@ void Controller::start()
     switch (m_state)
     {
     case State::Off:
-    case State::Paused:
         startWork();
         [[fallthrough]];
+    case State::Paused:
     case State::Recovered:
         timer().start( (m_state == State::Off) ); // restart only from Off
         setState(State::Working);
