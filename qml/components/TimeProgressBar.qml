@@ -33,25 +33,10 @@ Item {
     property int value: 0
     property bool timeEditMode: false
 
-    implicitHeight: text.font.pixelSize*1.4
+    implicitHeight: textLabel.font.pixelSize * 1.4
     implicitWidth: 200
 
     signal timeValueChanged(var newValue)
-
-    onTimeEditModeChanged:
-    {
-        if(timeEditMode)
-        {
-            textEditableInput.visible = true
-            textEditableInput.focus = true
-            textEditableInput.text = text.text.replace(/ /g, '')
-        }
-        else
-        {
-            textEditableInput.visible = false
-            textEditableInput.focus = false
-        }
-    }
 
     QtObject {
         id: d
@@ -126,7 +111,7 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Label {
-                id: text
+                id: textLabel
                 anchors.fill: parent
                 visible: !timeEditMode
                 fontStyle: Style.timeBar.font
@@ -148,6 +133,11 @@ Item {
                 id: textEditableInput
                 anchors.fill: parent
                 visible: timeEditMode
+                focus: visible
+                onVisibleChanged:
+                {
+                    text = textLabel.text.replace(/ /g, '')
+                }
 
                 cursorVisible: true
 
