@@ -165,7 +165,7 @@ void TrayManager::onWindowClosed()
         showInformationDialog();
     }
     else {
-        if (m_controller.state() != Controller::State::Off &&
+        if (m_controller.isWorking() &&
                 QMessageBox::question(nullptr, tr("Save"), tr("Do you want to save your state?")) == QMessageBox::Yes) {
             saveAndQuit();
         }
