@@ -92,7 +92,7 @@ Item {
                 text: qsTr("Current iteration:")
             }
             Label {
-                text: controller.currentIteration
+                text: controller.cycles.currentIteration
             }
 
             Label {

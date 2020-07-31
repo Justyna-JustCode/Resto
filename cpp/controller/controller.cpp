@@ -28,14 +28,15 @@
 #include <QCursor>
 
 Controller::Controller()
-    : m_updateController(m_settingsController, QUrl(QString("http://%1").arg(APP_VERSION_URL)) ),
+    : m_cyclesController(m_settingsController),
+      m_updateController(m_settingsController, QUrl(QString("http://%1").arg(APP_VERSION_URL)) ),
       m_saveManager(m_backupManager)
 {
-    connect(this, &Controller::currentIterationChanged, this, [this] { emit isCycleBreakChanged(isCycleBreak()); });
-
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
     connect(&m_timerController, &TimerController::elapsedBreakIntervalChanged, this, &Controller::onElapsedBreakIntervalChange);
     connect(&m_timerController, &TimerController::elapsedWorkTimeChanged, this, &Controller::onElapsedWorkTimeChange);
+
+    connect(&m_cyclesController, &CyclesController::currentIterationChanged, this, &Controller::onCycleCurrentIterationChange);
 
     connect(&m_settingsController, &SettingsController::breakIntervalChanged, this, &Controller::onBreakIntervalChanged);
     connect(&m_settingsController, &SettingsController::workTimeChanged, this, &Controller::onWorkTimeChanged);
@@ -66,6 +67,11 @@ TimerController &Controller::timer()
     return m_timerController;
 }
 
+CyclesController &Controller::cycles()
+{
+    return m_cyclesController;
+}
+
 UpdateController &Controller::updater()
 {
     return m_updateController;
@@ -75,36 +81,14 @@ TimerController *Controller::timerPtr()
     return &m_timerController;
 }
 
+CyclesController *Controller::cyclesPtr()
+{
+    return &m_cyclesController;
+}
+
 UpdateController *Controller::updaterPtr()
 {
     return &m_updateController;
-}
-
-void Controller::setCurrentIteration(int iteration)
-{
-    if (m_currentIteration == iteration)
-        return;
-
-    m_currentIteration = iteration;
-    emit currentIterationChanged(m_currentIteration);
-
-    // update backup manager
-    m_backupManager.data().currentIteration = m_currentIteration;
-}
-
-void Controller::resetCurrentIteration()
-{
-    setCurrentIteration(0);
-}
-
-void Controller::incrementCurrentIteration()
-{
-    auto iteration = m_currentIteration + 1;
-    if (iteration > m_settingsController.cycleIterations()) {
-        iteration = 1;
-    }
-
-    setCurrentIteration(iteration);
 }
 
 Controller::State Controller::state() const
@@ -138,16 +122,6 @@ QPoint Controller::cursorPos() const
 void Controller::openHelp() const
 {
     QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/help.pdf"));
-}
-
-int Controller::currentIteration() const
-{
-    return m_currentIteration;
-}
-
-bool Controller::isCycleBreak() const
-{
-    return m_currentIteration == m_settingsController.cycleIterations();
 }
 
 void Controller::start()
@@ -189,6 +163,7 @@ void Controller::stop()
     case State::Working:
         setState(State::Off);
         timer().stop();
+        cycles().resetCurrentIteration();
         m_backupManager.stop();
         m_backupManager.cleanup();
         break;
@@ -196,8 +171,6 @@ void Controller::stop()
         qWarning() << "Stop requested in unsupported state";
         break;
     }
-
-    resetCurrentIteration();
 }
 
 void Controller::startBreak()
@@ -211,14 +184,15 @@ void Controller::postponeBreak()
 }
 void Controller::startWork()
 {
-    incrementCurrentIteration();
+    cycles().incrementCurrentIteration();
 
     m_postponeDuration = m_lastRequestTime = 0;
     timer().setElapsedBreakInterval(0);
 
     if (m_settingsController.includeBreaks()) {
-        const auto breakTimeSet = isCycleBreak() ? m_settingsController.cycleBreakDuration()
-                                                 : m_settingsController.breakDuration();
+        const auto breakTimeSet = cycles().isCycleFinished()
+                ? m_settingsController.cycleBreakDuration()
+                : m_settingsController.breakDuration();
         const auto breakTimeToInclude = qMin(timer().elapsedBreakDuration(), breakTimeSet);
         timer().setElapsedWorkTime(timer().elapsedWorkTime() + breakTimeToInclude);
     }
@@ -229,8 +203,7 @@ void Controller::startWork()
 
 void Controller::setState(Controller::State state)
 {
-    if (m_state == state)
-    {
+    if (m_state == state) {
         return;
     }
 
@@ -253,7 +226,7 @@ void Controller::onBackupData(const BackupManager::Data &data)
         postponeBreak();
     }
 
-    setCurrentIteration(data.currentIteration);
+    cycles().setCurrentIteration(data.currentIteration);
 
     setState(State::Recovered); // set recovered state to avoid restart
     if (wasWorking) {
@@ -293,6 +266,12 @@ void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
 
     // update backup manager
     m_backupManager.data().elapsedWorkTime = elapsedWorkTime;
+}
+
+void Controller::onCycleCurrentIterationChange(int currentIteration)
+{
+    // update backup manager
+    m_backupManager.data().currentIteration = currentIteration;
 }
 
 void Controller::onBreakIntervalChanged(int breakInterval)

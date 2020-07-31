@@ -7,6 +7,7 @@ INCLUDEPATH += cpp/
 
 SOURCES += cpp/main.cpp \
     cpp/controller/controller.cpp \
+    cpp/controller/cyclescontroller.cpp \
     cpp/model/settings.cpp \
     cpp/controller/settingscontroller.cpp \
     cpp/controller/timercontroller.cpp \
@@ -21,6 +22,7 @@ RESOURCES += qml.qrc
 
 HEADERS += \
     cpp/controller/controller.h \
+    cpp/controller/cyclescontroller.h \
     cpp/model/settings.h \
     cpp/controller/settingscontroller.h \
     cpp/controller/timercontroller.h \

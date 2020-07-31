@@ -27,6 +27,7 @@
 
 #include "settingscontroller.h"
 #include "timercontroller.h"
+#include "cyclescontroller.h"
 #include "updatecontroller.h"
 
 #include "workers/backupmanager.h"
@@ -39,9 +40,8 @@ class Controller final : public QObject
 
     Q_PROPERTY(SettingsController* settings READ settingsPtr CONSTANT)
     Q_PROPERTY(TimerController* timer READ timerPtr CONSTANT)
+    Q_PROPERTY(CyclesController* cycles READ cyclesPtr CONSTANT)
     Q_PROPERTY(UpdateController* updater READ updaterPtr CONSTANT)
-    Q_PROPERTY(int currentIteration READ currentIteration NOTIFY currentIterationChanged)
-    Q_PROPERTY(bool isCycleBreak READ isCycleBreak NOTIFY isCycleBreakChanged)
 
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
 
@@ -57,6 +57,7 @@ public:
     Controller();
     SettingsController &settings();
     TimerController &timer();
+    CyclesController &cycles();
     UpdateController &updater();
 
     State state() const;
@@ -69,9 +70,6 @@ public:
 
     Q_INVOKABLE void openHelp() const;
 
-    int currentIteration() const;
-    bool isCycleBreak() const;
-
 signals:
     void stateChanged(State state) const;
 
@@ -80,9 +78,6 @@ signals:
     void workEndRequest() const;
 
     void exitRequest() const;
-
-    void currentIterationChanged(int currentIteration);
-    void isCycleBreakChanged(bool isCycleBreak);
 
 public slots:
     void start();
@@ -97,6 +92,7 @@ private:
     // controllers
     SettingsController m_settingsController;
     TimerController m_timerController;
+    CyclesController m_cyclesController;
     UpdateController m_updateController;
 
     // workers
@@ -111,19 +107,23 @@ private:
 
     SettingsController *settingsPtr();
     TimerController *timerPtr();
+    CyclesController *cyclesPtr();
     UpdateController *updaterPtr();
-
-    void setCurrentIteration(int iteration);
-    void resetCurrentIteration();
-    void incrementCurrentIteration();
 
 private slots:
     void setState(State state);
 
+    // TIMER CONTROLLER
+    /*!
+     * \brief Method handles restored backup data
+     * to update application state.
+     *
+     * \param data  backupData
+     */
     void onBackupData(const BackupManager::Data &data);
 
     /*!
-     * \brief Method handling change in elapsed time of break.
+     * \brief Method handles a change in elapsed time of break.
      *
      * Check if end should be finished and informs about this.
      *
@@ -131,25 +131,38 @@ private slots:
      */
     void onElapsedBreakDurationChange(int elapsedBreakDuration);
     /*!
-     * \brief Method handling change in elapsed time of work period.
+     * \brief Method handles a change in elapsed time of work period.
      *
      * Check if break is needed and informs about it.
      * Takes into account also postponing of break.
+     * Updates backup data.
      *
      * \param elapsedBreakInterval     elapsed time from the last break.
      */
     void onElapsedBreakIntervalChange(int elapsedBreakInterval);
     /*!
-     * \brief Method handling change in total work time elapsed.
+     * \brief Method handles a change in total work time elapsed.
      *
      * Check if work should be finished and informs about it.
+     * Updates backup data.
      *
      * \param elapsedWorkTime   total work time elapsed
      */
     void onElapsedWorkTimeChange(int elapsedWorkTime);
 
+    // CYCLES CONTROLLER
     /*!
-     * \brief Method handling change in break interval.
+     * \brief Method handles a change in current iteration counter.
+     *
+     * Updates backup data.
+     *
+     * \param currentIteration  current cycle iteration
+     */
+    void onCycleCurrentIterationChange(int currentIteration);
+
+    // SETTINGS CONTROLLER
+    /*!
+     * \brief Method handles a change in break interval.
      *
      * Takes into compare current elapsed times and postpone duration.
      *
@@ -157,7 +170,7 @@ private slots:
      */
     void onBreakIntervalChanged(int breakInterval);
     /*!
-     * \brief Method handling change in work time.
+     * \brief Method handles a change in work time.
      *
      * \param workTime  new work time setting
      */
