@@ -40,6 +40,7 @@ Controller::Controller()
 
     connect(&m_settingsController, &SettingsController::breakIntervalChanged, this, &Controller::onBreakIntervalChanged);
     connect(&m_settingsController, &SettingsController::workTimeChanged, this, &Controller::onWorkTimeChanged);
+    connect(&m_settingsController, &SettingsController::cyclesModeChanged, this, &Controller::onCyclesModeChanged);
 
     connect(&m_updateController, &UpdateController::updateStarted, this, &Controller::exitRequest);
     connect(&m_backupManager, &BackupManager::backupData, this, &Controller::onBackupData);
@@ -57,10 +58,6 @@ SettingsController &Controller::settings()
 {
     return m_settingsController;
 }
-SettingsController *Controller::settingsPtr()
-{
-    return &m_settingsController;
-}
 
 TimerController &Controller::timer()
 {
@@ -76,6 +73,12 @@ UpdateController &Controller::updater()
 {
     return m_updateController;
 }
+
+SettingsController *Controller::settingsPtr()
+{
+    return &m_settingsController;
+}
+
 TimerController *Controller::timerPtr()
 {
     return &m_timerController;
@@ -99,6 +102,13 @@ Controller::State Controller::state() const
 bool Controller::isWorking() const
 {
     return (m_state == State::Working);
+}
+
+int Controller::currentBreakDuration() const
+{
+    return m_cyclesController.isCycleFinished()
+            ? m_settingsController.cycleBreakDuration()
+            : m_settingsController.breakDuration();
 }
 
 void Controller::save()
@@ -133,7 +143,7 @@ void Controller::start()
         [[fallthrough]];
     case State::Paused:
     case State::Recovered:
-        timer().start( (m_state == State::Off) ); // restart only from Off
+        m_timerController.start( (m_state == State::Off) ); // restart only from Off
         setState(State::Working);
         m_backupManager.start();
         break;
@@ -148,7 +158,7 @@ void Controller::pause()
     {
     case State::Working:
         setState(State::Paused);
-        timer().stop();
+        m_timerController.stop();
         m_backupManager.stop();
         break;
     default:
@@ -162,8 +172,8 @@ void Controller::stop()
     {
     case State::Working:
         setState(State::Off);
-        timer().stop();
-        cycles().resetCurrentIteration();
+        m_timerController.stop();
+        m_cyclesController.resetCurrentIteration();
         m_backupManager.stop();
         m_backupManager.cleanup();
         break;
@@ -175,30 +185,29 @@ void Controller::stop()
 
 void Controller::startBreak()
 {
-    timer().setElapsedBreakDuration(0);
-    timer().countBreakTime();
+    m_timerController.setElapsedBreakDuration(0);
+    m_timerController.countBreakTime();
 }
 void Controller::postponeBreak()
 {
-    m_postponeDuration += (timer().elapsedBreakInterval() - m_lastRequestTime) + settings().postponeTime();
+    m_postponeDuration +=
+            (m_timerController.elapsedBreakInterval() - m_lastRequestTime)
+            + settings().postponeTime();
 }
 void Controller::startWork()
 {
-    cycles().incrementCurrentIteration();
+    m_cyclesController.incrementCurrentIteration();
 
     m_postponeDuration = m_lastRequestTime = 0;
-    timer().setElapsedBreakInterval(0);
+    m_timerController.setElapsedBreakInterval(0);
 
     if (m_settingsController.includeBreaks()) {
-        const auto breakTimeSet = cycles().isCycleFinished()
-                ? m_settingsController.cycleBreakDuration()
-                : m_settingsController.breakDuration();
-        const auto breakTimeToInclude = qMin(timer().elapsedBreakDuration(), breakTimeSet);
-        timer().setElapsedWorkTime(timer().elapsedWorkTime() + breakTimeToInclude);
+        const auto breakTimeToInclude = qMin(m_timerController.elapsedBreakDuration(), currentBreakDuration());
+        m_timerController.setElapsedWorkTime(m_timerController.elapsedWorkTime() + breakTimeToInclude);
     }
 
 
-    timer().countWorkTime();
+    m_timerController.countWorkTime();
 }
 
 void Controller::setState(Controller::State state)
@@ -219,14 +228,14 @@ void Controller::onBackupData(const BackupManager::Data &data)
         wasWorking = true;
     }
 
-    timer().setElapsedBreakDuration(0);
-    timer().setElapsedBreakInterval(data.elapsedBreakInterval);
-    timer().setElapsedWorkTime(data.elapsedWorkTime);
+    m_timerController.setElapsedBreakDuration(0);
+    m_timerController.setElapsedBreakInterval(data.elapsedBreakInterval);
+    m_timerController.setElapsedWorkTime(data.elapsedWorkTime);
     if (data.elapsedBreakInterval >= settings().breakInterval()) {
         postponeBreak();
     }
 
-    cycles().setCurrentIteration(data.currentIteration);
+    m_cyclesController.setCurrentIteration(data.currentIteration);
 
     setState(State::Recovered); // set recovered state to avoid restart
     if (wasWorking) {
@@ -277,7 +286,7 @@ void Controller::onCycleCurrentIterationChange(int currentIteration)
 void Controller::onBreakIntervalChanged(int breakInterval)
 {
     m_postponeDuration = 0; // clear postpones
-    auto elapsedBreakInterval = timer().elapsedBreakInterval();
+    auto elapsedBreakInterval = m_timerController.elapsedBreakInterval();
     if (elapsedBreakInterval > breakInterval) // break should be taken now
     {
         m_lastRequestTime = breakInterval;
@@ -287,10 +296,17 @@ void Controller::onBreakIntervalChanged(int breakInterval)
 
 void Controller::onWorkTimeChanged(int workTime)
 {
-    auto elapsedWorkTime = timer().elapsedWorkTime();
+    auto elapsedWorkTime = m_timerController.elapsedWorkTime();
     if (elapsedWorkTime > workTime) // work should be finished now
     {
         emit workEndRequest(); // inform about it
     }
 }
 
+void Controller::onCyclesModeChanged(bool cyclesMode)
+{
+    m_cyclesController.resetCurrentIteration();
+    if (cyclesMode && m_state > State::Off) {
+        m_cyclesController.incrementCurrentIteration();
+    }
+}

@@ -64,8 +64,7 @@ CustomDialog {
     additionalContent.fillWidth: true
     additionalContent.data: TimeProgressBar {
         width: parent.width
-        maxValue: controller.cycles.isCycleFinished ? controller.settings.cycleBreakDuration
-                                                    : controller.settings.breakDuration
+        maxValue: controller.currentBreakDuration()
         value: controller.timer.elapsedBreakDuration
     }
 

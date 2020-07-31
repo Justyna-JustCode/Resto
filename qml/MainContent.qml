@@ -90,9 +90,11 @@ Item {
 
             Label {
                 text: qsTr("Current iteration:")
+                visible: controller.settings.cyclesMode
             }
             Label {
                 text: controller.cycles.currentIteration
+                visible: controller.settings.cyclesMode
             }
 
             Label {

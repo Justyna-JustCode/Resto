@@ -63,6 +63,8 @@ public:
     State state() const;
     bool isWorking() const;
 
+    Q_INVOKABLE int currentBreakDuration() const;
+
     void save();
     void clear();
 
@@ -175,6 +177,12 @@ private slots:
      * \param workTime  new work time setting
      */
     void onWorkTimeChanged(int workTime);
+    /*!
+     * \brief Method handles a change cycles mode enabling.
+     *
+     * \param cyclesMode    if cycles mode is enabled
+     */
+    void onCyclesModeChanged(bool cyclesMode);
 };
 
 #endif // CONTROLLER_H

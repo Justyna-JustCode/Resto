@@ -30,12 +30,15 @@ CyclesController::CyclesController(SettingsController &settingsController, QObje
 
 int CyclesController::currentIteration() const
 {
-    return m_currentIteration;
+    return m_settingsController.cyclesMode() ? m_currentIteration
+                                             : 0;
 }
 
 bool CyclesController::isCycleFinished() const
 {
-    return m_currentIteration == m_settingsController.cycleIterations();
+    return m_settingsController.cyclesMode()
+            ? (m_currentIteration == m_settingsController.cycleIterations())
+            : 0;
 }
 
 void CyclesController::setCurrentIteration(int iteration)
