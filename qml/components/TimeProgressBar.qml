@@ -20,7 +20,7 @@
 **
 ********************************************/
 
-import QtQuick 2.12
+import QtQuick 2.14
 import QtQuick.Layouts 1.3
 import "../style"
 import "helpers"
@@ -148,6 +148,9 @@ Item {
                 color: Style.highlightedApplicationColors[Style.mainColorIndex]
 
                 inputMask: "99:99:99"
+                validator: RegularExpressionValidator {
+                    regularExpression: /^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
+                }
 
                 onAccepted:
                 {
