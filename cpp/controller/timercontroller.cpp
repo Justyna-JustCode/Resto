@@ -22,6 +22,16 @@
 
 #include "timercontroller.h"
 
+namespace
+{
+    constexpr int MAX_HOUR_LIMIT = 99;
+    constexpr int MAX_MINUTES_LIMIT = 59;
+    constexpr int MAX_SECONDS_LIMIT = 59;
+    constexpr int MAX_TIME_LIMIT_SEC = 60 * 60 * MAX_HOUR_LIMIT +
+                                       60 * MAX_MINUTES_LIMIT +
+                                       MAX_SECONDS_LIMIT;
+}
+
 TimerController::TimerController(QObject *parent)
     : QObject(parent)
 {
@@ -91,33 +101,42 @@ void TimerController::countWorkTime()
 
 void TimerController::setElapsedBreakDuration(int elapsedBreakDuration)
 {
-    if (m_elapsedBreakDuration == elapsedBreakDuration)
+    int tmpElapsedBreakDuration = qMin(elapsedBreakDuration, MAX_TIME_LIMIT_SEC);
+    if (m_elapsedBreakDuration == tmpElapsedBreakDuration)
     {
         return;
     }
 
-    m_elapsedBreakDuration = elapsedBreakDuration;
-    emit elapsedBreakDurationChanged(elapsedBreakDuration);
+    m_elapsedBreakDuration = tmpElapsedBreakDuration;
+    emit elapsedBreakDurationChanged(m_elapsedBreakDuration);
 }
+
 void TimerController::setElapsedWorkPeriod(int elapsedWorkPeriod)
 {
-    if (m_elapsedWorkPeriod == elapsedWorkPeriod)
+    int tmpElapsedPeriod = qMin(elapsedWorkPeriod, MAX_TIME_LIMIT_SEC);
+    if (m_elapsedWorkPeriod == tmpElapsedPeriod)
     {
         return;
     }
 
-    m_elapsedWorkPeriod = elapsedWorkPeriod;
-    emit elapsedWorkPeriodChanged(elapsedWorkPeriod);
+    m_elapsedWorkPeriod = tmpElapsedPeriod;
+    emit elapsedWorkPeriodChanged(m_elapsedWorkPeriod);
 }
 void TimerController::setElapsedWorkTime(int elapsedWorkTime)
 {
-    if (m_elapsedWorkTime == elapsedWorkTime)
+    int tmpElapsedWorkTime = qMin(elapsedWorkTime, MAX_TIME_LIMIT_SEC);
+    if (m_elapsedWorkTime == tmpElapsedWorkTime)
     {
         return;
     }
 
-    m_elapsedWorkTime = elapsedWorkTime;
-    emit elapsedWorkTimeChanged(elapsedWorkTime);
+    m_elapsedWorkTime = tmpElapsedWorkTime;
+    emit elapsedWorkTimeChanged(m_elapsedWorkTime);
+
+    if (m_elapsedWorkTime == MAX_TIME_LIMIT_SEC)
+    {
+        emit timerStopRequest();
+    }
 }
 
 void TimerController::incrementWorkTime()

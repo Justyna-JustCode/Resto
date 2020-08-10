@@ -54,6 +54,7 @@ signals:
     void elapsedBreakDurationChanged(int elapsedBreakDuration) const;
     void elapsedWorkPeriodChanged(int elapsedWorkPeriod) const;
     void elapsedWorkTimeChanged(int elapsedWorkTime) const;
+    void timerStopRequest() const;
 
     void activePeriodTypeChanged(PeriodType activePeriodType) const;
 

@@ -1,4 +1,4 @@
-/********************************************
+﻿/********************************************
 **
 ** Copyright 2016 JustCode Justyna Kulinska
 **
@@ -149,6 +149,11 @@ private slots:
      * \param workTime  new work time setting
      */
     void onWorkTimeChanged(int workTime);
+    /*!
+     * \brief Timer could request stop if some event occurs,
+     *        for example if timer limit was exceeded.
+     */
+    void onTimerStopRequested();
 };
 
 #endif // CONTROLLER_H
