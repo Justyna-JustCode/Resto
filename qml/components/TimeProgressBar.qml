@@ -31,6 +31,7 @@ Item {
     property int minValue: 0
     property int maxValue: 100
     property int value: 0
+    property bool enableEditMode: true
     property bool timeEditMode: false
 
     implicitHeight: textLabel.font.pixelSize * 1.4
@@ -113,7 +114,7 @@ Item {
             Label {
                 id: textLabel
                 anchors.fill: parent
-                visible: !timeEditMode
+                visible: !(timeEditMode && enableEditMode)
                 fontStyle: Style.timeBar.font
 
                 verticalAlignment: Text.AlignVCenter
@@ -132,7 +133,7 @@ Item {
             LabelInput {
                 id: textEditableInput
                 anchors.fill: parent
-                visible: timeEditMode
+                visible: timeEditMode && enableEditMode
                 focus: visible
                 onVisibleChanged:
                 {
@@ -174,6 +175,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
+                enabled: enableEditMode
                 propagateComposedEvents: true
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onDoubleClicked:

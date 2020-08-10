@@ -65,6 +65,7 @@ CustomDialog {
         width: parent.width
         maxValue: controller.settings.breakDuration
         value: controller.timer.elapsedBreakDuration
+        enableEditMode: false
     }
 
     Connections {

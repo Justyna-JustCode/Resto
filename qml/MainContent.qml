@@ -109,6 +109,7 @@ Item {
 
             ImageButton {
                 enabled: !nextBreakTimeProgressBar.timeEditMode
+                visible: nextBreakTimeProgressBar.enableEditMode
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit next break")
@@ -126,7 +127,6 @@ Item {
             TimeProgressBar {
                 id: workTimeProgressBar
                 Layout.fillWidth: true
-
                 maxValue: controller.settings.workTime
                 value: controller.timer.elapsedWorkTime
 
@@ -139,6 +139,7 @@ Item {
 
             ImageButton {
                 enabled: !workTimeProgressBar.timeEditMode
+                visible: workTimeProgressBar.enableEditMode
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit work time")
