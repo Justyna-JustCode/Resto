@@ -54,13 +54,21 @@ Item {
             }
             ImageButton {
                 type: "break"
-                tooltip: qsTr("Break")
+                tooltip: qsTr("Break\nHold right button to skip")
 
                 visible: controller.state == Controller.Working
 
                 onClicked: {
                     controller.startBreak()
                     dialogsManager.showBreakDialog();
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.RightButton
+                    onPressAndHold: {
+                        controller.startWork();
+                    }
                 }
             }
             ImageButton {
