@@ -26,6 +26,7 @@
 #include <QObject>
 #include <QTimer>
 
+// TODO: switch to std::chrono
 class TimerController final : public QObject
 {
     Q_OBJECT

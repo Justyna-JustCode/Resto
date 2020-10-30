@@ -265,6 +265,7 @@ void Controller::onWorkTimeChanged(int workTime)
 
 void Controller::onTimerStopRequested()
 {
+    // this is to support for example paused state
     if(m_state != State::Working)
     {
         start();

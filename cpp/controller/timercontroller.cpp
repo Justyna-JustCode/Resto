@@ -22,14 +22,15 @@
 
 #include "timercontroller.h"
 
+#include <chrono>
+
+using namespace std::chrono_literals;
+
 namespace
 {
-    constexpr int MAX_HOUR_LIMIT = 99;
-    constexpr int MAX_MINUTES_LIMIT = 59;
-    constexpr int MAX_SECONDS_LIMIT = 59;
-    constexpr int MAX_TIME_LIMIT_SEC = 60 * 60 * MAX_HOUR_LIMIT +
-                                       60 * MAX_MINUTES_LIMIT +
-                                       MAX_SECONDS_LIMIT;
+    constexpr std::chrono::seconds MAX_TIME_LIMIT = std::chrono::hours(99) // max available hours
+        + std::chrono::minutes(59) + std::chrono::seconds(59);
+    constexpr int MAX_TIME_LIMIT_SEC = static_cast<int>(MAX_TIME_LIMIT.count());    // TODO: remove this after switch to chrono
 }
 
 TimerController::TimerController(QObject *parent)
