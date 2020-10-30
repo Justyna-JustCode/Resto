@@ -132,6 +132,12 @@ Item {
 
             LabelInput {
                 id: textEditableInput
+
+                /* we need this property to compare in onAccepted slot
+                 * it seems that inputMask is extended with additional characters after creation
+                 */
+                property string timeInputMask: "99:99:99"
+
                 anchors.fill: parent
                 visible: timeEditMode && enableEditMode
                 focus: visible
@@ -148,15 +154,18 @@ Item {
                 fontStyle: Style.spinBox.font
                 color: Style.highlightedApplicationColors[Style.mainColorIndex]
 
-                inputMask: "99:99:99"
+                inputMask: timeInputMask
                 validator: RegularExpressionValidator {
-                    regularExpression: /^[0-9][0-9]:[0-5][0-9]:[0-5][0-9]/
+                    regularExpression: /^([0-9][0-9]|[0-9] |  ):([0-5][0-9]|[0-5] |  ):([0-5][0-9]|[0-5] |  )$/
                 }
 
                 onAccepted:
                 {
-                    timeValueChanged(d.deFormatTime(textEditableInput.text))
-                    timeEditMode = false
+                    var intermediateInput = text.length != timeInputMask.length;
+                    if (!intermediateInput) {
+                        timeValueChanged(d.deFormatTime(textEditableInput.text))
+                        timeEditMode = false
+                    }
                 }
 
                 Keys.onEscapePressed:
