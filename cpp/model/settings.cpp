@@ -63,7 +63,7 @@ const int Settings::sc_defaultBreakInterval = 25*60; //! 25 min
 const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
 const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
 
-const QSize Settings::sc_defaultWindowSize = { 440, 200 };  // px
+const QSize Settings::sc_defaultWindowSize = { 440, 240 };  // px
 int Settings::sc_defaultApplicationColorIndex = 0;
 
 Settings::Settings(const QString organization, const QString name)
@@ -231,6 +231,11 @@ QSize Settings::windowSize() const
 {
     return { value(sc_viewGroupName, sc_windowWidthKey, sc_defaultWindowSize.width()).toInt(),
                 value(sc_viewGroupName, sc_windowHeightKey, sc_defaultWindowSize.height()).toInt() };
+}
+
+QSize Settings::defaultWindowSize() const
+{
+    return sc_defaultWindowSize;
 }
 
 void Settings::setWindowSize(const QSize &size)

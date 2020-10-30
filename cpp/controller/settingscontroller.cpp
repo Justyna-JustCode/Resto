@@ -82,6 +82,11 @@ QSize SettingsController::windowSize() const
     return m_settings.windowSize();
 }
 
+QSize SettingsController::defaultWindowSize() const
+{
+    return m_settings.defaultWindowSize();
+}
+
 int SettingsController::applicationColorIndex() const
 {
     return m_settings.applicationColorIndex();

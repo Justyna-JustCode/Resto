@@ -50,6 +50,7 @@ class SettingsController final : public QObject
 
     Q_PROPERTY(QPoint windowPosition READ windowPosition WRITE setWindowPosition NOTIFY windowPositionChanged)
     Q_PROPERTY(QSize windowSize READ windowSize WRITE setWindowSize NOTIFY windowSizeChanged)
+    Q_PROPERTY(QSize defaultWindowSize READ defaultWindowSize CONSTANT)
 
     Q_PROPERTY(int applicationColorIndex READ applicationColorIndex WRITE setApplicationColorIndex NOTIFY applicationColorIndexChanged)
 
@@ -79,6 +80,7 @@ public:
 
     QPoint windowPosition() const;
     QSize windowSize() const;
+    QSize defaultWindowSize() const;
 
     int applicationColorIndex() const;
 
@@ -115,7 +117,6 @@ signals:
 
     void updateVersionChanged(QString updateVersion) const;
     void nextUpdateCheckChanged(QDateTime nextUpdateCheck) const;
-
 
 public slots:
     void setIncludeBreaks(bool includeBreaks);

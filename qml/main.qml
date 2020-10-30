@@ -33,6 +33,9 @@ import "style"
 ApplicationWindow {
     visible: true
 
+    minimumWidth: controller.settings.defaultWindowSize.width
+    minimumHeight: controller.settings.defaultWindowSize.height
+
     function showBreakDialog() {
         dialogsManager.showBreakDialog()
     }

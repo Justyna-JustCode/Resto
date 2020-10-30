@@ -214,6 +214,12 @@ public:
      * \brief Returns the lastest size of the main window.
      */
     QSize windowSize() const;
+
+    /*!
+     * \brief Returns the default size of the main window.
+     */
+    QSize defaultWindowSize() const;
+
     /*!
      * \brief Sets a current size of the main window.
      */
