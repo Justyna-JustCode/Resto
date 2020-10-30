@@ -50,7 +50,7 @@ TextButton {
     }
 
     contentItem: RowLayout {
-        opacity: button.pressed ? 0.8 : 1
+        opacity: button.pressed || !button.enabled ? 0.8 : 1
 
         Image {
             id: image

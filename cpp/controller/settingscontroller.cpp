@@ -23,12 +23,10 @@
 #include "settingscontroller.h"
 #include <QCoreApplication>
 
-const QStringList SettingsController::sc_availableColors = { "#19886F", "#EC811B", "#682C90", "#C0159B", "#008000", "#0958EC", "#666666" };
-
 SettingsController::SettingsController(QObject *parent)
     : QObject(parent), m_settings(QCoreApplication::organizationName(), QCoreApplication::applicationName())
 {
-    m_settings.setDefaultApplicationColor(sc_availableColors.first());
+    m_settings.setDefaultApplicationColorIndex(0);
 }
 
 int SettingsController::breakDuration() const
@@ -62,14 +60,9 @@ QSize SettingsController::windowSize() const
     return m_settings.windowSize();
 }
 
-QStringList SettingsController::availableColors() const
+int SettingsController::applicationColorIndex() const
 {
-    return sc_availableColors;
-}
-
-QColor SettingsController::applicationColor() const
-{
-    return m_settings.applicationColor();
+    return m_settings.applicationColorIndex();
 }
 
 bool SettingsController::trayAvailable() const
@@ -161,13 +154,13 @@ void SettingsController::setWindowSize(const QSize &windowSize)
     emit windowSizeChanged(windowSize);
 }
 
-void SettingsController::setApplicationColor(QColor color)
+void SettingsController::setApplicationColorIndex(const int colorIndex)
 {
-    if (m_settings.applicationColor() == color)
+    if (m_settings.applicationColorIndex() == colorIndex)
         return;
 
-    m_settings.setApplicationColor(color);
-    emit applicationColorChanged(color);
+    m_settings.setApplicationColorIndex(colorIndex);
+    emit applicationColorIndexChanged(colorIndex);
 }
 
 void SettingsController::setTrayAvailable(bool trayAvailable)

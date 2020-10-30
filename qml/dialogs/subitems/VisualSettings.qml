@@ -28,20 +28,20 @@ import "../../style"
 SettingsPage {
     QtObject {
         id: d
-
-        property color applicationColor
+        property int previousApplicationColorIndex
     }
 
     Component.onCompleted: {
         // save state before change
-        d.applicationColor = Style.mainColor
+        d.previousApplicationColorIndex = Style.mainColorIndex
     }
 
     function save() {   // save current state
-        controller.settings.applicationColor = Style.mainColor
+        controller.settings.applicationColorIndex = Style.mainColorIndex
     }
+
     function discard() {    // restore previous state
-        Style.mainColor = d.applicationColor
+        Style.mainColorIndex = d.previousApplicationColorIndex
     }
 
     FormElement {
@@ -49,11 +49,11 @@ SettingsPage {
         ColorPicker {
             id: picker
 
-            currentColor: Style.mainColor
-            availableColors: controller.settings.availableColors
+            currentColorIndex: Style.mainColorIndex
+            availableApplicationColors: Style.availableApplicationColors
 
-            onCurrentColorChanged: {
-                Style.mainColor = currentColor
+            onCurrentColorIndexChanged: {
+                Style.mainColorIndex = currentColorIndex
             }
         }
     }

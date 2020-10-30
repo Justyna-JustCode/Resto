@@ -47,15 +47,15 @@ const QLatin1String Settings::sc_windowPositionXKey = QLatin1String("window-x");
 const QLatin1String Settings::sc_windowPositionYKey = QLatin1String("window-y");
 const QLatin1String Settings::sc_windowWidthKey = QLatin1String("window-width");
 const QLatin1String Settings::sc_windowHeightKey = QLatin1String("window-height");
-const QLatin1String Settings::sc_applicationColorKey = QLatin1String("mainColor");
+const QLatin1String Settings::sc_applicationColorIndexKey = QLatin1String("mainColorIndex");
 
 const int Settings::sc_defaultBreakDuration = 10*60;  //! 10 min
 const int Settings::sc_defaultBreakInterval = 45*60; //! 45 min
 const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
 const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
 
-const QSize Settings::sc_defaultWindowSize = { 400, 200 };  // px
-QColor Settings::sc_defaultApplicationColor;
+const QSize Settings::sc_defaultWindowSize = { 440, 200 };  // px
+int Settings::sc_defaultApplicationColorIndex = 0;
 
 Settings::Settings(const QString organization, const QString name)
     : m_settings(QSettings::UserScope, organization, name)
@@ -190,19 +190,19 @@ void Settings::setWindowSize(const QSize &size)
     setValue(sc_viewGroupName, sc_windowHeightKey, size.height());
 }
 
-QColor Settings::applicationColor() const
+int Settings::applicationColorIndex() const
 {
-    return value(sc_viewGroupName, sc_applicationColorKey, sc_defaultApplicationColor).toString();
+    return value(sc_viewGroupName, sc_applicationColorIndexKey, sc_defaultApplicationColorIndex).toInt();
 }
 
-void Settings::setApplicationColor(const QColor &color)
+void Settings::setApplicationColorIndex(const int colorIndex)
 {
-    setValue(sc_viewGroupName, sc_applicationColorKey, color.name(QColor::HexRgb));
+    setValue(sc_viewGroupName, sc_applicationColorIndexKey, colorIndex);
 }
 
-void Settings::setDefaultApplicationColor(const QColor &value)
+void Settings::setDefaultApplicationColorIndex(const int value)
 {
-    sc_defaultApplicationColor = value;
+    sc_defaultApplicationColorIndex = value;
 }
 
 void Settings::setValue(const QString &groupName, const QString &key, const QVariant &value)
