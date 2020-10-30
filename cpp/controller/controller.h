@@ -178,6 +178,11 @@ private slots:
      */
     void onWorkTimeChanged(int workTime);
     /*!
+     * \brief Timer could request stop if some event occurs,
+     *        for example if timer limit was exceeded.
+     */
+    void onTimerStopRequested();
+    /*!
      * \brief Method handles a change cycles mode enabling.
      *
      * \param cyclesMode    if cycles mode is enabled

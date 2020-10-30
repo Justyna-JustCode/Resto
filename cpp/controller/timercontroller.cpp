@@ -22,6 +22,17 @@
 
 #include "timercontroller.h"
 
+#include <chrono>
+
+using namespace std::chrono_literals;
+
+namespace
+{
+    constexpr std::chrono::seconds MAX_TIME_LIMIT = std::chrono::hours(99) // max available hours
+        + std::chrono::minutes(59) + std::chrono::seconds(59);
+    constexpr int MAX_TIME_LIMIT_SEC = static_cast<int>(MAX_TIME_LIMIT.count());    // TODO: remove this after switch to chrono
+}
+
 TimerController::TimerController(QObject *parent)
     : QObject(parent)
 {
@@ -91,33 +102,42 @@ void TimerController::countWorkTime()
 
 void TimerController::setElapsedBreakDuration(int elapsedBreakDuration)
 {
-    if (m_elapsedBreakDuration == elapsedBreakDuration)
+    int tmpElapsedBreakDuration = qMin(elapsedBreakDuration, MAX_TIME_LIMIT_SEC);
+    if (m_elapsedBreakDuration == tmpElapsedBreakDuration)
     {
         return;
     }
 
-    m_elapsedBreakDuration = elapsedBreakDuration;
-    emit elapsedBreakDurationChanged(elapsedBreakDuration);
+    m_elapsedBreakDuration = tmpElapsedBreakDuration;
+    emit elapsedBreakDurationChanged(m_elapsedBreakDuration);
 }
+
 void TimerController::setElapsedBreakInterval(int elapsedBreakInterval)
 {
-    if (m_elapsedBreakInterval == elapsedBreakInterval)
+    int tmpElapsedBreakInterval = qMin(elapsedBreakInterval, MAX_TIME_LIMIT_SEC);
+    if (m_elapsedBreakInterval == tmpElapsedBreakInterval)
     {
         return;
     }
 
-    m_elapsedBreakInterval = elapsedBreakInterval;
-    emit elapsedBreakIntervalChanged(elapsedBreakInterval);
+    m_elapsedBreakInterval = tmpElapsedBreakInterval;
+    emit elapsedBreakIntervalChanged(m_elapsedBreakInterval);
 }
 void TimerController::setElapsedWorkTime(int elapsedWorkTime)
 {
-    if (m_elapsedWorkTime == elapsedWorkTime)
+    int tmpElapsedWorkTime = qMin(elapsedWorkTime, MAX_TIME_LIMIT_SEC);
+    if (m_elapsedWorkTime == tmpElapsedWorkTime)
     {
         return;
     }
 
-    m_elapsedWorkTime = elapsedWorkTime;
-    emit elapsedWorkTimeChanged(elapsedWorkTime);
+    m_elapsedWorkTime = tmpElapsedWorkTime;
+    emit elapsedWorkTimeChanged(m_elapsedWorkTime);
+
+    if (m_elapsedWorkTime == MAX_TIME_LIMIT_SEC)
+    {
+        emit timerStopRequest();
+    }
 }
 
 void TimerController::incrementWorkTime()

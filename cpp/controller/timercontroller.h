@@ -26,13 +26,14 @@
 #include <QObject>
 #include <QTimer>
 
+// TODO: switch to std::chrono
 class TimerController final : public QObject
 {
     Q_OBJECT
 
     Q_PROPERTY(int elapsedBreakDuration READ elapsedBreakDuration NOTIFY elapsedBreakDurationChanged)
-    Q_PROPERTY(int elapsedBreakInterval READ elapsedBreakInterval NOTIFY elapsedBreakIntervalChanged)
-    Q_PROPERTY(int elapsedWorkTime READ elapsedWorkTime NOTIFY elapsedWorkTimeChanged)
+    Q_PROPERTY(int elapsedBreakInterval READ elapsedBreakInterval WRITE setElapsedBreakInterval NOTIFY elapsedBreakIntervalChanged)
+    Q_PROPERTY(int elapsedWorkTime READ elapsedWorkTime WRITE setElapsedWorkTime NOTIFY elapsedWorkTimeChanged)
     Q_PROPERTY(PeriodType activePeriodType READ activePeriodType NOTIFY activePeriodTypeChanged)
 
 public:
@@ -54,6 +55,7 @@ signals:
     void elapsedBreakDurationChanged(int elapsedBreakDuration) const;
     void elapsedBreakIntervalChanged(int elapsedBreakInterval) const;
     void elapsedWorkTimeChanged(int elapsedWorkTime) const;
+    void timerStopRequest() const;
 
     void activePeriodTypeChanged(PeriodType activePeriodType) const;
 

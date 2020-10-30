@@ -35,6 +35,7 @@ Controller::Controller()
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
     connect(&m_timerController, &TimerController::elapsedBreakIntervalChanged, this, &Controller::onElapsedBreakIntervalChange);
     connect(&m_timerController, &TimerController::elapsedWorkTimeChanged, this, &Controller::onElapsedWorkTimeChange);
+    connect(&m_timerController, &TimerController::timerStopRequest, this, &Controller::onTimerStopRequested);
 
     connect(&m_cyclesController, &CyclesController::currentIterationChanged, this, &Controller::onCycleCurrentIterationChange);
 
@@ -301,6 +302,17 @@ void Controller::onWorkTimeChanged(int workTime)
     {
         emit workEndRequest(); // inform about it
     }
+}
+
+void Controller::onTimerStopRequested()
+{
+    // this is to support for example paused state
+    if(m_state != State::Working)
+    {
+        start();
+    }
+
+    stop();
 }
 
 void Controller::onCyclesModeChanged(bool cyclesMode)

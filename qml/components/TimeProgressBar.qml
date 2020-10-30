@@ -20,17 +20,24 @@
 **
 ********************************************/
 
-import QtQuick 2.12
+import QtQuick 2.14
+import QtQuick.Layouts 1.3
 import "../style"
 import "helpers"
 
 Item {
+    id: root
+
     property int minValue: 0
     property int maxValue: 100
     property int value: 0
+    property bool enableEditMode: true
+    property bool timeEditMode: false
 
-    implicitHeight: text.font.pixelSize*1.4
+    implicitHeight: textLabel.font.pixelSize * 1.4
     implicitWidth: 200
+
+    signal timeValueChanged(var newValue)
 
     QtObject {
         id: d
@@ -50,6 +57,17 @@ Item {
             hoursStr = hours > 9 ? hours : '0' + hours
 
             return hoursStr + ':' + minsStr + ':' + secsStr
+        }
+
+        function deFormatTime(timeStr)
+        {
+            var splitted = timeStr.split(':')
+
+            var hours = parseInt(splitted[0])
+            var mins = parseInt(splitted[1])
+            var secs = parseInt(splitted[2])
+
+            return hours * 60 * 60 + mins * 60 + secs
         }
     }
 
@@ -86,23 +104,140 @@ Item {
         gradient: BarGradient { color: Style.timeBar.secondaryColor }
     }
 
-    Label {
-        id: text
+    RowLayout {
         anchors.fill: parent
+        spacing: 1
 
-        fontStyle: Style.timeBar.font
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Label {
+                id: textLabel
+                anchors.fill: parent
+                visible: !(timeEditMode && enableEditMode)
+                fontStyle: Style.timeBar.font
 
-        elide: Text.ElideRight
-        horizontalAlignment: Qt.AlignHCenter
-        verticalAlignment: Qt.AlignVCenter
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignRight
 
-        text: d.formatTime(value) + " / " +
-              d.formatTime(maxValue)
+                elide: Text.ElideRight
 
-    }
-    BarTextGradient {
-        source: text
-        value: d.valuePercent
+                text: d.formatTime(value)
+
+                BarTextGradient {
+                    source: parent
+                    value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
+                }
+            }
+
+            LabelInput {
+                id: textEditableInput
+
+                /* we need this property to compare in onAccepted slot
+                 * it seems that inputMask is extended with additional characters after creation
+                 */
+                property string timeInputMask: "99:99:99"
+
+                anchors.fill: parent
+                visible: timeEditMode && enableEditMode
+                focus: visible
+                onVisibleChanged:
+                {
+                    text = textLabel.text.replace(/ /g, '')
+                }
+
+                cursorVisible: true
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignRight
+
+                fontStyle: Style.spinBox.font
+                color: Style.highlightedApplicationColors[Style.mainColorIndex]
+
+                inputMask: timeInputMask
+                validator: RegularExpressionValidator {
+                    regularExpression: /^([0-9][0-9]|[0-9] |  ):([0-5][0-9]|[0-5] |  ):([0-5][0-9]|[0-5] |  )$/
+                }
+
+                onAccepted:
+                {
+                    var intermediateInput = text.length != timeInputMask.length;
+                    if (!intermediateInput) {
+                        timeValueChanged(d.deFormatTime(textEditableInput.text))
+                        timeEditMode = false
+                    }
+                }
+
+                Keys.onEscapePressed:
+                {
+                    timeEditMode = false
+                }
+
+                onFocusChanged:
+                {
+                    if(!focus)
+                    {
+                        timeEditMode = false
+                    }
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                enabled: enableEditMode
+                propagateComposedEvents: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onDoubleClicked:
+                {
+                    timeEditMode = true
+                }
+
+                onClicked:
+                {
+                    if(mouse.button === Qt.RightButton)
+                    {
+                        timeEditMode = false
+                    }
+                }
+            }
+        }
+
+        Label {
+            Layout.fillHeight: true
+            Layout.preferredHeight: 0
+            Layout.preferredWidth: implicitWidth
+            fontStyle: Style.timeBar.font
+
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+
+            text: "/"
+
+            BarTextGradient {
+                source: parent
+                value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
+            }
+        }
+
+        Label {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.preferredHeight: 0
+            Layout.preferredWidth: 0
+            fontStyle: Style.timeBar.font
+
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+
+            elide: Text.ElideRight
+
+            text: d.formatTime(maxValue)
+
+            BarTextGradient {
+                source: parent
+                value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
+            }
+        }
     }
 }
 

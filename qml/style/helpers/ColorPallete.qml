@@ -26,7 +26,12 @@ import QtQuick 2.12
 QtObject {
     id: style
 
-    property color mainColor: controller.settings.applicationColor
+    readonly property var availableApplicationColors:   ["#19886F", "#EC811B", "#682C90", "#C0159B", "#008000", "#0958EC", "#666666"]
+    readonly property var highlightedApplicationColors: ["#28DAB2", "#FFB545", "#EF3EAD", "#FF9EB1", "#00CD00", "#84AFFF", "#A3A3A3"]
+
+    //FF5072
+    property int mainColorIndex: controller.settings.applicationColorIndex
+    property color mainColor: availableApplicationColors[mainColorIndex]
     readonly property color secondaryLightColor: "white"
     readonly property color secondaryDarkColor: "#1E1E1E"
 

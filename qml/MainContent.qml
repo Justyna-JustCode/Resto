@@ -94,8 +94,9 @@ Item {
         }
         GridLayout {
             Layout.fillWidth: true
-            columns: 2
+            columns: 3
 
+            // current iteration
             Label {
                 text: qsTr("Current iteration:")
                 visible: controller.settings.cyclesMode
@@ -105,24 +106,82 @@ Item {
                 visible: controller.settings.cyclesMode
             }
 
+            ImageButton {
+                //enabled: !workTimeProgressBar.timeEditMode
+                //visible: workTimeProgressBar.enableEditMode
+                visible: controller.settings.cyclesMode
+                styleFont: Style.font.imageButtonSmallest
+                type: "edit"
+                tooltip: qsTr("Edit current iteration")
+
+                onClicked:
+                {
+                    // TODO
+                }
+            }
+
+            // next break
             Label {
                 text: qsTr("Next break:")
             }
+
             TimeProgressBar {
+                id: nextBreakTimeProgressBar
                 Layout.fillWidth: true
 
                 maxValue: controller.settings.breakInterval
                 value: controller.timer.elapsedBreakInterval
+
+                onTimeValueChanged:
+                {
+                    var timeDiff = newValue - controller.timer.elapsedWorkPeriod
+                    controller.timer.elapsedWorkPeriod = newValue
+                    controller.timer.elapsedWorkTime += timeDiff
+                }
             }
 
+            ImageButton {
+                enabled: !nextBreakTimeProgressBar.timeEditMode
+                visible: nextBreakTimeProgressBar.enableEditMode
+                styleFont: Style.font.imageButtonSmallest
+                type: "edit"
+                tooltip: qsTr("Edit next break")
+
+                onClicked:
+                {
+                    nextBreakTimeProgressBar.timeEditMode = true
+                }
+            }
+
+            // work time
             Label {
                 text: qsTr("Work time:")
             }
-            TimeProgressBar {
-                Layout.fillWidth: true
 
+            TimeProgressBar {
+                id: workTimeProgressBar
+                Layout.fillWidth: true
                 maxValue: controller.settings.workTime
                 value: controller.timer.elapsedWorkTime
+
+                onTimeValueChanged:
+                {
+                    var timeDiff = newValue - controller.timer.elapsedWorkTime
+                    controller.timer.elapsedWorkTime = newValue
+                }
+            }
+
+            ImageButton {
+                enabled: !workTimeProgressBar.timeEditMode
+                visible: workTimeProgressBar.enableEditMode
+                styleFont: Style.font.imageButtonSmallest
+                type: "edit"
+                tooltip: qsTr("Edit work time")
+
+                onClicked:
+                {
+                    workTimeProgressBar.timeEditMode = true
+                }
             }
         }
     }
