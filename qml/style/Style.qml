@@ -40,6 +40,7 @@ QtObject {
         readonly property int timeout: 10000
     }
 
+    readonly property int bigMargins: 30
     readonly property int margins: 20
     readonly property int smallMargins: 10
     readonly property int spacing: 10

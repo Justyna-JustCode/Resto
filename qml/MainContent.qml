@@ -38,7 +38,7 @@ Item {
     ColumnLayout {
         id: content
         anchors.fill: parent
-        anchors.margins: 30
+        anchors.margins: Style.bigMargins
         spacing: 0
 
         RowLayout {
@@ -92,11 +92,9 @@ Item {
                 }
             }
         }
-        GridLayout {
-            Layout.fillWidth: true
-            columns: 3
 
-            // current iteration
+        // current iteration
+        RowLayout {
             Label {
                 text: qsTr("Current iteration:")
                 visible: controller.settings.cyclesMode
@@ -109,7 +107,6 @@ Item {
             ImageButton {
                 //enabled: !workTimeProgressBar.timeEditMode
                 //visible: workTimeProgressBar.enableEditMode
-                visible: controller.settings.cyclesMode
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit current iteration")
@@ -119,6 +116,11 @@ Item {
                     // TODO
                 }
             }
+        }
+
+        GridLayout {
+            Layout.fillWidth: true
+            columns: 3
 
             // next break
             Label {
