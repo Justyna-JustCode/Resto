@@ -95,32 +95,103 @@ Item {
 
         // current iteration
         RowLayout {
+            visible: controller.settings.cyclesMode
+
+            spacing: Style.spacing
+
             Label {
                 text: qsTr("Current iteration:")
-                visible: controller.settings.cyclesMode
             }
-            Label {
-                text: controller.cycles.currentIteration
-                visible: controller.settings.cyclesMode
+            Item {
+                id: currentIterationItem
+                property bool cyclesEditMode: false
+
+                Layout.preferredWidth: width
+
+                implicitWidth: currentIterationLabel.implicitWidth
+                implicitHeight: currentIterationLabel.implicitHeight
+
+                Label {
+                    id: currentIterationLabel
+                    anchors.centerIn: parent
+
+                    text: controller.cycles.currentIteration
+                    visible: !currentIterationItem.cyclesEditMode
+                }
+
+                CustomSpinBox {
+                    id: currentIteractionEdit
+                    anchors.centerIn: parent
+
+                    visible: currentIterationItem.cyclesEditMode
+
+                    value: controller.cycles.currentIteration
+
+                    from: 1
+                    to: controller.settings.cycleIterations
+
+                    onVisibleChanged: {
+                        if (visible) {
+                            forceActiveFocus()
+                            parent.width = maxWidth
+                        } else {
+                            parent.width = parent.cyclesEditMode
+                        }
+                    }
+
+                    function acceptChanges()
+                    {
+                        controller.cycles.currentIteration = currentIteractionEdit.value
+                        currentIterationItem.cyclesEditMode = false
+                    }
+
+                    Keys.onReturnPressed:
+                    {
+                        acceptChanges()
+                    }
+
+                    Keys.onEnterPressed:
+                    {
+                        acceptChanges()
+                    }
+
+                    Keys.onEscapePressed:
+                    {
+                        currentIterationItem.cyclesEditMode = false
+                    }
+
+                    onFocusChanged:
+                    {
+                        if(!focus)
+                        {
+                            currentIterationItem.cyclesEditMode = false
+                        }
+                    }
+                }
             }
 
             ImageButton {
-                //enabled: !workTimeProgressBar.timeEditMode
-                //visible: workTimeProgressBar.enableEditMode
+                enabled: !currentIterationItem.cyclesEditMode &&
+                         controller.state != Controller.Off
+
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit current iteration")
 
                 onClicked:
                 {
-                    // TODO
+                    currentIterationItem.cyclesEditMode = true
                 }
             }
         }
 
         GridLayout {
             Layout.fillWidth: true
+
             columns: 3
+
+            columnSpacing: Style.spacing
+            rowSpacing: Style.smallSpacing
 
             // next break
             Label {
@@ -136,14 +207,15 @@ Item {
 
                 onTimeValueChanged:
                 {
-                    var timeDiff = newValue - controller.timer.elapsedWorkPeriod
-                    controller.timer.elapsedWorkPeriod = newValue
+                    var timeDiff = newValue - controller.timer.elapsedBreakInterval
+                    controller.timer.elapsedBreakInterval = newValue
                     controller.timer.elapsedWorkTime += timeDiff
                 }
             }
 
             ImageButton {
-                enabled: !nextBreakTimeProgressBar.timeEditMode
+                enabled: !nextBreakTimeProgressBar.timeEditMode &&
+                         controller.state != Controller.Off
                 visible: nextBreakTimeProgressBar.enableEditMode
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
@@ -174,7 +246,8 @@ Item {
             }
 
             ImageButton {
-                enabled: !workTimeProgressBar.timeEditMode
+                enabled: !workTimeProgressBar.timeEditMode &&
+                         controller.state != Controller.Off
                 visible: workTimeProgressBar.enableEditMode
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"

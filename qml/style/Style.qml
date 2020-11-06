@@ -43,6 +43,7 @@ QtObject {
     readonly property int bigMargins: 30
     readonly property int margins: 20
     readonly property int smallMargins: 10
+    readonly property int smallSpacing: 5
     readonly property int spacing: 10
     readonly property int hugeSpacing: 100
 
