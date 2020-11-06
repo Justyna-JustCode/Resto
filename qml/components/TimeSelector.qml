@@ -87,8 +87,10 @@ RowLayout {
     CustomSpinBox {
         id: hoursSpin
 
-        from: 23
-        to: d.minHours
+        Layout.preferredWidth: maxWidth
+
+        to: 23
+        from: d.minHours
         suffix: "h"
         maxCharCount: 4
 
@@ -102,8 +104,10 @@ RowLayout {
     CustomSpinBox {
         id: minutesSpin
 
-        from: 59
-        to: (hoursSpin.value > d.minHours)
+        Layout.preferredWidth: maxWidth
+
+        to: 59
+        from: (hoursSpin.value > d.minHours)
                       ? 0 : d.minMinutes
         suffix: "m"
         maxCharCount: 4
@@ -115,9 +119,11 @@ RowLayout {
             d.minutes = value
         }
     }
-    CustomSpinBox {
-        from: 59
-        to: (hoursSpin.value > d.minHours ||
+    CustomSpinBox {        
+        Layout.preferredWidth: maxWidth
+
+        to: 59
+        from: (hoursSpin.value > d.minHours ||
                        minutesSpin.value > d.minMinutes)
                       ? 0 : d.minSeconds
 

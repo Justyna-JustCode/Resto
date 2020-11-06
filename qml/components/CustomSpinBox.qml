@@ -33,6 +33,7 @@ SpinBox {
     property string suffix
 
     property int maxCharCount: prefix.length + suffix.length + charCount(to)
+    property real maxWidth: UiUtils.averageTextWidth(d.fontMetrics, maxCharCount + 1) + Style.spacing + up.implicitIndicatorWidth
 
     QtObject {
         id: d
@@ -40,8 +41,6 @@ SpinBox {
         property var fontMetrics: FontMetrics {
             font: font
         }
-
-        function charCount(value) { return value ? Math.ceil(Math.log(value) / Math.log(10)) : 1; }
     }
 
     textFromValue: function(value) {
@@ -51,8 +50,6 @@ SpinBox {
     valueFromText: function(text) {
         return text.substring(prefix.length, text.length - suffix.length)
     }
-
-    implicitWidth: UiUtils.averageTextWidth(d.fontMetrics, maxCharCount + 1) + Style.spacing + up.implicitIndicatorWidth
 
     contentItem: LabelInput {
         fontStyle: Style.spinBox.font
@@ -71,19 +68,19 @@ SpinBox {
     up.indicator: SpinBoxControl {
         anchors {
             right: parent.right
-            top: mirrored ? parent.top : undefined
-            bottom: mirrored ? undefined : parent.bottom
-        }
-        height: 0.45 * parent.height
-        increment: mirrored
-    }
-    down.indicator: SpinBoxControl {
-        anchors {
-            right: parent.right
             top: mirrored ? undefined : parent.top
             bottom: mirrored ? parent.bottom : undefined
         }
         height: 0.45 * parent.height
         increment: !mirrored
+    }
+    down.indicator: SpinBoxControl {
+        anchors {
+            right: parent.right
+            top: mirrored ? parent.top : undefined
+            bottom: mirrored ? undefined : parent.bottom
+        }
+        height: 0.45 * parent.height
+        increment: mirrored
     }
 }
