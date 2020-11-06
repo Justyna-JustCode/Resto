@@ -62,21 +62,27 @@ TimerController::PeriodType TimerController::activePeriodType() const
     return m_periodType;
 }
 
-void TimerController::start(bool restart)
+void TimerController::start()
 {
-    if (restart)
-    {
-        // set initial state
-        setElapsedBreakDuration(0);
-        setElapsedBreakInterval(0);
-        setElapsedWorkTime(0);
-    }
-
     m_timer.start();
 }
-void TimerController::stop()
+
+void TimerController::stop(bool reset)
 {
+    if (reset)
+    {
+        this->reset();
+    }
+
     m_timer.stop();
+}
+
+void TimerController::reset()
+{
+    // set initial state
+    setElapsedBreakDuration(0);
+    setElapsedBreakInterval(0);
+    setElapsedWorkTime(0);
 }
 
 void TimerController::countBreakTime()

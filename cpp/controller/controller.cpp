@@ -144,7 +144,7 @@ void Controller::start()
         [[fallthrough]];
     case State::Paused:
     case State::Recovered:
-        m_timerController.start( (m_state == State::Off) ); // restart only from Off
+        m_timerController.start(); // restart only from Off
         setState(State::Working);
         m_backupManager.start();
         break;
@@ -173,7 +173,7 @@ void Controller::stop()
     {
     case State::Working:
         setState(State::Off);
-        m_timerController.stop();
+        m_timerController.stop(true);
         m_cyclesController.resetCurrentIteration();
         m_backupManager.stop();
         m_backupManager.cleanup();

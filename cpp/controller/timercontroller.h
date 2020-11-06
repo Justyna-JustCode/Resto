@@ -60,8 +60,9 @@ signals:
     void activePeriodTypeChanged(PeriodType activePeriodType) const;
 
 public slots:
-    void start(bool restart);
-    void stop();
+    void start();
+    void stop(bool reset = false);
+    void reset();
 
     void countBreakTime();
     void countWorkTime();
