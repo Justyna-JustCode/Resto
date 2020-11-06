@@ -122,7 +122,7 @@ SettingsPage {
             id: cycleIterationsSpin
 
             from: 1
-            to: 10
+            to: controller.cycles.maxCycleNumber
             maxCharCount: 2
         }
     }

@@ -28,6 +28,11 @@ CyclesController::CyclesController(SettingsController &settingsController, QObje
     connect(this, &CyclesController::currentIterationChanged, this, [this] { emit isCycleFinishedChanged(isCycleFinished()); });
 }
 
+int CyclesController::maxCyclesNumber() const
+{
+    return sc_maxCyclesNumber;
+}
+
 int CyclesController::currentIteration() const
 {
     return m_settingsController.cyclesMode() ? m_currentIteration
@@ -46,6 +51,10 @@ void CyclesController::setCurrentIteration(int iteration)
     if (m_currentIteration == iteration)
         return;
 
+    if (iteration > m_settingsController.cycleIterations()) {
+        iteration = 1;
+    }
+
     m_currentIteration = iteration;
     emit currentIterationChanged(m_currentIteration);
 }
@@ -57,10 +66,5 @@ void CyclesController::resetCurrentIteration()
 
 void CyclesController::incrementCurrentIteration()
 {
-    auto iteration = m_currentIteration + 1;
-    if (iteration > m_settingsController.cycleIterations()) {
-        iteration = 1;
-    }
-
-    setCurrentIteration(iteration);
+    setCurrentIteration(m_currentIteration + 1);
 }
