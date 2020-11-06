@@ -34,7 +34,7 @@ SettingsPage {
 
         cyclesModeSwitch.checked = controller.settings.cyclesMode
         cycleBreakDurationSelector.time = controller.settings.cycleBreakDuration
-        cycleIterationsSpin.value = controller.settings.cycleIterations
+        cyclesNumberSpin.value = controller.settings.cyclesNumber
 
         postponeTimeSelector.time = controller.settings.postponeTime
         workTimeSelector.time = controller.settings.workTime
@@ -47,7 +47,7 @@ SettingsPage {
 
         controller.settings.cyclesMode = cyclesModeSwitch.checked
         controller.settings.cycleBreakDuration = cycleBreakDurationSelector.time
-        controller.settings.cycleIterations = cycleIterationsSpin.value
+        controller.settings.cyclesNumber = cyclesNumberSpin.value
 
         controller.settings.postponeTime = postponeTimeSelector.time
         controller.settings.workTime = workTimeSelector.time
@@ -116,10 +116,10 @@ SettingsPage {
     FormElement {
         enabled: cyclesModeSwitch.checked
 
-        labelText: qsTr("Cycle iterations:")
+        labelText: qsTr("Cycles number:")
 
         CustomSpinBox {
-            id: cycleIterationsSpin
+            id: cyclesNumberSpin
 
             from: 1
             to: controller.cycles.maxCycleNumber

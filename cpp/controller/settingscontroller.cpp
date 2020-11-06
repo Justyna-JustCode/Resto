@@ -49,9 +49,9 @@ int SettingsController::cycleBreakDuration() const
     return m_settings.cycleBreakDuration();
 }
 
-int SettingsController::cycleIterations() const
+int SettingsController::cyclesNumber() const
 {
-    return m_settings.cycleIterations();
+    return m_settings.cyclesNumber();
 }
 
 bool SettingsController::cyclesMode() const
@@ -149,13 +149,13 @@ void SettingsController::setCycleBreakDuration(int cycleBreakDuration)
     emit cycleBreakDurationChanged(cycleBreakDuration);
 }
 
-void SettingsController::setCycleIterations(int cycleIterations)
+void SettingsController::setCyclesNumber(int cyclesNumber)
 {
-    if (m_settings.cycleIterations() == cycleIterations)
+    if (m_settings.cyclesNumber() == cyclesNumber)
         return;
 
-    m_settings.setCycleIterations(cycleIterations);
-    emit cycleIterationsChanged(cycleIterations);
+    m_settings.setCyclesNumber(cyclesNumber);
+    emit cyclesNumberChanged(cyclesNumber);
 }
 void SettingsController::setBreakInterval(int breakInterval)
 {

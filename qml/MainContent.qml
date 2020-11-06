@@ -93,42 +93,42 @@ Item {
             }
         }
 
-        // current iteration
+        // current cycle
         RowLayout {
             visible: controller.settings.cyclesMode
 
             spacing: Style.spacing
 
             Label {
-                text: qsTr("Current iteration:")
+                text: qsTr("Current cycle:")
             }
             Item {
-                id: currentIterationItem
+                id: currentCycleItem
                 property bool cyclesEditMode: false
 
                 Layout.preferredWidth: width
 
-                implicitWidth: currentIterationLabel.implicitWidth
-                implicitHeight: currentIterationLabel.implicitHeight
+                implicitWidth: currentCycleLabel.implicitWidth
+                implicitHeight: currentCycleLabel.implicitHeight
 
                 Label {
-                    id: currentIterationLabel
+                    id: currentCycleLabel
                     anchors.centerIn: parent
 
-                    text: controller.cycles.currentIteration
-                    visible: !currentIterationItem.cyclesEditMode
+                    text: controller.cycles.currentCycle
+                    visible: !currentCycleItem.cyclesEditMode
                 }
 
                 CustomSpinBox {
                     id: currentIteractionEdit
                     anchors.centerIn: parent
 
-                    visible: currentIterationItem.cyclesEditMode
+                    visible: currentCycleItem.cyclesEditMode
 
-                    value: controller.cycles.currentIteration
+                    value: controller.cycles.currentCycle
 
                     from: 1
-                    to: controller.settings.cycleIterations
+                    to: controller.settings.cyclesNumber
 
                     onVisibleChanged: {
                         if (visible) {
@@ -141,8 +141,8 @@ Item {
 
                     function acceptChanges()
                     {
-                        controller.cycles.currentIteration = currentIteractionEdit.value
-                        currentIterationItem.cyclesEditMode = false
+                        controller.cycles.currentCycle = currentIteractionEdit.value
+                        currentCycleItem.cyclesEditMode = false
                     }
 
                     Keys.onReturnPressed:
@@ -157,30 +157,30 @@ Item {
 
                     Keys.onEscapePressed:
                     {
-                        currentIterationItem.cyclesEditMode = false
+                        currentCycleItem.cyclesEditMode = false
                     }
 
                     onFocusChanged:
                     {
                         if(!focus)
                         {
-                            currentIterationItem.cyclesEditMode = false
+                            currentCycleItem.cyclesEditMode = false
                         }
                     }
                 }
             }
 
             ImageButton {
-                enabled: !currentIterationItem.cyclesEditMode &&
+                enabled: !currentCycleItem.cyclesEditMode &&
                          controller.state != Controller.Off
 
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
-                tooltip: qsTr("Edit current iteration")
+                tooltip: qsTr("Edit current cycle")
 
                 onClicked:
                 {
-                    currentIterationItem.cyclesEditMode = true
+                    currentCycleItem.cyclesEditMode = true
                 }
             }
         }

@@ -42,7 +42,7 @@ public:
     struct Data {
         int elapsedBreakInterval = 0;
         int elapsedWorkTime = 0;
-        int currentIteration = 0;
+        int currentCycle = 0;
 
         bool isEmpty();
     };

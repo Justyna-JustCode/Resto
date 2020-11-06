@@ -37,7 +37,7 @@ Controller::Controller()
     connect(&m_timerController, &TimerController::elapsedWorkTimeChanged, this, &Controller::onElapsedWorkTimeChange);
     connect(&m_timerController, &TimerController::timerStopRequest, this, &Controller::onTimerStopRequested);
 
-    connect(&m_cyclesController, &CyclesController::currentIterationChanged, this, &Controller::onCycleCurrentIterationChange);
+    connect(&m_cyclesController, &CyclesController::currentCycleChanged, this, &Controller::onCycleCurrentCycleChange);
 
     connect(&m_settingsController, &SettingsController::breakIntervalChanged, this, &Controller::onBreakIntervalChanged);
     connect(&m_settingsController, &SettingsController::workTimeChanged, this, &Controller::onWorkTimeChanged);
@@ -174,7 +174,7 @@ void Controller::stop()
     case State::Working:
         setState(State::Off);
         m_timerController.stop(true);
-        m_cyclesController.resetCurrentIteration();
+        m_cyclesController.resetCurrentCycle();
         m_backupManager.stop();
         m_backupManager.cleanup();
         break;
@@ -197,7 +197,7 @@ void Controller::postponeBreak()
 }
 void Controller::startWork()
 {
-    m_cyclesController.incrementCurrentIteration();
+    m_cyclesController.incrementCurrentCycle();
 
     m_postponeDuration = m_lastRequestTime = 0;
     m_timerController.setElapsedBreakInterval(0);
@@ -236,7 +236,7 @@ void Controller::onBackupData(const BackupManager::Data &data)
         postponeBreak();
     }
 
-    m_cyclesController.setCurrentIteration(data.currentIteration);
+    m_cyclesController.setCurrentCycle(data.currentCycle);
 
     setState(State::Recovered); // set recovered state to avoid restart
     if (wasWorking) {
@@ -278,10 +278,10 @@ void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
     m_backupManager.data().elapsedWorkTime = elapsedWorkTime;
 }
 
-void Controller::onCycleCurrentIterationChange(int currentIteration)
+void Controller::onCycleCurrentCycleChange(int currentCycle)
 {
     // update backup manager
-    m_backupManager.data().currentIteration = currentIteration;
+    m_backupManager.data().currentCycle = currentCycle;
 }
 
 void Controller::onBreakIntervalChanged(int breakInterval)
@@ -317,8 +317,8 @@ void Controller::onTimerStopRequested()
 
 void Controller::onCyclesModeChanged(bool cyclesMode)
 {
-    m_cyclesController.resetCurrentIteration();
+    m_cyclesController.resetCurrentCycle();
     if (cyclesMode && m_state > State::Off) {
-        m_cyclesController.incrementCurrentIteration();
+        m_cyclesController.incrementCurrentCycle();
     }
 }

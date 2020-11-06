@@ -25,7 +25,7 @@
 CyclesController::CyclesController(SettingsController &settingsController, QObject *parent)
     : QObject(parent), m_settingsController(settingsController)
 {
-    connect(this, &CyclesController::currentIterationChanged, this, [this] { emit isCycleFinishedChanged(isCycleFinished()); });
+    connect(this, &CyclesController::currentCycleChanged, this, [this] { emit isCycleFinishedChanged(isCycleFinished()); });
 }
 
 int CyclesController::maxCyclesNumber() const
@@ -33,38 +33,38 @@ int CyclesController::maxCyclesNumber() const
     return sc_maxCyclesNumber;
 }
 
-int CyclesController::currentIteration() const
+int CyclesController::currentCycle() const
 {
-    return m_settingsController.cyclesMode() ? m_currentIteration
+    return m_settingsController.cyclesMode() ? m_currentCycle
                                              : 0;
 }
 
 bool CyclesController::isCycleFinished() const
 {
     return m_settingsController.cyclesMode()
-            ? (m_currentIteration == m_settingsController.cycleIterations())
+            ? (m_currentCycle == m_settingsController.cyclesNumber())
             : 0;
 }
 
-void CyclesController::setCurrentIteration(int iteration)
+void CyclesController::setCurrentCycle(int cycle)
 {
-    if (m_currentIteration == iteration)
+    if (m_currentCycle == cycle)
         return;
 
-    if (iteration > m_settingsController.cycleIterations()) {
-        iteration = 1;
+    if (cycle > m_settingsController.cyclesNumber()) {
+        cycle = 1;
     }
 
-    m_currentIteration = iteration;
-    emit currentIterationChanged(m_currentIteration);
+    m_currentCycle = cycle;
+    emit currentCycleChanged(m_currentCycle);
 }
 
-void CyclesController::resetCurrentIteration()
+void CyclesController::resetCurrentCycle()
 {
-    setCurrentIteration(0);
+    setCurrentCycle(0);
 }
 
-void CyclesController::incrementCurrentIteration()
+void CyclesController::incrementCurrentCycle()
 {
-    setCurrentIteration(m_currentIteration + 1);
+    setCurrentCycle(m_currentCycle + 1);
 }

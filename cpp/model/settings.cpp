@@ -38,7 +38,7 @@ const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval
 
 const QLatin1String Settings::sc_cyclesModeKey = QLatin1String("cyclesMode");
 const QLatin1String Settings::sc_cycleBreakDurationKey = QLatin1String("cycleBreakDuration");
-const QLatin1String Settings::sc_cycleIterations = QLatin1String("cycleIterations");
+const QLatin1String Settings::sc_cyclesNumber = QLatin1String("cyclesNumber");
 
 const QLatin1String Settings::sc_workTimeKey = QLatin1String("workTime");
 const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime");
@@ -58,7 +58,7 @@ const QLatin1String Settings::sc_applicationColorIndexKey = QLatin1String("mainC
 
 const int Settings::sc_defaultBreakDuration = 5*60;  //! 5 min
 const int Settings::sc_defaultCycleBreakDuration = 30*60;  //! 30 min
-const int Settings::sc_defaultlCycleIterations = 3;
+const int Settings::sc_defaultlCyclesNumber = 3;
 const int Settings::sc_defaultBreakInterval = 25*60; //! 25 min
 const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
 const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
@@ -129,14 +129,14 @@ void Settings::setCycleBreakDuration(int duration)
     setValue(sc_logicGroupName, sc_cycleBreakDurationKey, duration);
 }
 
-int Settings::cycleIterations() const
+int Settings::cyclesNumber() const
 {
-    return value(sc_logicGroupName, sc_cycleIterations, sc_defaultlCycleIterations).toInt();
+    return value(sc_logicGroupName, sc_cyclesNumber, sc_defaultlCyclesNumber).toInt();
 }
 
-void Settings::setCycleIterations(int iterations)
+void Settings::setCyclesNumber(int cyclesNumber)
 {
-    setValue(sc_logicGroupName, sc_cycleIterations, iterations);
+    setValue(sc_logicGroupName, sc_cyclesNumber, cyclesNumber);
 }
 
 int Settings::breakInterval() const
