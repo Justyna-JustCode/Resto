@@ -63,7 +63,7 @@ const int Settings::sc_defaultBreakInterval = 25*60; //! 25 min
 const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
 const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
 
-const QSize Settings::sc_defaultWindowSize = { 440, 240 };  // px
+const QSize Settings::sc_defaultWindowSize = { 460, 240 };  // px
 int Settings::sc_defaultApplicationColorIndex = 0;
 
 Settings::Settings(const QString organization, const QString name)
