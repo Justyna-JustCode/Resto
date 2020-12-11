@@ -53,7 +53,7 @@ SettingsPage {
     Spacer {}
 
     // TRAY SETTINGS
-    Label {
+    CustomLabel {
         visible: controller.settings.trayAvailable
 
         fontStyle: Style.font.formHeader

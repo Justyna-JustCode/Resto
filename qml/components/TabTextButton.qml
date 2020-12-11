@@ -24,7 +24,7 @@ TabButton {
         radius: button.styleFont.size/5
     }
 
-    contentItem: Label {
+    contentItem: CustomLabel {
         fontStyle: button.styleFont
 
         opacity: button.pressed ? 0.8 : 1

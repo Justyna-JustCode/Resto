@@ -99,7 +99,7 @@ Item {
 
             spacing: Style.spacing
 
-            Label {
+            CustomLabel {
                 text: qsTr("Current cycle:")
             }
             Item {
@@ -111,7 +111,7 @@ Item {
                 implicitWidth: currentCycleLabel.implicitWidth
                 implicitHeight: currentCycleLabel.implicitHeight
 
-                Label {
+                CustomLabel {
                     id: currentCycleLabel
                     anchors.centerIn: parent
 
@@ -194,7 +194,7 @@ Item {
             rowSpacing: Style.smallSpacing
 
             // next break
-            Label {
+            CustomLabel {
                 text: qsTr("Next break:")
             }
 
@@ -228,7 +228,7 @@ Item {
             }
 
             // work time
-            Label {
+            CustomLabel {
                 text: qsTr("Work time:")
             }
 

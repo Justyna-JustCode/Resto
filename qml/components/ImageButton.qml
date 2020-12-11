@@ -59,7 +59,7 @@ TextButton {
 
             source: d.path + type + d.extension
         }
-        Label {
+        CustomLabel {
             id: text
             Layout.alignment: Qt.AlignVCenter
 

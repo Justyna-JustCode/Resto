@@ -22,7 +22,7 @@
 
 import QtQuick 2.12
 
-Label {
+CustomLabel {
     signal clicked();
 
     MouseArea {

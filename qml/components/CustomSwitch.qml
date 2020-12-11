@@ -64,7 +64,7 @@ Switch {
                ? Qt.darker(Style.switchControl.backgroundColor, 1.1)
                : Style.switchControl.backgroundColor
     }
-    contentItem: Label {
+    contentItem: CustomLabel {
         anchors.fill: indicator
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter

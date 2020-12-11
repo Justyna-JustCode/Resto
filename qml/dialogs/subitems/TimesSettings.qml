@@ -54,7 +54,7 @@ SettingsPage {
     }
 
     // BREAKS SETTINGS
-    Label {
+    CustomLabel {
         fontStyle: Style.font.formHeader
         text: qsTr("Breaks")
     }
@@ -130,7 +130,7 @@ SettingsPage {
     Spacer {}
 
     // GENERAL SETTINGS
-    Label {
+    CustomLabel {
         visible: controller.settings.trayAvailable
 
         fontStyle: Style.font.formHeader

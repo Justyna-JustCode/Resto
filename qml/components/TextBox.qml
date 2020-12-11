@@ -33,7 +33,7 @@ Rectangle {
     implicitWidth: textItem.implicitWidth + textItem.anchors.leftMargin + textItem.anchors.rightMargin
     implicitHeight: textItem.implicitHeight + textItem.anchors.topMargin + textItem.anchors.bottomMargin
 
-    Label {
+    CustomLabel {
         id: textItem
         anchors {
             fill: parent

@@ -33,7 +33,7 @@ GridLayout {
     property bool strechVertically: false
     property real horizontalSpacing: spacer.size
 
-    Label {
+    CustomLabel {
         id: label
         fontStyle: Style.font.formLabel
     }

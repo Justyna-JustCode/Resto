@@ -111,7 +111,7 @@ Item {
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Label {
+            CustomLabel {
                 id: textLabel
                 anchors.fill: parent
                 visible: !(timeEditMode && enableEditMode)
@@ -202,7 +202,7 @@ Item {
             }
         }
 
-        Label {
+        CustomLabel {
             Layout.fillHeight: true
             Layout.preferredHeight: 0
             Layout.preferredWidth: implicitWidth
@@ -219,7 +219,7 @@ Item {
             }
         }
 
-        Label {
+        CustomLabel {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.preferredHeight: 0
