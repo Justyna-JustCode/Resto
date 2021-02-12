@@ -123,7 +123,6 @@ SettingsPage {
 
             from: 1
             to: controller.cycles.maxCycleNumber
-            maxCharCount: 2
         }
     }
 

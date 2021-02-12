@@ -32,15 +32,22 @@ SpinBox {
     property string prefix
     property string suffix
 
-    property int maxCharCount: prefix.length + suffix.length + charCount(to)
-    property real maxWidth: UiUtils.averageTextWidth(d.fontMetrics, maxCharCount + 1) + Style.spacing + up.implicitIndicatorWidth
+    readonly property real averageWidth: UiUtils.averageTextWidth(d.fontMetrics, d.maxCharCount) + 2 * spacing + up.implicitIndicatorWidth
+    readonly property real maxWidth: UiUtils.maxTextWidth(d.fontMetrics, d.maxCharCount) + 2 * spacing + up.implicitIndicatorWidth
+
+    spacing: Style.smallSpacing
+
+    implicitWidth: contentItem.implicitWidth + 2 * spacing + up.implicitIndicatorWidth
 
     QtObject {
         id: d
 
+        readonly property int maxCharCount: prefix.length + suffix.length + d.digitsCount(to)
         property var fontMetrics: FontMetrics {
             font: font
         }
+
+        function digitsCount(number) { return number ? Math.ceil(Math.log(number) / Math.log(10)) : 1; }
     }
 
     textFromValue: function(value) {
@@ -52,6 +59,12 @@ SpinBox {
     }
 
     contentItem: LabelInput {
+        anchors {
+            right: up.indicator.left
+            rightMargin: spacing
+            leftMargin: spacing
+        }
+
         fontStyle: Style.spinBox.font
         text: spinBox.textFromValue(spinBox.value, spinBox.locale)
 

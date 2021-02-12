@@ -36,7 +36,11 @@ QtObject {
 
     function averageTextWidth(fontMetrics, charsCount)
     {
-        var AVERAGE_WIDHT_ENLARGE = 1.2;
+        var AVERAGE_WIDHT_ENLARGE = 2;
         return charsCount * AVERAGE_WIDHT_ENLARGE * fontMetrics.averageCharacterWidth;
+    }
+    function maxTextWidth(fontMetrics, charsCount)
+    {
+        return charsCount * fontMetrics.maximumCharacterWidth;
     }
 }
