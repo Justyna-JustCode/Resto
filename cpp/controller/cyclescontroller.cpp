@@ -28,9 +28,9 @@ CyclesController::CyclesController(SettingsController &settingsController, QObje
     connect(this, &CyclesController::currentCycleChanged, this, [this] { emit isCycleFinishedChanged(isCycleFinished()); });
 }
 
-int CyclesController::maxCyclesNumber() const
+int CyclesController::maxCycleIntervals() const
 {
-    return sc_maxCyclesNumber;
+    return sc_maxCycleIntervals;
 }
 
 int CyclesController::currentCycle() const
@@ -42,7 +42,7 @@ int CyclesController::currentCycle() const
 bool CyclesController::isCycleFinished() const
 {
     return m_settingsController.cyclesMode()
-            ? (m_currentCycle == m_settingsController.cyclesNumber())
+            ? (m_currentCycle == m_settingsController.cycleIntervals())
             : 0;
 }
 
@@ -51,7 +51,7 @@ void CyclesController::setCurrentCycle(int cycle)
     if (m_currentCycle == cycle)
         return;
 
-    if (cycle > m_settingsController.cyclesNumber()) {
+    if (cycle > m_settingsController.cycleIntervals()) {
         cycle = 1;
     }
 

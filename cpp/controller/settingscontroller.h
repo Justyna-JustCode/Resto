@@ -41,7 +41,7 @@ class SettingsController final : public QObject
 
     Q_PROPERTY(bool cyclesMode READ cyclesMode WRITE setCyclesMode NOTIFY cyclesModeChanged)
     Q_PROPERTY(int cycleBreakDuration READ cycleBreakDuration WRITE setCycleBreakDuration NOTIFY cycleBreakDurationChanged)
-    Q_PROPERTY(int cyclesNumber READ cyclesNumber WRITE setCyclesNumber NOTIFY cyclesNumberChanged)
+    Q_PROPERTY(int cycleIntervals READ cycleIntervals WRITE setCycleIntervals NOTIFY cycleIntervalsChanged)
 
     Q_PROPERTY(int workTime READ workTime WRITE setWorkTime NOTIFY workTimeChanged)
     Q_PROPERTY(int postponeTime READ postponeTime WRITE setPostponeTime NOTIFY postponeTimeChanged)
@@ -71,7 +71,7 @@ public:
 
     bool cyclesMode() const;
     int cycleBreakDuration() const;
-    int cyclesNumber() const;
+    int cycleIntervals() const;
 
     int workTime() const;
     int postponeTime() const;
@@ -99,7 +99,7 @@ signals:
 
     void cyclesModeChanged(bool cyclesMode) const;
     void cycleBreakDurationChanged(int cycleBreakDuration) const;
-    void cyclesNumberChanged(int cyclesNumber) const;
+    void cycleIntervalsChanged(int cycleIntervals) const;
 
     void workTimeChanged(int workTime) const;
     void postponeTimeChanged(int postponeTime) const;
@@ -125,7 +125,7 @@ public slots:
 
     void setCyclesMode(bool cyclesMode);
     void setCycleBreakDuration(int cycleBreakDuration);
-    void setCyclesNumber(int cyclesNumber);
+    void setCycleIntervals(int cycleIntervals);
 
     void setWorkTime(int workTime);
     void setPostponeTime(int postponeTime);

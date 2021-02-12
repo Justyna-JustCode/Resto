@@ -128,7 +128,7 @@ Item {
                     value: controller.cycles.currentCycle
 
                     from: 1
-                    to: controller.settings.cyclesNumber
+                    to: controller.settings.cycleIntervals
 
                     onVisibleChanged: {
                         if (visible) {

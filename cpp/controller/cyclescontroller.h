@@ -32,14 +32,14 @@ class CyclesController final : public QObject
     Q_OBJECT
     Q_ENUMS(State)
 
-    Q_PROPERTY(int maxCyclesNumber READ maxCyclesNumber CONSTANT)
+    Q_PROPERTY(int maxCycleIntervals READ maxCycleIntervals CONSTANT)
     Q_PROPERTY(int currentCycle READ currentCycle WRITE setCurrentCycle NOTIFY currentCycleChanged)
     Q_PROPERTY(bool isCycleFinished READ isCycleFinished NOTIFY isCycleFinishedChanged)
 
 public:
     CyclesController(SettingsController &settingsController, QObject *parent = 0);
 
-    int maxCyclesNumber() const;
+    int maxCycleIntervals() const;
 
     int currentCycle() const;
     bool isCycleFinished() const;
@@ -54,7 +54,7 @@ public slots:
     void incrementCurrentCycle();
 
 private:
-    static const int sc_maxCyclesNumber = 3;
+    static const int sc_maxCycleIntervals = 3;
     SettingsController &m_settingsController;
 
     int m_currentCycle = 0;

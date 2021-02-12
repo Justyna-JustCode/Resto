@@ -101,13 +101,13 @@ public:
     void setCycleBreakDuration(int duration);
 
     /*!
-     * \brief Returns a number of cycles.
+     * \brief Returns a number intervals for a cycle.
      */
-    int cyclesNumber() const;
+    int cycleIntervals() const;
     /*!
-     * \brief Sets a number of cycles.
+     * \brief Sets a number intervals for a cycle.
      */
-    void setCyclesNumber(int cyclesNumber);
+    void setCycleIntervals(int cycleIntervals);
 
     /*!
      * \brief Returns break interval in seconds.
@@ -255,7 +255,7 @@ private:
 
     static const QLatin1String sc_cyclesModeKey;    //! key used for settings: cycles mode
     static const QLatin1String sc_cycleBreakDurationKey;    //! key used for settings: cycle break duration
-    static const QLatin1String sc_cyclesNumber;     //! key used for settings: cycles number
+    static const QLatin1String sc_cycleIntervals;     //! key used for settings: cycle intervals
 
     static const QLatin1String sc_workTimeKey;   //! key used for settings: work day duration
     static const QLatin1String sc_postponeTimeKey;      //! key used for settings: postpone time
@@ -276,7 +276,7 @@ private:
     // logic default
     static const int sc_defaultBreakDuration;   //! default break duration \see breakDuration()
     static const int sc_defaultCycleBreakDuration;   //! default cycle break duration \see cycleBreakDuration()
-    static const int sc_defaultlCyclesNumber;   //! default interations for cycle \see cyclesNumber()
+    static const int sc_defaultlCycleIntervals;   //! default cycle intervals \see cycleIntervals()
     static const int sc_defaultBreakInterval;   //! default break interval \see breakInterval()
     static const int sc_defaultWorkTime; //! default work day duration \see workTime()
     static const int sc_defaultPostponeTime;    //! default postpone time \see postponeTime()
