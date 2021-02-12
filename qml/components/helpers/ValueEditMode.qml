@@ -5,6 +5,12 @@ Item {
     property bool activeEdit: false
     property Item focusItem: null
 
+    // defines if editing is finished automatically for accepting
+    property bool autoConfirm: true
+
+    // defines if editing is finished automatically for declining
+    property bool autoDecline: true
+
     signal confirmChanges()
     signal revertChanges()
 
@@ -14,12 +20,18 @@ Item {
 
     function accept() {
         confirmChanges()
-        activeEdit = false
+
+        if (autoConfirm) {
+            activeEdit = false
+        }
     }
 
     function decline() {
         revertChanges()
-        activeEdit = false
+
+        if (autoDecline) {
+            activeEdit = false
+        }
     }
 
     onFocusItemChanged: {

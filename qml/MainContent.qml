@@ -125,7 +125,7 @@ Item {
 
                 onClicked:
                 {
-                    currentCycleLabel.editMode.activeEdit = true
+                    currentCycleLabel.editMode.edit()
                 }
             }
         }
@@ -150,7 +150,7 @@ Item {
                 maxValue: controller.settings.breakInterval
                 value: controller.timer.elapsedBreakInterval
 
-                onTimeValueChanged:
+                onTimeEdited:
                 {
                     var timeDiff = newValue - controller.timer.elapsedBreakInterval
                     controller.timer.elapsedBreakInterval = newValue
@@ -168,7 +168,7 @@ Item {
 
                 onClicked:
                 {
-                    nextBreakTimeProgressBar.timeEditMode = true
+                    nextBreakTimeProgressBar.editMode.edit()
                 }
             }
 
@@ -180,10 +180,11 @@ Item {
             TimeProgressBar {
                 id: workTimeProgressBar
                 Layout.fillWidth: true
+
                 maxValue: controller.settings.workTime
                 value: controller.timer.elapsedWorkTime
 
-                onTimeValueChanged:
+                onTimeEdited:
                 {
                     var timeDiff = newValue - controller.timer.elapsedWorkTime
                     controller.timer.elapsedWorkTime = newValue
@@ -200,7 +201,7 @@ Item {
 
                 onClicked:
                 {
-                    workTimeProgressBar.timeEditMode = true
+                    workTimeProgressBar.editMode.edit()
                 }
             }
         }

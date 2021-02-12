@@ -27,17 +27,38 @@ import "helpers"
 
 Item {
     id: root
+    property alias editMode: editMode
 
     property int minValue: 0
     property int maxValue: 100
     property int value: 0
-    property bool enableEditMode: true
-    property bool timeEditMode: false
 
     implicitHeight: textLabel.font.pixelSize * 1.4
     implicitWidth: 200
 
-    signal timeValueChanged(var newValue)
+    signal timeEdited(int newValue)
+
+    ValueEditMode {
+        id: editMode
+
+        focusItem: textEditableInput
+        autoConfirm: false
+
+        onActiveEditChanged: {
+            textEditableInput.text = textLabel.text.replace(/ /g, '')
+        }
+
+        onConfirmChanges: {
+            var intermediateInput = textEditableInput.text.length != textEditableInput.timeInputMask.length;
+            if (!intermediateInput) {
+                timeEdited(d.deFormatTime(textEditableInput.text))
+
+                // we need to change activeEdit manually because autoConfirm is set to false
+                // this is done to avoid finishing edition for intermidate input
+                activeEdit = false
+            }
+        }
+    }
 
     QtObject {
         id: d
@@ -114,7 +135,7 @@ Item {
             CustomLabel {
                 id: textLabel
                 anchors.fill: parent
-                visible: !(timeEditMode && enableEditMode)
+                visible: !editMode.activeEdit
                 fontStyle: Style.timeBar.font
 
                 verticalAlignment: Text.AlignVCenter
@@ -139,12 +160,7 @@ Item {
                 property string timeInputMask: "99:99:99"
 
                 anchors.fill: parent
-                visible: timeEditMode && enableEditMode
-                focus: visible
-                onVisibleChanged:
-                {
-                    text = textLabel.text.replace(/ /g, '')
-                }
+                visible: editMode.activeEdit
 
                 cursorVisible: true
 
@@ -158,45 +174,23 @@ Item {
                 validator: RegularExpressionValidator {
                     regularExpression: /^([0-9][0-9]|[0-9] |  ):([0-5][0-9]|[0-5] |  ):([0-5][0-9]|[0-5] |  )$/
                 }
-
-                onAccepted:
-                {
-                    var intermediateInput = text.length != timeInputMask.length;
-                    if (!intermediateInput) {
-                        timeValueChanged(d.deFormatTime(textEditableInput.text))
-                        timeEditMode = false
-                    }
-                }
-
-                Keys.onEscapePressed:
-                {
-                    timeEditMode = false
-                }
-
-                onFocusChanged:
-                {
-                    if(!focus)
-                    {
-                        timeEditMode = false
-                    }
-                }
             }
 
             MouseArea {
                 anchors.fill: parent
-                enabled: enableEditMode
+                enabled: editMode.enabled
                 propagateComposedEvents: true
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onDoubleClicked:
                 {
-                    timeEditMode = true
+                    editMode.edit()
                 }
 
                 onClicked:
                 {
                     if(mouse.button === Qt.RightButton)
                     {
-                        timeEditMode = false
+                        editMode.decline()
                     }
                 }
             }
