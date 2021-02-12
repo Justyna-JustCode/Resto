@@ -54,7 +54,7 @@ public slots:
     void incrementCurrentCycle();
 
 private:
-    static const int sc_maxCycleIntervals = 3;
+    static const int sc_maxCycleIntervals = 10;
     SettingsController &m_settingsController;
 
     int m_currentCycle = 0;
