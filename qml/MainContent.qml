@@ -35,6 +35,11 @@ Item {
         Decorative {}
     }
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: forceActiveFocus()
+    }
+
     ColumnLayout {
         id: content
         anchors.fill: parent
