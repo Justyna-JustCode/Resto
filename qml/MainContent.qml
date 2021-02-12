@@ -97,81 +97,21 @@ Item {
         RowLayout {
             visible: controller.settings.cyclesMode
 
-            spacing: Style.spacing
+            spacing: Style.smallSpacing
 
             CustomLabel {
                 text: qsTr("Current cycle:")
             }
-            Item {
-                id: currentCycleItem
-                property bool cyclesEditMode: false
+            EditableIntegerLabel {
+                id: currentCycleLabel
+                number: controller.cycles.currentCycle
+                maxNumber: controller.settings.cycleIntervals
 
-                Layout.preferredWidth: width
-
-                implicitWidth: currentCycleLabel.implicitWidth
-                implicitHeight: currentCycleLabel.implicitHeight
-
-                CustomLabel {
-                    id: currentCycleLabel
-                    anchors.centerIn: parent
-
-                    text: controller.cycles.currentCycle
-                    visible: !currentCycleItem.cyclesEditMode
-                }
-
-                CustomSpinBox {
-                    id: currentIteractionEdit
-                    anchors.centerIn: parent
-
-                    visible: currentCycleItem.cyclesEditMode
-
-                    value: controller.cycles.currentCycle
-
-                    from: 1
-                    to: controller.settings.cycleIntervals
-
-                    onVisibleChanged: {
-                        if (visible) {
-                            forceActiveFocus()
-                            parent.width = maxWidth
-                        } else {
-                            parent.width = parent.cyclesEditMode
-                        }
-                    }
-
-                    function acceptChanges()
-                    {
-                        controller.cycles.currentCycle = currentIteractionEdit.value
-                        currentCycleItem.cyclesEditMode = false
-                    }
-
-                    Keys.onReturnPressed:
-                    {
-                        acceptChanges()
-                    }
-
-                    Keys.onEnterPressed:
-                    {
-                        acceptChanges()
-                    }
-
-                    Keys.onEscapePressed:
-                    {
-                        currentCycleItem.cyclesEditMode = false
-                    }
-
-                    onFocusChanged:
-                    {
-                        if(!focus)
-                        {
-                            currentCycleItem.cyclesEditMode = false
-                        }
-                    }
-                }
+                editMode.onConfirmChanges: controller.cycles.currentCycle = editNumber
             }
 
             ImageButton {
-                enabled: !currentCycleItem.cyclesEditMode &&
+                enabled: !currentCycleLabel.editMode.activeEdit &&
                          controller.state != Controller.Off
 
                 styleFont: Style.font.imageButtonSmallest
@@ -180,7 +120,7 @@ Item {
 
                 onClicked:
                 {
-                    currentCycleItem.cyclesEditMode = true
+                    currentCycleLabel.editMode.activeEdit = true
                 }
             }
         }

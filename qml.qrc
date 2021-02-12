@@ -75,5 +75,7 @@
         <file>qml/dialogs/subitems/TimesSettings.qml</file>
         <file>qml/utils/UiUtils.qml</file>
         <file>qml/utils/qmldir</file>
+        <file>qml/components/helpers/ValueEditMode.qml</file>
+        <file>qml/components/EditableIntegerLabel.qml</file>
     </qresource>
 </RCC>
