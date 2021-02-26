@@ -105,7 +105,7 @@ private:
     State m_state = State::Off; //! current state
     int m_postponeDuration = 0;     //! sum duration for all postpones for current break
     int m_lastRequestTime = 0;     //! last time when postpone button was clicked
-    int m_currentCycle = 0; //! number of current cycle
+    int m_currentInterval = 0; //! number of current interval
 
     SettingsController *settingsPtr();
     TimerController *timerPtr();
@@ -154,13 +154,13 @@ private slots:
 
     // CYCLES CONTROLLER
     /*!
-     * \brief Method handles a change in current cycle counter.
+     * \brief Method handles a change in current interval counter.
      *
      * Updates backup data.
      *
-     * \param currentCycle  current cycle
+     * \param currentInterval  current interval of a cycle
      */
-    void onCycleCurrentCycleChange(int currentCycle);
+    void onCurrentCycleIntervalChange(int currentInterval);
 
     // SETTINGS CONTROLLER
     /*!

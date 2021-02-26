@@ -25,7 +25,7 @@
 CyclesController::CyclesController(SettingsController &settingsController, QObject *parent)
     : QObject(parent), m_settingsController(settingsController)
 {
-    connect(this, &CyclesController::currentCycleChanged, this, [this] { emit isCycleFinishedChanged(isCycleFinished()); });
+    connect(this, &CyclesController::currentIntervalChanged, this, [this] { emit isCycleFinishedChanged(isCycleFinished()); });
 }
 
 int CyclesController::maxCycleIntervals() const
@@ -33,38 +33,38 @@ int CyclesController::maxCycleIntervals() const
     return sc_maxCycleIntervals;
 }
 
-int CyclesController::currentCycle() const
+int CyclesController::currentInterval() const
 {
-    return m_settingsController.cyclesMode() ? m_currentCycle
+    return m_settingsController.cyclesMode() ? m_currentInterval
                                              : 0;
 }
 
 bool CyclesController::isCycleFinished() const
 {
     return m_settingsController.cyclesMode()
-            ? (m_currentCycle == m_settingsController.cycleIntervals())
+            ? (m_currentInterval == m_settingsController.cycleIntervals())
             : 0;
 }
 
-void CyclesController::setCurrentCycle(int cycle)
+void CyclesController::setCurrentInterval(int currentInterval)
 {
-    if (m_currentCycle == cycle)
+    if (m_currentInterval == currentInterval)
         return;
 
-    if (cycle > m_settingsController.cycleIntervals()) {
-        cycle = 1;
+    if (currentInterval > m_settingsController.cycleIntervals()) {
+        currentInterval = 1;
     }
 
-    m_currentCycle = cycle;
-    emit currentCycleChanged(m_currentCycle);
+    m_currentInterval = currentInterval;
+    emit currentIntervalChanged(m_currentInterval);
 }
 
-void CyclesController::resetCurrentCycle()
+void CyclesController::resetCurrentInterval()
 {
-    setCurrentCycle(0);
+    setCurrentInterval(0);
 }
 
-void CyclesController::incrementCurrentCycle()
+void CyclesController::incrementCurrentInterval()
 {
-    setCurrentCycle(m_currentCycle + 1);
+    setCurrentInterval(m_currentInterval + 1);
 }

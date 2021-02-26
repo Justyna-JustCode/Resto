@@ -98,34 +98,34 @@ Item {
             }
         }
 
-        // current cycle
+        // current interval
         RowLayout {
             visible: controller.settings.cyclesMode
 
             spacing: Style.smallSpacing
 
             CustomLabel {
-                text: qsTr("Current cycle:")
+                text: qsTr("Current interval:")
             }
             EditableIntegerLabel {
-                id: currentCycleLabel
-                number: controller.cycles.currentCycle
+                id: currentCycleIntervalLabel
+                number: controller.cycles.currentInterval
                 maxNumber: controller.settings.cycleIntervals
 
-                editMode.onConfirmChanges: controller.cycles.currentCycle = editNumber
+                editMode.onConfirmChanges: controller.cycles.currentInterval = editNumber
             }
 
             ImageButton {
-                enabled: !currentCycleLabel.editMode.activeEdit &&
+                enabled: !currentCycleIntervalLabel.editMode.activeEdit &&
                          controller.state != Controller.Off
 
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
-                tooltip: qsTr("Edit current cycle")
+                tooltip: qsTr("Edit current interval")
 
                 onClicked:
                 {
-                    currentCycleLabel.editMode.edit()
+                    currentCycleIntervalLabel.editMode.edit()
                 }
             }
         }

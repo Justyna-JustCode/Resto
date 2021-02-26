@@ -157,13 +157,13 @@ bool BackupManager::Data::isEmpty()
 
 QDataStream &operator<<(QDataStream &stream, const BackupManager::Data &data)
 {
-    stream << data.elapsedBreakInterval << data.elapsedWorkTime << data.currentCycle;
+    stream << data.elapsedBreakInterval << data.elapsedWorkTime << data.currentCycleInterval;
     return stream;
 }
 QDataStream &operator>>(QDataStream &stream, BackupManager::Data &data)
 {
     stream >> data.elapsedBreakInterval;
     stream >> data.elapsedWorkTime;
-    stream >> data.currentCycle;
+    stream >> data.currentCycleInterval;
     return stream;
 }
