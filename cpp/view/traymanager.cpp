@@ -93,9 +93,13 @@ void TrayManager::initTrayIcon()
             this, SLOT(onWindowClosed()) );
 
     // tooltip
+    connect(&m_controller.settings(), &SettingsController::cycleIntervalsChanged,
+            this, &TrayManager::updateToolTip);
     connect(&m_controller.settings(), &SettingsController::breakIntervalChanged,
             this, &TrayManager::updateToolTip);
     connect(&m_controller.settings(), &SettingsController::workTimeChanged,
+            this, &TrayManager::updateToolTip);
+    connect(&m_controller.cycles(), &CyclesController::currentIntervalChanged,
             this, &TrayManager::updateToolTip);
     connect(&m_controller.timer(), &TimerController::elapsedBreakIntervalChanged,
             this, &TrayManager::updateToolTip);
@@ -223,12 +227,17 @@ void TrayManager::changeVisibility()
 
 void TrayManager::updateToolTip()
 {
-    static const QString tooltipTemplate = tr("NEXT BREAK:\n"
+    static const QString tooltipTemplate = tr("CURRENT INTERVAL:\n"
                                               "%1 / %2\n"
                                               "\n"
+                                              "NEXT BREAK:\n"
+                                              "%3 / %4\n"
+                                              "\n"
                                               "WORK TIME:\n"
-                                              "%3 / %4");
+                                              "%5 / %6");
     m_trayIcon.setToolTip(tooltipTemplate
+                          .arg(m_controller.cycles().currentInterval())
+                          .arg(m_controller.settings().cycleIntervals())
                           .arg(Helpers::formatTime(m_controller.timer().elapsedBreakInterval()) )
                           .arg(Helpers::formatTime(m_controller.settings().breakInterval()) )
                           .arg(Helpers::formatTime(m_controller.timer().elapsedWorkTime()) )
