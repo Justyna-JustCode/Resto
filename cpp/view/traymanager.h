@@ -69,7 +69,7 @@ private:
     QPointer<QQuickWindow> m_mainWindow;        //! A pointer for a main window class
     QSystemTrayIcon m_trayIcon;
     QScopedPointer<QMenu> m_trayMenu;
-    QPointer<QAction> m_breakAction;           //! A break action pointer
+    QVector<QAction*> m_breakActions;           //! A pointers for break related actions
 
 #ifdef Q_OS_LINUX
     /*!
@@ -92,6 +92,7 @@ private slots:
 
     void checkBreakAvailability();
     void takeBreak();
+    void skipBreak();
 
     void changeVisibility();
     void updateToolTip();

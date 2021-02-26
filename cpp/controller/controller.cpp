@@ -195,6 +195,12 @@ void Controller::postponeBreak()
             (m_timerController.elapsedBreakInterval() - m_lastRequestTime)
             + settings().postponeTime();
 }
+
+void Controller::skipBreak()
+{
+    startWork();
+}
+
 void Controller::startWork()
 {
     m_cyclesController.incrementCurrentInterval();

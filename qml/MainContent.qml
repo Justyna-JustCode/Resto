@@ -72,7 +72,7 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: Qt.RightButton
                     onPressAndHold: {
-                        controller.startWork();
+                        controller.skipBreak();
                     }
                 }
             }

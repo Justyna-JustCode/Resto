@@ -121,7 +121,11 @@ void TrayManager::initTrayMenu()
 
     action = m_trayMenu->addAction(QIcon(":/resources/images/break.png"), tr("Take a break!"));
     connect(action, &QAction::triggered, this, &TrayManager::takeBreak);
-    m_breakAction = action;
+    m_breakActions.append(action);
+
+    action = m_trayMenu->addAction(QIcon(":/resources/images/break.png"), tr("Skip a break"));
+    connect(action, &QAction::triggered, this, &TrayManager::skipBreak);
+    m_breakActions.append(action);
     m_trayMenu->addSeparator();
 
     action = m_trayMenu->addAction(QIcon(":/resources/images/settings.png"), tr("Settings"));
@@ -140,7 +144,6 @@ void TrayManager::initTrayMenu()
     connect(&m_controller.timer(), &TimerController::activePeriodTypeChanged,
             this, &TrayManager::checkBreakAvailability);
     checkBreakAvailability();
-
 }
 
 void TrayManager::checkInitState()
@@ -205,14 +208,22 @@ void TrayManager::showInformationDialog()
 
 void TrayManager::checkBreakAvailability()
 {
-    m_breakAction->setEnabled(m_controller.state() == Controller::State::Working &&
-                              m_controller.timer().activePeriodType() == TimerController::PeriodType::Work);
+    const auto breakActionsEnabled = (m_controller.state() == Controller::State::Working) &&
+            (m_controller.timer().activePeriodType() == TimerController::PeriodType::Work);
+
+    std::for_each(m_breakActions.begin(), m_breakActions.end(),
+                  std::bind(&QAction::setEnabled, std::placeholders::_1, breakActionsEnabled));
 }
 
 void TrayManager::takeBreak()
 {
     m_controller.startBreak();
     QMetaObject::invokeMethod(m_mainWindow, "showBreakDialog");
+}
+
+void TrayManager::skipBreak()
+{
+    m_controller.skipBreak();
 }
 
 void TrayManager::changeVisibility()

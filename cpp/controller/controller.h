@@ -88,6 +88,7 @@ public slots:
 
     void startBreak();
     void postponeBreak();
+    void skipBreak();
     void startWork();
 
 private:
