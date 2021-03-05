@@ -15,7 +15,7 @@ Item {
     property int number
 
     implicitWidth: Math.max(editSpinBox.implicitWidth, displayLabel.implicitWidth)
-    implicitHeight: displayLabel.implicitHeight
+    implicitHeight: Math.max(editSpinBox.implicitHeight, displayLabel.implicitHeight)
 
     ValueEditMode {
         id: editMode
