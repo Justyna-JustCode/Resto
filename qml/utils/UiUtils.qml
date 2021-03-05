@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2020 JustCode Justyna Kulinska
+** Copyright 2020 Justyna JustCode
 **
 ** This file is part of Resto.
 **
