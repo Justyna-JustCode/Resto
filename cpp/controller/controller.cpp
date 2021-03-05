@@ -144,7 +144,7 @@ void Controller::start()
         [[fallthrough]];
     case State::Paused:
     case State::Recovered:
-        m_timerController.start(); // restart only from Off
+        m_timerController.start();
         setState(State::Working);
         m_backupManager.start();
         break;
@@ -324,7 +324,9 @@ void Controller::onTimerStopRequested()
 void Controller::onCyclesModeChanged(bool cyclesMode)
 {
     m_cyclesController.resetCurrentInterval();
-    if (cyclesMode && m_state > State::Off) {
+
+    const bool isRunning = (m_state == State::Working || m_state == State::Paused);
+    if (cyclesMode && isRunning) {
         m_cyclesController.incrementCurrentInterval();
     }
 }

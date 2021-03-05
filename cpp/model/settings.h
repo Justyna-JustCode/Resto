@@ -71,7 +71,7 @@ public:
     /*!
      * \brief Sets an information if include breaks in the work time.
      */
-    void setIncluseBreaks(bool include);
+    void setIncludeBreaks(bool include);
 
     /*!
      * \brief Returns break duration in seconds.

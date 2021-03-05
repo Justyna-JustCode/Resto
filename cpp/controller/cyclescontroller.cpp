@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2021 JustCode Justyna Kulinska
 **
 ** This file is part of Resto.
 **
@@ -41,15 +41,15 @@ int CyclesController::currentInterval() const
 
 bool CyclesController::isCycleFinished() const
 {
-    return m_settingsController.cyclesMode()
-            ? (m_currentInterval == m_settingsController.cycleIntervals())
-            : 0;
+    return m_settingsController.cyclesMode() &&
+            (m_currentInterval == m_settingsController.cycleIntervals());
 }
 
 void CyclesController::setCurrentInterval(int currentInterval)
 {
-    if (m_currentInterval == currentInterval)
+    if (m_currentInterval == currentInterval) {
         return;
+    }
 
     if (currentInterval > m_settingsController.cycleIntervals()) {
         currentInterval = 1;

@@ -95,7 +95,7 @@ bool Settings::includeBreaks() const
     return value(sc_logicGroupName, sc_includeBreaksKey, true).toBool();
 }
 
-void Settings::setIncluseBreaks(bool include)
+void Settings::setIncludeBreaks(bool include)
 {
     setValue(sc_logicGroupName, sc_includeBreaksKey, include);
 }
