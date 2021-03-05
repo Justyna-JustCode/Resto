@@ -152,7 +152,8 @@ void BackupManager::doBackup()
 bool BackupManager::Data::isEmpty()
 {
     return (elapsedBreakInterval == 0 &&
-            elapsedWorkTime == 0 );
+            elapsedWorkTime == 0 &&
+            currentCycleInterval == 0);
 }
 
 QDataStream &operator<<(QDataStream &stream, const BackupManager::Data &data)
