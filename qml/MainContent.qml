@@ -161,7 +161,7 @@ Item {
             ImageButton {
                 enabled: !nextBreakTimeProgressBar.timeEditMode &&
                          controller.state != Controller.Off
-                visible: nextBreakTimeProgressBar.enableEditMode
+                visible: nextBreakTimeProgressBar.editMode.enabled
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit next break")
@@ -194,7 +194,7 @@ Item {
             ImageButton {
                 enabled: !workTimeProgressBar.timeEditMode &&
                          controller.state != Controller.Off
-                visible: workTimeProgressBar.enableEditMode
+                visible: workTimeProgressBar.editMode.enabled
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit work time")
