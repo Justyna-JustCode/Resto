@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -35,10 +35,15 @@ Item {
         Decorative {}
     }
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: forceActiveFocus()
+    }
+
     ColumnLayout {
         id: content
         anchors.fill: parent
-        anchors.margins: 30
+        anchors.margins: Style.bigMargins
         spacing: 0
 
         RowLayout {
@@ -54,13 +59,21 @@ Item {
             }
             ImageButton {
                 type: "break"
-                tooltip: qsTr("Break")
+                tooltip: qsTr("Break\nHold right button to skip")
 
                 visible: controller.state == Controller.Working
 
                 onClicked: {
                     controller.startBreak()
                     dialogsManager.showBreakDialog();
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.RightButton
+                    onPressAndHold: {
+                        controller.skipBreak();
+                    }
                 }
             }
             ImageButton {
@@ -84,11 +97,49 @@ Item {
                 }
             }
         }
+
+        // current interval
+        RowLayout {
+            visible: controller.settings.cyclesMode
+
+            spacing: Style.smallSpacing
+
+            CustomLabel {
+                text: qsTr("Current interval:")
+            }
+            EditableIntegerLabel {
+                id: currentCycleIntervalLabel
+                number: controller.cycles.currentInterval
+                maxNumber: controller.settings.cycleIntervals
+
+                editMode.onConfirmChanges: controller.cycles.currentInterval = editNumber
+            }
+
+            ImageButton {
+                enabled: !currentCycleIntervalLabel.editMode.activeEdit &&
+                         controller.state != Controller.Off
+
+                styleFont: Style.font.imageButtonSmallest
+                type: "edit"
+                tooltip: qsTr("Edit current interval")
+
+                onClicked:
+                {
+                    currentCycleIntervalLabel.editMode.edit()
+                }
+            }
+        }
+
         GridLayout {
             Layout.fillWidth: true
+
             columns: 3
 
-            Label {
+            columnSpacing: Style.spacing
+            rowSpacing: Style.smallSpacing
+
+            // next break
+            CustomLabel {
                 text: qsTr("Next break:")
             }
 
@@ -97,40 +148,43 @@ Item {
                 Layout.fillWidth: true
 
                 maxValue: controller.settings.breakInterval
-                value: controller.timer.elapsedWorkPeriod
+                value: controller.timer.elapsedBreakInterval
 
-                onTimeValueChanged:
+                onTimeEdited:
                 {
-                    var timeDiff = newValue - controller.timer.elapsedWorkPeriod
-                    controller.timer.elapsedWorkPeriod = newValue
+                    var timeDiff = newValue - controller.timer.elapsedBreakInterval
+                    controller.timer.elapsedBreakInterval = newValue
                     controller.timer.elapsedWorkTime += timeDiff
                 }
             }
 
             ImageButton {
-                enabled: !nextBreakTimeProgressBar.timeEditMode
-                visible: nextBreakTimeProgressBar.enableEditMode
+                enabled: !nextBreakTimeProgressBar.timeEditMode &&
+                         controller.state != Controller.Off
+                visible: nextBreakTimeProgressBar.editMode.enabled
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit next break")
 
                 onClicked:
                 {
-                    nextBreakTimeProgressBar.timeEditMode = true
+                    nextBreakTimeProgressBar.editMode.edit()
                 }
             }
 
-            Label {
+            // work time
+            CustomLabel {
                 text: qsTr("Work time:")
             }
 
             TimeProgressBar {
                 id: workTimeProgressBar
                 Layout.fillWidth: true
+
                 maxValue: controller.settings.workTime
                 value: controller.timer.elapsedWorkTime
 
-                onTimeValueChanged:
+                onTimeEdited:
                 {
                     var timeDiff = newValue - controller.timer.elapsedWorkTime
                     controller.timer.elapsedWorkTime = newValue
@@ -138,15 +192,16 @@ Item {
             }
 
             ImageButton {
-                enabled: !workTimeProgressBar.timeEditMode
-                visible: workTimeProgressBar.enableEditMode
+                enabled: !workTimeProgressBar.timeEditMode &&
+                         controller.state != Controller.Off
+                visible: workTimeProgressBar.editMode.enabled
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
                 tooltip: qsTr("Edit work time")
 
                 onClicked:
                 {
-                    workTimeProgressBar.timeEditMode = true
+                    workTimeProgressBar.editMode.edit()
                 }
             }
         }

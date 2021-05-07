@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -107,7 +107,7 @@ Window {
         columns: 2
         columnSpacing: Style.spacing
 
-        Label {
+        CustomLabel {
             fontStyle: Style.font.title
             text: title
         }
@@ -119,7 +119,7 @@ Window {
             Layout.preferredHeight: preferredHeight
         }
 
-        Label {
+        CustomLabel {
             Layout.columnSpan: 2
             text: description
         }

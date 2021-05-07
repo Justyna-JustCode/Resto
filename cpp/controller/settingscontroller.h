@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -35,14 +35,22 @@ class SettingsController final : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool includeBreaks READ includeBreaks WRITE setIncludeBreaks NOTIFY includeBreaksChanged)
     Q_PROPERTY(int breakDuration READ breakDuration WRITE setBreakDuration NOTIFY breakDurationChanged)
     Q_PROPERTY(int breakInterval READ breakInterval WRITE setBreakInterval NOTIFY breakIntervalChanged)
+
+    Q_PROPERTY(bool cyclesMode READ cyclesMode WRITE setCyclesMode NOTIFY cyclesModeChanged)
+    Q_PROPERTY(int cycleBreakDuration READ cycleBreakDuration WRITE setCycleBreakDuration NOTIFY cycleBreakDurationChanged)
+    Q_PROPERTY(int cycleIntervals READ cycleIntervals WRITE setCycleIntervals NOTIFY cycleIntervalsChanged)
+
     Q_PROPERTY(int workTime READ workTime WRITE setWorkTime NOTIFY workTimeChanged)
     Q_PROPERTY(int postponeTime READ postponeTime WRITE setPostponeTime NOTIFY postponeTimeChanged)
+
     Q_PROPERTY(bool autoStart READ autoStart WRITE setAutoStart NOTIFY autoStartChanged)
 
     Q_PROPERTY(QPoint windowPosition READ windowPosition WRITE setWindowPosition NOTIFY windowPositionChanged)
     Q_PROPERTY(QSize windowSize READ windowSize WRITE setWindowSize NOTIFY windowSizeChanged)
+    Q_PROPERTY(QSize defaultWindowSize READ defaultWindowSize CONSTANT)
 
     Q_PROPERTY(int applicationColorIndex READ applicationColorIndex WRITE setApplicationColorIndex NOTIFY applicationColorIndexChanged)
 
@@ -57,14 +65,22 @@ class SettingsController final : public QObject
 public:
     explicit SettingsController(QObject *parent = nullptr);
 
+    bool includeBreaks() const;
     int breakDuration() const;
     int breakInterval() const;
+
+    bool cyclesMode() const;
+    int cycleBreakDuration() const;
+    int cycleIntervals() const;
+
     int workTime() const;
     int postponeTime() const;
+
     bool autoStart() const;
 
     QPoint windowPosition() const;
     QSize windowSize() const;
+    QSize defaultWindowSize() const;
 
     int applicationColorIndex() const;
 
@@ -77,10 +93,17 @@ public:
     QDateTime nextUpdateCheck() const;
 
 signals:
+    void includeBreaksChanged(bool includeBreaks) const;
     void breakDurationChanged(int breakDuration) const;
     void breakIntervalChanged(int breakInterval) const;
+
+    void cyclesModeChanged(bool cyclesMode) const;
+    void cycleBreakDurationChanged(int cycleBreakDuration) const;
+    void cycleIntervalsChanged(int cycleIntervals) const;
+
     void workTimeChanged(int workTime) const;
     void postponeTimeChanged(int postponeTime) const;
+
     void autoStartChanged(bool autoStart) const;
 
     void windowPositionChanged(const QPoint &windowPosition) const;
@@ -96,10 +119,17 @@ signals:
     void nextUpdateCheckChanged(QDateTime nextUpdateCheck) const;
 
 public slots:
+    void setIncludeBreaks(bool includeBreaks);
     void setBreakDuration(int breakDuration);
     void setBreakInterval(int breakInterval);
+
+    void setCyclesMode(bool cyclesMode);
+    void setCycleBreakDuration(int cycleBreakDuration);
+    void setCycleIntervals(int cycleIntervals);
+
     void setWorkTime(int workTime);
     void setPostponeTime(int postponeTime);
+
     void setAutoStart(bool autoStart);
 
     void setWindowPosition(const QPoint &windowPosition);

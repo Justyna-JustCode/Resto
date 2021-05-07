@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -151,18 +151,20 @@ void BackupManager::doBackup()
 
 bool BackupManager::Data::isEmpty()
 {
-    return (elapsedWorkPeriod == 0 &&
-            elapsedWorkTime == 0 );
+    return (elapsedBreakInterval == 0 &&
+            elapsedWorkTime == 0 &&
+            currentCycleInterval == 0);
 }
 
 QDataStream &operator<<(QDataStream &stream, const BackupManager::Data &data)
 {
-    stream << data.elapsedWorkPeriod << data.elapsedWorkTime;
+    stream << data.elapsedBreakInterval << data.elapsedWorkTime << data.currentCycleInterval;
     return stream;
 }
 QDataStream &operator>>(QDataStream &stream, BackupManager::Data &data)
 {
-    stream >> data.elapsedWorkPeriod;
+    stream >> data.elapsedBreakInterval;
     stream >> data.elapsedWorkTime;
+    stream >> data.currentCycleInterval;
     return stream;
 }

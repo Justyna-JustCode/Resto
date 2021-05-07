@@ -21,24 +21,18 @@
 ********************************************/
 
 import QtQuick 2.12
-import "helpers"
+import "../style"
 
-QtObject {
-    property color color: ColorPallete.secondaryDarkColor
-    property color selectionColor: ColorPallete.secondaryLightColor
-    property color linkColor: ColorPallete.mainColor
+Text {
+    property var fontStyle: Style.font.text
 
-    property int size: 20
-    property string family: loader.name
-    property bool bold: false
-    property bool italic: false
-    property int capitalization: Font.MixedCase
+    color: fontStyle.color
+    linkColor: fontStyle.linkColor
 
-    property var loader: FontLoader {
-        id: loader
-        source: "qrc:/resources/fonts/font" +
-                (bold ? "-bold" : "") +
-                (italic ? "-italic" : "") +
-                ".ttf"
-    }
+    font.family: fontStyle.family
+    font.pixelSize: fontStyle.size
+    font.bold: fontStyle.bold
+    font.capitalization: fontStyle.capitalization
+
+    onLinkActivated: Qt.openUrlExternally(link)
 }

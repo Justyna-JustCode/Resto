@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -32,6 +32,9 @@ import "style"
 
 ApplicationWindow {
     visible: true
+
+    minimumWidth: controller.settings.defaultWindowSize.width
+    minimumHeight: controller.settings.defaultWindowSize.height
 
     function showBreakDialog() {
         dialogsManager.showBreakDialog()

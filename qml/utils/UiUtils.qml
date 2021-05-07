@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2020 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -20,19 +20,27 @@
 **
 ********************************************/
 
+pragma Singleton
 import QtQuick 2.12
+import "."
 import "../style"
 
-Text {
-    property var fontStyle: Style.font.text
+QtObject {
+    id: uiUtils
 
-    color: fontStyle.color
-    linkColor: fontStyle.linkColor
+    function resolveControlColor(baseColor, enabled)
+    {
+        return enabled ? baseColor
+                       : Qt.tint(baseColor, Style.disableTint);
+    }
 
-    font.family: fontStyle.family
-    font.pixelSize: fontStyle.size
-    font.bold: fontStyle.bold
-    font.capitalization: fontStyle.capitalization
-
-    onLinkActivated: Qt.openUrlExternally(link)
+    function averageTextWidth(fontMetrics, charsCount)
+    {
+        var AVERAGE_WIDTH_ENLARGE = 2;
+        return charsCount * AVERAGE_WIDTH_ENLARGE * fontMetrics.averageCharacterWidth;
+    }
+    function maxTextWidth(fontMetrics, charsCount)
+    {
+        return charsCount * fontMetrics.maximumCharacterWidth;
+    }
 }

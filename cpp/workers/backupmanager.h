@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -40,8 +40,9 @@ public:
      * \brief Structure used to save and restore the data.
      */
     struct Data {
-        int elapsedWorkPeriod = 0;
+        int elapsedBreakInterval = 0;
         int elapsedWorkTime = 0;
+        int currentCycleInterval = 0;
 
         bool isEmpty();
     };

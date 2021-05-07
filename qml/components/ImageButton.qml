@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -59,7 +59,7 @@ TextButton {
 
             source: d.path + type + d.extension
         }
-        Label {
+        CustomLabel {
             id: text
             Layout.alignment: Qt.AlignVCenter
 

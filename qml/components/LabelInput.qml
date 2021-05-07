@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import "../style"
+import "../utils"
 
 TextInput {
     property var fontStyle
@@ -11,7 +12,8 @@ TextInput {
         pixelSize: fontStyle.size
     }
 
-    color: fontStyle.color
+
+    color: UiUtils.resolveControlColor(fontStyle.color, enabled)
     selectionColor: color
     selectedTextColor: fontStyle.selectionColor
 }

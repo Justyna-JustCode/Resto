@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -32,10 +32,17 @@ const QLatin1String Settings::sc_viewGroupName = QLatin1String("view");
 const QLatin1String Settings::sc_trayAvailableKey = QLatin1String("trayAvailable");
 const QLatin1String Settings::sc_showTrayInfoKey = QLatin1String("showTrayInfo");
 
+const QLatin1String Settings::sc_includeBreaksKey = QLatin1String("includeBreaks");
 const QLatin1String Settings::sc_breakDurationKey = QLatin1String("breakDuration");
 const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
+
+const QLatin1String Settings::sc_cyclesModeKey = QLatin1String("cyclesMode");
+const QLatin1String Settings::sc_cycleBreakDurationKey = QLatin1String("cycleBreakDuration");
+const QLatin1String Settings::sc_cycleIntervals = QLatin1String("cycleIntervals");
+
 const QLatin1String Settings::sc_workTimeKey = QLatin1String("workTime");
 const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime");
+
 const QLatin1String Settings::sc_autoStartKey = QLatin1String("autoStart");
 const QLatin1String Settings::sc_autoHideKey = QLatin1String("autoHide");
 const QLatin1String Settings::sc_hideOnCloseKey = QLatin1String("hideOnClose");
@@ -49,12 +56,14 @@ const QLatin1String Settings::sc_windowWidthKey = QLatin1String("window-width");
 const QLatin1String Settings::sc_windowHeightKey = QLatin1String("window-height");
 const QLatin1String Settings::sc_applicationColorIndexKey = QLatin1String("mainColorIndex");
 
-const int Settings::sc_defaultBreakDuration = 10*60;  //! 10 min
-const int Settings::sc_defaultBreakInterval = 45*60; //! 45 min
+const int Settings::sc_defaultBreakDuration = 5*60;  //! 5 min
+const int Settings::sc_defaultCycleBreakDuration = 30*60;  //! 30 min
+const int Settings::sc_defaultlCycleIntervals = 3;
+const int Settings::sc_defaultBreakInterval = 25*60; //! 25 min
 const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
 const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
 
-const QSize Settings::sc_defaultWindowSize = { 440, 200 };  // px
+const QSize Settings::sc_defaultWindowSize = { 460, 240 };  // px
 int Settings::sc_defaultApplicationColorIndex = 0;
 
 Settings::Settings(const QString organization, const QString name)
@@ -81,6 +90,16 @@ void Settings::setShowTrayInfo(bool show)
     setValue(sc_systemGroupName, sc_showTrayInfoKey, show);
 }
 
+bool Settings::includeBreaks() const
+{
+    return value(sc_logicGroupName, sc_includeBreaksKey, true).toBool();
+}
+
+void Settings::setIncludeBreaks(bool include)
+{
+    setValue(sc_logicGroupName, sc_includeBreaksKey, include);
+}
+
 int Settings::breakDuration() const
 {
     return value(sc_logicGroupName, sc_breakDurationKey, sc_defaultBreakDuration).toInt();
@@ -88,6 +107,36 @@ int Settings::breakDuration() const
 void Settings::setBreakDuration(int duration)
 {
     setValue(sc_logicGroupName, sc_breakDurationKey, duration);
+}
+
+bool Settings::cyclesMode() const
+{
+    return value(sc_logicGroupName, sc_cyclesModeKey, false).toBool();
+}
+
+void Settings::setCyclesMode(bool on)
+{
+    setValue(sc_logicGroupName, sc_cyclesModeKey, on);
+}
+
+int Settings::cycleBreakDuration() const
+{
+    return value(sc_logicGroupName, sc_cycleBreakDurationKey, sc_defaultCycleBreakDuration).toInt();
+}
+
+void Settings::setCycleBreakDuration(int duration)
+{
+    setValue(sc_logicGroupName, sc_cycleBreakDurationKey, duration);
+}
+
+int Settings::cycleIntervals() const
+{
+    return value(sc_logicGroupName, sc_cycleIntervals, sc_defaultlCycleIntervals).toInt();
+}
+
+void Settings::setCycleIntervals(int cycleIntervals)
+{
+    setValue(sc_logicGroupName, sc_cycleIntervals, cycleIntervals);
 }
 
 int Settings::breakInterval() const
@@ -182,6 +231,11 @@ QSize Settings::windowSize() const
 {
     return { value(sc_viewGroupName, sc_windowWidthKey, sc_defaultWindowSize.width()).toInt(),
                 value(sc_viewGroupName, sc_windowHeightKey, sc_defaultWindowSize.height()).toInt() };
+}
+
+QSize Settings::defaultWindowSize() const
+{
+    return sc_defaultWindowSize;
 }
 
 void Settings::setWindowSize(const QSize &size)

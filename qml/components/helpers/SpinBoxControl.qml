@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -23,8 +23,10 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import "../../style"
+import "../../utils"
 
 Item {
+    id: spinBoxControl
     property bool increment: true
 
     implicitWidth: spinImage.sourceSize.width
@@ -45,6 +47,6 @@ Item {
         anchors.fill: parent
 
         source: spinImage
-        color: Style.spinBox.font.color
+        color: UiUtils.resolveControlColor(Style.spinBox.font.color, spinBoxControl.enabled)
     }
 }

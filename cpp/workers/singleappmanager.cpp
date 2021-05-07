@@ -42,7 +42,9 @@ bool SingleAppManager::isAnotherRunned()
         testSocket.write(sc_pingCommand.data());
         testSocket.waitForBytesWritten();
         testSocket.disconnectFromServer();
-        testSocket.waitForDisconnected();
+        if (testSocket.state() != QLocalSocket::UnconnectedState) {
+            testSocket.waitForDisconnected();
+        }
         return true;
     }
 

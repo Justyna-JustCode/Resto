@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -27,11 +27,13 @@ import "../style"
 
 GridLayout {
     property alias labelText: label.text
+    property alias labelFontStyle: label.fontStyle
+
     property bool strechHorizontally: true
     property bool strechVertically: false
     property real horizontalSpacing: spacer.size
 
-    Label {
+    CustomLabel {
         id: label
         fontStyle: Style.font.formLabel
     }

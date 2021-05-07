@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -29,14 +29,36 @@ SettingsController::SettingsController(QObject *parent)
     m_settings.setDefaultApplicationColorIndex(0);
 }
 
+bool SettingsController::includeBreaks() const
+{
+    return m_settings.includeBreaks();
+}
+
 int SettingsController::breakDuration() const
 {
     return m_settings.breakDuration();
 }
+
 int SettingsController::breakInterval() const
 {
     return m_settings.breakInterval();
 }
+
+int SettingsController::cycleBreakDuration() const
+{
+    return m_settings.cycleBreakDuration();
+}
+
+int SettingsController::cycleIntervals() const
+{
+    return m_settings.cycleIntervals();
+}
+
+bool SettingsController::cyclesMode() const
+{
+    return m_settings.cyclesMode();
+}
+
 int SettingsController::workTime() const
 {
     return m_settings.workTime();
@@ -58,6 +80,11 @@ QPoint SettingsController::windowPosition() const
 QSize SettingsController::windowSize() const
 {
     return m_settings.windowSize();
+}
+
+QSize SettingsController::defaultWindowSize() const
+{
+    return m_settings.defaultWindowSize();
 }
 
 int SettingsController::applicationColorIndex() const
@@ -95,42 +122,88 @@ QDateTime SettingsController::nextUpdateCheck() const
     return m_settings.nextUpdateCheck();
 }
 
+void SettingsController::setIncludeBreaks(bool includeBreaks)
+{
+    if (m_settings.includeBreaks() == includeBreaks) {
+        return;
+    }
+
+    m_settings.setIncludeBreaks(includeBreaks);
+    emit includeBreaksChanged(includeBreaks);
+}
+
 void SettingsController::setBreakDuration(int breakDuration)
 {
-    if (m_settings.breakDuration() == breakDuration)
+    if (m_settings.breakDuration() == breakDuration) {
         return;
+    }
 
     m_settings.setBreakDuration(breakDuration);
     emit breakDurationChanged(breakDuration);
 }
+
+void SettingsController::setCycleBreakDuration(int cycleBreakDuration)
+{
+    if (m_settings.cycleBreakDuration() == cycleBreakDuration) {
+        return;
+    }
+
+    m_settings.setCycleBreakDuration(cycleBreakDuration);
+    emit cycleBreakDurationChanged(cycleBreakDuration);
+}
+
+void SettingsController::setCycleIntervals(int cycleIntervals)
+{
+    if (m_settings.cycleIntervals() == cycleIntervals) {
+        return;
+    }
+
+    m_settings.setCycleIntervals(cycleIntervals);
+    emit cycleIntervalsChanged(cycleIntervals);
+}
 void SettingsController::setBreakInterval(int breakInterval)
 {
-    if (m_settings.breakInterval() == breakInterval)
+    if (m_settings.breakInterval() == breakInterval) {
         return;
+    }
 
     m_settings.setBreakInterval(breakInterval);
     emit breakIntervalChanged(breakInterval);
 }
+
+void SettingsController::setCyclesMode(bool cyclesMode)
+{
+    if (m_settings.cyclesMode() == cyclesMode) {
+        return;
+    }
+
+    m_settings.setCyclesMode(cyclesMode);
+    emit cyclesModeChanged(cyclesMode);
+}
+
 void SettingsController::setWorkTime(int workTime)
 {
-    if (m_settings.workTime() == workTime)
+    if (m_settings.workTime() == workTime) {
         return;
+    }
 
     m_settings.setWorkTime(workTime);
     emit workTimeChanged(workTime);
 }
 void SettingsController::setPostponeTime(int postponeTime)
 {
-    if (m_settings.postponeTime() == postponeTime)
+    if (m_settings.postponeTime() == postponeTime) {
         return;
+    }
 
     m_settings.setPostponeTime(postponeTime);
     emit postponeTimeChanged(postponeTime);
 }
 void SettingsController::setAutoStart(bool autoStart)
 {
-    if (m_settings.autoStart() == autoStart)
+    if (m_settings.autoStart() == autoStart) {
         return;
+    }
 
     m_settings.setAutoStart(autoStart);
     emit autoStartChanged(autoStart);
@@ -138,8 +211,9 @@ void SettingsController::setAutoStart(bool autoStart)
 
 void SettingsController::setWindowPosition(const QPoint &windowPosition)
 {
-    if (m_settings.windowPosition() == windowPosition)
+    if (m_settings.windowPosition() == windowPosition) {
         return;
+    }
 
     m_settings.setWindowPosition(windowPosition);
     emit windowPositionChanged(windowPosition);
@@ -147,8 +221,9 @@ void SettingsController::setWindowPosition(const QPoint &windowPosition)
 
 void SettingsController::setWindowSize(const QSize &windowSize)
 {
-    if (m_settings.windowSize() == windowSize)
+    if (m_settings.windowSize() == windowSize) {
         return;
+    }
 
     m_settings.setWindowSize(windowSize);
     emit windowSizeChanged(windowSize);
@@ -156,8 +231,9 @@ void SettingsController::setWindowSize(const QSize &windowSize)
 
 void SettingsController::setApplicationColorIndex(const int colorIndex)
 {
-    if (m_settings.applicationColorIndex() == colorIndex)
+    if (m_settings.applicationColorIndex() == colorIndex) {
         return;
+    }
 
     m_settings.setApplicationColorIndex(colorIndex);
     emit applicationColorIndexChanged(colorIndex);
@@ -165,8 +241,9 @@ void SettingsController::setApplicationColorIndex(const int colorIndex)
 
 void SettingsController::setTrayAvailable(bool trayAvailable)
 {
-    if (m_settings.trayAvailable() == trayAvailable)
+    if (m_settings.trayAvailable() == trayAvailable) {
         return;
+    }
 
     m_settings.setTrayAvailable(trayAvailable);
     emit trayAvailableChanged(trayAvailable);
@@ -174,8 +251,9 @@ void SettingsController::setTrayAvailable(bool trayAvailable)
 
 void SettingsController::setShowTrayInfo(bool showTrayInfo)
 {
-    if (m_settings.showTrayInfo() == showTrayInfo)
+    if (m_settings.showTrayInfo() == showTrayInfo) {
         return;
+    }
 
     m_settings.setShowTrayInfo(showTrayInfo);
     emit showTrayInfoChanged(showTrayInfo);
@@ -183,8 +261,9 @@ void SettingsController::setShowTrayInfo(bool showTrayInfo)
 
 void SettingsController::setAutoHide(bool autoHide)
 {
-    if (m_settings.autoHide() == autoHide)
+    if (m_settings.autoHide() == autoHide) {
         return;
+    }
 
     m_settings.setAutoHide(autoHide);
     emit autoHideChanged(autoHide);
@@ -192,8 +271,9 @@ void SettingsController::setAutoHide(bool autoHide)
 
 void SettingsController::setHideOnClose(bool hideOnClose)
 {
-    if (m_settings.hideOnClose() == hideOnClose)
+    if (m_settings.hideOnClose() == hideOnClose) {
         return;
+    }
 
     m_settings.setHideOnClose(hideOnClose);
     emit hideOnCloseChanged(hideOnClose);
@@ -201,8 +281,9 @@ void SettingsController::setHideOnClose(bool hideOnClose)
 
 void SettingsController::setUpdateVersion(const QString &updateVersion)
 {
-    if (m_settings.updateVersion() == updateVersion)
+    if (m_settings.updateVersion() == updateVersion) {
         return;
+    }
 
     m_settings.setUpdateVersion(updateVersion);
     emit updateVersionChanged(updateVersion);
@@ -210,8 +291,9 @@ void SettingsController::setUpdateVersion(const QString &updateVersion)
 
 void SettingsController::setNextUpdateCheck(const QDateTime &nextUpdateCheck)
 {
-    if (m_settings.nextUpdateCheck() == nextUpdateCheck)
+    if (m_settings.nextUpdateCheck() == nextUpdateCheck) {
         return;
+    }
 
     m_settings.setNextUpdateCheck(nextUpdateCheck);
     emit nextUpdateCheckChanged(nextUpdateCheck);

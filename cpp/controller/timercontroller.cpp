@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -47,9 +47,9 @@ int TimerController::elapsedBreakDuration() const
     return m_elapsedBreakDuration;
 }
 
-int TimerController::elapsedWorkPeriod() const
+int TimerController::elapsedBreakInterval() const
 {
-    return m_elapsedWorkPeriod;
+    return m_elapsedBreakInterval;
 }
 
 int TimerController::elapsedWorkTime() const
@@ -62,21 +62,27 @@ TimerController::PeriodType TimerController::activePeriodType() const
     return m_periodType;
 }
 
-void TimerController::start(bool restart)
+void TimerController::start()
 {
-    if (restart)
-    {
-        // set initial state
-        setElapsedBreakDuration(0);
-        setElapsedWorkPeriod(0);
-        setElapsedWorkTime(0);
-    }
-
     m_timer.start();
 }
-void TimerController::stop()
+
+void TimerController::stop(bool reset)
 {
+    if (reset)
+    {
+        this->reset();
+    }
+
     m_timer.stop();
+}
+
+void TimerController::reset()
+{
+    // set initial state
+    setElapsedBreakDuration(0);
+    setElapsedBreakInterval(0);
+    setElapsedWorkTime(0);
 }
 
 void TimerController::countBreakTime()
@@ -112,16 +118,16 @@ void TimerController::setElapsedBreakDuration(int elapsedBreakDuration)
     emit elapsedBreakDurationChanged(m_elapsedBreakDuration);
 }
 
-void TimerController::setElapsedWorkPeriod(int elapsedWorkPeriod)
+void TimerController::setElapsedBreakInterval(int elapsedBreakInterval)
 {
-    int tmpElapsedPeriod = qMin(elapsedWorkPeriod, MAX_TIME_LIMIT_SEC);
-    if (m_elapsedWorkPeriod == tmpElapsedPeriod)
+    int tmpElapsedBreakInterval = qMin(elapsedBreakInterval, MAX_TIME_LIMIT_SEC);
+    if (m_elapsedBreakInterval == tmpElapsedBreakInterval)
     {
         return;
     }
 
-    m_elapsedWorkPeriod = tmpElapsedPeriod;
-    emit elapsedWorkPeriodChanged(m_elapsedWorkPeriod);
+    m_elapsedBreakInterval = tmpElapsedBreakInterval;
+    emit elapsedBreakIntervalChanged(m_elapsedBreakInterval);
 }
 void TimerController::setElapsedWorkTime(int elapsedWorkTime)
 {
@@ -142,7 +148,7 @@ void TimerController::setElapsedWorkTime(int elapsedWorkTime)
 
 void TimerController::incrementWorkTime()
 {
-    setElapsedWorkPeriod(elapsedWorkPeriod() + 1);
+    setElapsedBreakInterval(elapsedBreakInterval() + 1);
     setElapsedWorkTime(elapsedWorkTime() + 1);
 }
 void TimerController::incrementBreakTime()

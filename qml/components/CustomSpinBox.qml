@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -21,26 +21,33 @@
 ********************************************/
 
 import QtQuick 2.12
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.5
 import "../components"
 import "../components/helpers"
 import "../style"
+import "../utils"
 
 SpinBox {
     id: spinBox
     property string prefix
     property string suffix
 
-    property int maxCharCount: prefix.length + suffix.length + charCount(to)
+    readonly property real averageWidth: UiUtils.averageTextWidth(d.fontMetrics, d.maxCharCount) + 2 * spacing + up.implicitIndicatorWidth
+    readonly property real maxWidth: UiUtils.maxTextWidth(d.fontMetrics, d.maxCharCount) + 2 * spacing + up.implicitIndicatorWidth
+
+    spacing: Style.smallSpacing
+
+    implicitWidth: contentItem.implicitWidth + 2 * spacing + up.implicitIndicatorWidth
 
     QtObject {
         id: d
 
+        readonly property int maxCharCount: prefix.length + suffix.length + d.digitsCount(to)
         property var fontMetrics: FontMetrics {
             font: font
         }
 
-        function charCount(value) { return value ? Math.ceil(Math.log(value) / Math.log(10)) : 1; }
+        function digitsCount(number) { return number ? Math.ceil(Math.log(number) / Math.log(10)) : 1; }
     }
 
     textFromValue: function(value) {
@@ -51,10 +58,13 @@ SpinBox {
         return text.substring(prefix.length, text.length - suffix.length)
     }
 
-    implicitWidth: (maxCharCount + 1) * d.fontMetrics.averageCharacterWidth + Style.spacing / 2 + up.implicitIndicatorWidth
-
-
     contentItem: LabelInput {
+        anchors {
+            right: up.indicator.left
+            rightMargin: spacing
+            leftMargin: spacing
+        }
+
         fontStyle: Style.spinBox.font
         text: spinBox.textFromValue(spinBox.value, spinBox.locale)
 
@@ -71,19 +81,19 @@ SpinBox {
     up.indicator: SpinBoxControl {
         anchors {
             right: parent.right
-            top: mirrored ? parent.top : undefined
-            bottom: mirrored ? undefined : parent.bottom
-        }
-        height: 0.45 * parent.height
-        increment: mirrored
-    }
-    down.indicator: SpinBoxControl {
-        anchors {
-            right: parent.right
             top: mirrored ? undefined : parent.top
             bottom: mirrored ? parent.bottom : undefined
         }
         height: 0.45 * parent.height
         increment: !mirrored
+    }
+    down.indicator: SpinBoxControl {
+        anchors {
+            right: parent.right
+            top: mirrored ? parent.top : undefined
+            bottom: mirrored ? undefined : parent.bottom
+        }
+        height: 0.45 * parent.height
+        increment: mirrored
     }
 }

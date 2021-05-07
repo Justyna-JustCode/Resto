@@ -9,7 +9,7 @@
         <file>qml/components/Background.qml</file>
         <file>qml/style/Style.qml</file>
         <file>qml/style/qmldir</file>
-        <file>qml/components/Label.qml</file>
+        <file>qml/components/CustomLabel.qml</file>
         <file>qml/components/helpers/BarGradient.qml</file>
         <file>qml/components/helpers/BarTextGradient.qml</file>
         <file>resources/fonts/font-bold-italic.ttf</file>
@@ -49,10 +49,10 @@
         <file>qml/components/ColorPicker.qml</file>
         <file>qml/style/helpers/ColorPallete.qml</file>
         <file>qml/style/helpers/qmldir</file>
-        <file>qml/components/Switch.qml</file>
+        <file>qml/components/CustomSwitch.qml</file>
         <file>qml/components/SpacerLine.qml</file>
         <file>qml/components/TimeSelector.qml</file>
-        <file>qml/components/SpinBox.qml</file>
+        <file>qml/components/CustomSpinBox.qml</file>
         <file>resources/images/inc.png</file>
         <file>resources/images/dec.png</file>
         <file>qml/components/helpers/SpinBoxControl.qml</file>
@@ -72,5 +72,10 @@
         <file>qml/components/Overlay.qml</file>
         <file>qml/MainContent.qml</file>
         <file>resources/images/edit.png</file>
+        <file>qml/dialogs/subitems/TimesSettings.qml</file>
+        <file>qml/utils/UiUtils.qml</file>
+        <file>qml/utils/qmldir</file>
+        <file>qml/components/helpers/ValueEditMode.qml</file>
+        <file>qml/components/EditableIntegerLabel.qml</file>
     </qresource>
 </RCC>

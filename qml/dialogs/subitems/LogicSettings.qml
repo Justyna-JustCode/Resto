@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -30,22 +30,12 @@ SettingsPage {
         // set defaults
         autoStartSwitch.checked = controller.settings.autoStart
 
-        breakDurationSelector.time = controller.settings.breakDuration
-        breakIntervalSelector.time = controller.settings.breakInterval
-        postponeTimeSelector.time = controller.settings.postponeTime
-        workTimeSelector.time = controller.settings.workTime
-
         autoHideSwitch.checked = controller.settings.autoHide
         hideOnCloseSwitch.checked = controller.settings.hideOnClose
     }
 
     function save() {   // save current state
         controller.settings.autoStart = autoStartSwitch.checked
-
-        controller.settings.breakDuration = breakDurationSelector.time
-        controller.settings.breakInterval = breakIntervalSelector.time
-        controller.settings.postponeTime = postponeTimeSelector.time
-        controller.settings.workTime = workTimeSelector.time
 
         controller.settings.autoHide = autoHideSwitch.checked
         controller.settings.hideOnClose = hideOnCloseSwitch.checked
@@ -54,7 +44,7 @@ SettingsPage {
     FormElement {
         labelText: qsTr("Auto start:")
 
-        Switch {
+        CustomSwitch {
             id: autoStartSwitch
             Layout.alignment: Qt.AlignRight
         }
@@ -62,57 +52,8 @@ SettingsPage {
 
     Spacer {}
 
-    // TIMES SETTINGS
-    Label {
-        fontStyle: Style.font.formHeader
-        text: qsTr("Times")
-    }
-
-    FormElement {
-        labelText: qsTr("Break duration:")
-
-        TimeSelector {
-            id: breakDurationSelector
-
-            showSeconds: false
-            minTime: 60
-        }
-    }
-    FormElement {
-        labelText: qsTr("Break interval:")
-
-        TimeSelector {
-            id: breakIntervalSelector
-
-            showSeconds: false
-            minTime: 60
-        }
-    }
-    FormElement {
-        labelText: qsTr("Postpone time:")
-
-        TimeSelector {
-            id: postponeTimeSelector
-
-            showSeconds: false
-            minTime: 60
-        }
-    }
-    FormElement {
-        labelText: qsTr("Work time:")
-
-        TimeSelector {
-            id: workTimeSelector
-
-            showSeconds: false
-            minTime: 60
-        }
-    }
-
-    Spacer {}
-
     // TRAY SETTINGS
-    Label {
+    CustomLabel {
         visible: controller.settings.trayAvailable
 
         fontStyle: Style.font.formHeader
@@ -124,7 +65,7 @@ SettingsPage {
 
         labelText: qsTr("Auto hide:")
 
-        Switch {
+        CustomSwitch {
             id: autoHideSwitch
             Layout.alignment: Qt.AlignRight
         }
@@ -135,7 +76,7 @@ SettingsPage {
 
         labelText: qsTr("Hide on close:")
 
-        Switch {
+        CustomSwitch {
             id: hideOnCloseSwitch
             Layout.alignment: Qt.AlignRight
         }
