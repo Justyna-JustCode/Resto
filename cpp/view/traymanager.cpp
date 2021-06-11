@@ -170,13 +170,11 @@ void TrayManager::onWindowClosed()
 {
     if (m_isAvailable && m_controller.settings().hideOnClose()) {
         showInformationDialog();
-    }
-    else {
+    } else {
         if (m_controller.isWorking() &&
                 QMessageBox::question(nullptr, tr("Save"), tr("Do you want to save your state?")) == QMessageBox::Yes) {
             saveAndQuit();
-        }
-        else {
+        } else {
             quit();
         }
     }
@@ -199,6 +197,10 @@ void TrayManager::showInformationDialog()
                                                  "If you want to open it, just click on an icon or use a context menu option.\n"
                                                  "Break notification will continue to be displayed normally.\n"),
                            QMessageBox::Ok);
+
+    const Qt::WindowFlags noCloseButtonFlags = Qt::Window | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::CustomizeWindowHint;
+    infoMessage.setWindowFlags(noCloseButtonFlags);
+
     infoMessage.setCheckBox(new QCheckBox(tr("Do not show this any more"), &infoMessage));
     infoMessage.checkBox()->setChecked(true);
 
