@@ -193,10 +193,10 @@ void TrayManager::showInformationDialog()
         return;
 
     QMessageBox infoMessage(QMessageBox::Icon::Information,
-                           tr("Please note"), tr("Application will be hidden into the system tray.\n"
-                                                 "If you want to open it, just click on an icon or use a context menu option.\n"
-                                                 "Break notification will continue to be displayed normally.\n"),
-                           QMessageBox::Ok);
+                            tr("Please note"), tr("The application is going to be hidden into the system tray.\n"
+                                                  "To open it again, just click on a tray icon or use a context menu option.\n"
+                                                  "Break notifications are shown even for a hidden application.\n"),
+                            QMessageBox::Ok);
 
     const Qt::WindowFlags noCloseButtonFlags = Qt::Window | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::CustomizeWindowHint;
     infoMessage.setWindowFlags(noCloseButtonFlags);
