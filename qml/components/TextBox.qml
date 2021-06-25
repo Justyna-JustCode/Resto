@@ -42,5 +42,7 @@ Rectangle {
 
         fontStyle: Style.font.smallerText
         textFormat: Text.RichText
+
+        wrapMode: Text.WordWrap
     }
 }
