@@ -21,9 +21,10 @@
 ********************************************/
 
 import QtQuick 2.12
+import QtQuick.Controls 2.12
 import "../style"
 
-Text {
+Label {
     property var fontStyle: Style.font.text
 
     color: fontStyle.color
