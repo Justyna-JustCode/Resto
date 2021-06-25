@@ -165,7 +165,10 @@ void UpdateController::checkPlatformInfo()
 
 void UpdateController::getVersionResponse()
 {
-    m_curReply = m_nam.get(QNetworkRequest(m_versionUrl));
+    auto request = QNetworkRequest(m_versionUrl);
+    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+
+    m_curReply = m_nam.get(request);
 }
 
 void UpdateController::setUpdateAvailable(bool updateAvailable)
@@ -227,15 +230,9 @@ void UpdateController::onNetworReply(QNetworkReply *reply)
     Q_ASSERT (reply == m_curReply);
 
     auto httpStatusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    if (reply->error() == QNetworkReply::NoError
-            && (httpStatusCode == 200 || httpStatusCode == 301)) {
-        if (httpStatusCode == 301) { // redirect
-            m_versionUrl = reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl();
-            getVersionResponse();
-        } else {
-            parseVersionResponse(reply->readAll());
-            emit checkFinished();
-        }
+    if (reply->error() == QNetworkReply::NoError && httpStatusCode == 200) {
+        parseVersionResponse(reply->readAll());
+        emit checkFinished();
     } else {
         qWarning() << "[UpdateManager]" << "Network error:" << httpStatusCode << reply->errorString();
         if (m_retryCounter++ < sc_retryMaxCount) {
