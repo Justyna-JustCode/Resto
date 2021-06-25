@@ -51,7 +51,7 @@ Item {
                 type: "play"
                 tooltip: qsTr("Play")
 
-                visible: controller.state != Controller.Working
+                visible: controller.state !== Controller.Working
 
                 onClicked: {
                     controller.start()
@@ -61,7 +61,7 @@ Item {
                 type: "break"
                 tooltip: qsTr("Break\nHold right button to skip")
 
-                visible: controller.state == Controller.Working
+                visible: controller.state === Controller.Working
 
                 onClicked: {
                     controller.startBreak()
@@ -80,7 +80,7 @@ Item {
                 type: "pause"
                 tooltip: qsTr("Pause")
 
-                visible: controller.state == Controller.Working
+                visible: controller.state === Controller.Working
 
                 onClicked: {
                     controller.pause()
@@ -90,7 +90,7 @@ Item {
                 type: "stop"
                 tooltip: qsTr("Stop")
 
-                visible: controller.state == Controller.Working
+                visible: controller.state === Controller.Working
 
                 onClicked: {
                     controller.stop()
@@ -117,7 +117,7 @@ Item {
 
             ImageButton {
                 enabled: !currentCycleIntervalLabel.editMode.activeEdit &&
-                         controller.state != Controller.Off
+                         controller.state !== Controller.Off
 
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
@@ -160,7 +160,7 @@ Item {
 
             ImageButton {
                 enabled: !nextBreakTimeProgressBar.timeEditMode &&
-                         controller.state != Controller.Off
+                         controller.state !== Controller.Off
                 visible: nextBreakTimeProgressBar.editMode.enabled
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
@@ -193,7 +193,7 @@ Item {
 
             ImageButton {
                 enabled: !workTimeProgressBar.timeEditMode &&
-                         controller.state != Controller.Off
+                         controller.state !== Controller.Off
                 visible: workTimeProgressBar.editMode.enabled
                 styleFont: Style.font.imageButtonSmallest
                 type: "edit"
