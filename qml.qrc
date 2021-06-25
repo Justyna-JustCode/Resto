@@ -77,5 +77,6 @@
         <file>qml/utils/qmldir</file>
         <file>qml/components/helpers/ValueEditMode.qml</file>
         <file>qml/components/EditableIntegerLabel.qml</file>
+        <file>qml/components/helpers/BarGradientLabel.qml</file>
     </qresource>
 </RCC>
