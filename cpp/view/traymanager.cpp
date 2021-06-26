@@ -170,13 +170,11 @@ void TrayManager::onWindowClosed()
 {
     if (m_isAvailable && m_controller.settings().hideOnClose()) {
         showInformationDialog();
-    }
-    else {
+    } else {
         if (m_controller.isWorking() &&
                 QMessageBox::question(nullptr, tr("Save"), tr("Do you want to save your state?")) == QMessageBox::Yes) {
             saveAndQuit();
-        }
-        else {
+        } else {
             quit();
         }
     }
@@ -195,10 +193,14 @@ void TrayManager::showInformationDialog()
         return;
 
     QMessageBox infoMessage(QMessageBox::Icon::Information,
-                           tr("Please note"), tr("Application will be hidden into the system tray.\n"
-                                                 "If you want to open it, just click on an icon or use a context menu option.\n"
-                                                 "Break notification will continue to be displayed normally.\n"),
-                           QMessageBox::Ok);
+                            tr("Please note"), tr("The application is going to be hidden into the system tray.\n"
+                                                  "To open it again, just click on a tray icon or use a context menu option.\n"
+                                                  "Break notifications are shown even for a hidden application.\n"),
+                            QMessageBox::Ok);
+
+    const Qt::WindowFlags noCloseButtonFlags = Qt::Window | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::CustomizeWindowHint;
+    infoMessage.setWindowFlags(noCloseButtonFlags);
+
     infoMessage.setCheckBox(new QCheckBox(tr("Do not show this any more"), &infoMessage));
     infoMessage.checkBox()->setChecked(true);
 
