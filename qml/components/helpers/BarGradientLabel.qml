@@ -33,9 +33,7 @@ Item {
 
     CustomLabel {
         id: label
-
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
     }
     BarTextGradient {
         source: label
