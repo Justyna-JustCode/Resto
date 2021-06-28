@@ -33,7 +33,7 @@ Item {
     property int maxValue: 100
     property int value: 0
 
-    implicitHeight: textLabel.font.pixelSize * 1.4
+    implicitHeight: textLabel.label.font.pixelSize * 1.4
     implicitWidth: 200
 
     signal timeEdited(int newValue)
@@ -45,7 +45,7 @@ Item {
         autoConfirm: false
 
         onActiveEditChanged: {
-            textEditableInput.text = textLabel.text.replace(/ /g, '')
+            textEditableInput.text = textLabel.label.text.replace(/ /g, '')
         }
 
         onConfirmChanges: {
@@ -132,23 +132,23 @@ Item {
         Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            CustomLabel {
+
+            BarGradientLabel {
                 id: textLabel
                 anchors.fill: parent
                 visible: !editMode.activeEdit
-                fontStyle: Style.timeBar.font
 
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignRight
+                label {
+                    fontStyle: Style.timeBar.font
 
-                elide: Text.ElideRight
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignRight
 
-                text: d.formatTime(value)
+                    elide: Text.ElideRight
 
-                BarTextGradient {
-                    source: parent
-                    value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
+                    text: d.formatTime(value)
                 }
+
             }
 
             LabelInput {
@@ -196,40 +196,36 @@ Item {
             }
         }
 
-        CustomLabel {
+        BarGradientLabel {
             Layout.fillHeight: true
             Layout.preferredHeight: 0
             Layout.preferredWidth: implicitWidth
-            fontStyle: Style.timeBar.font
 
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
+            label {
+                fontStyle: Style.timeBar.font
 
-            text: "/"
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
 
-            BarTextGradient {
-                source: parent
-                value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
+                text: "/"
             }
         }
 
-        CustomLabel {
+        BarGradientLabel {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Layout.preferredHeight: 0
             Layout.preferredWidth: 0
-            fontStyle: Style.timeBar.font
 
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
+            label {
+                fontStyle: Style.timeBar.font
 
-            elide: Text.ElideRight
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
 
-            text: d.formatTime(maxValue)
+                elide: Text.ElideRight
 
-            BarTextGradient {
-                source: parent
-                value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
+                text: d.formatTime(maxValue)
             }
         }
     }

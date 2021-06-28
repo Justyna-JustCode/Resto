@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 Justyna JustCode
+** Copyright 2021 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -21,19 +21,22 @@
 ********************************************/
 
 import QtQuick 2.12
-import QtQuick.Controls 2.12
-import "../style"
+import QtGraphicalEffects 1.0
+import "../../style"
+import "../"
 
-Label {
-    property var fontStyle: Style.font.text
+Item {
+    property alias label: label
 
-    color: fontStyle.color
-    linkColor: fontStyle.linkColor
+    implicitHeight: label.implicitHeight
+    implicitWidth: label.implicitWidth
 
-    font.family: fontStyle.family
-    font.pixelSize: fontStyle.size
-    font.bold: fontStyle.bold
-    font.capitalization: fontStyle.capitalization
-
-    onLinkActivated: Qt.openUrlExternally(link)
+    CustomLabel {
+        id: label
+        anchors.fill: parent
+    }
+    BarTextGradient {
+        source: label
+        value: Math.min(Math.max((progress.width - parent.x), 0.0) / width, 1.0)
+    }
 }

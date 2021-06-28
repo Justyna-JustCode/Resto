@@ -30,7 +30,7 @@ Item {
 
         anchors.fill: parent
         horizontalAlignment: Text.AlignRight
-        verticalAlignment: Text.AlignCenter
+        verticalAlignment: Text.AlignVCenter
 
         visible: !editMode.activeEdit
         text: rootItem.number
