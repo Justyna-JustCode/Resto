@@ -132,7 +132,7 @@ QPoint Controller::cursorPos() const
 
 void Controller::openHelp() const
 {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/help.pdf"));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/help.html"));
 }
 
 void Controller::start()
