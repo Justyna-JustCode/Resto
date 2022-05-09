@@ -31,6 +31,14 @@ import "dialogs"
 import "style"
 
 Item {
+    Keys.onSpacePressed: {
+        if (controller.state == Controller.Working) {
+            controller.pause()
+        } else {
+            controller.start()
+        }
+    }
+
     Background {
         Decorative {}
     }
