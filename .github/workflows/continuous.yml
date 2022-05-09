@@ -9,6 +9,7 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  QT_VERSION: 5.15.2
 
 jobs:
   build_linux:
@@ -20,12 +21,13 @@ jobs:
       run: |
         pip install -U pip
         pip install aqtinstall
-        aqt install-qt linux desktop 5.15.2 gcc_64
-    
+        aqt install-qt linux desktop ${{env.QT_VERSION}} gcc_64 --outputdir ${{github.workspace}}/qt
+        ls ${{github.workspace}}/qt
+
     - uses: actions/checkout@v3
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/qt/${{env.QT_VERSION}}/
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
@@ -39,12 +41,12 @@ jobs:
       run: |
         pip install -U pip
         pip install aqtinstall
-        aqt install-qt windows desktop 5.15.2 win64_mingw81
+        aqt install-qt windows desktop ${{env.QT_VERSION}} win64_mingw81 --outputdir ${{github.workspace}}/qt
         
     - uses: actions/checkout@v3
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/qt/${{env.QT_VERSION}}/
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
