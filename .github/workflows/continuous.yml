@@ -16,6 +16,12 @@ jobs:
     runs-on: [ubuntu-latest]
 
     steps:
+    - name: Install qt
+      run: |
+        pip install -U pip
+        pip install aqtinstall
+        aqt install-qt linux desktop 5.15.2 gcc_64
+    
     - uses: actions/checkout@v3
 
     - name: Configure CMake
@@ -29,6 +35,12 @@ jobs:
     runs-on: [windows-latest]
 
     steps:
+    - name: Install qt
+      run: |
+        pip install -U pip
+        pip install aqtinstall
+        aqt install-qt windows desktop 5.15.2 win64_mingw81
+        
     - uses: actions/checkout@v3
 
     - name: Configure CMake
