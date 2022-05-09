@@ -22,12 +22,13 @@ jobs:
         pip install -U pip
         pip install aqtinstall
         aqt install-qt linux desktop ${{env.QT_VERSION}} gcc_64 --outputdir ${{github.workspace}}/qt
-        export QT_DIR=${{github.workspace}}/qt/${{env.QT_VERSION}}/gcc_64/
         echo ${QT_DIR}
 
     - uses: actions/checkout@v3
 
     - name: Configure CMake
+      env:
+        QT_DIR: ${{github.workspace}}/qt/${{env.QT_VERSION}}/gcc_64/
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/qt/${{env.QT_VERSION}}/
 
     - name: Build
