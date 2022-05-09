@@ -29,10 +29,10 @@ QtObject {
     property var controllerConnections: Connections {
         target: controller
 
-        onBreakStartRequest: {
+        function onBreakStartRequest() {
             dialogsManager.showBreakRequestDialog();
         }
-        onWorkEndRequest: {
+        function onWorkEndRequest() {
             dialogsManager.showEndWorkRequestDialog();
         }
     }
@@ -41,7 +41,7 @@ QtObject {
     property var updateConnections: Connections {
         property bool initialCheck: true
 
-        function onInitialCheckFinished() {
+        function handleInitialCheckFinished() {
             if (controller.updater.updateAvailable) {
                 var showUpdateDialog = false;
                 if (controller.updater.compareVersions(controller.updater.newestVersion,
@@ -61,10 +61,10 @@ QtObject {
 
         target: controller.updater
 
-        onCheckFinished: {
+        function onCheckFinished() {
             if (initialCheck) {
                 initialCheck = false;
-                onInitialCheckFinished();
+                handleInitialCheckFinished();
             } else {
                 if (controller.updater.updateAvailable) {
                     dialogsManager.showUpdateInfoDialog();
@@ -73,7 +73,7 @@ QtObject {
                 }
             }
         }
-        onCheckError: {
+        function onCheckError() {
             if (initialCheck) {
                 initialCheck = false;
             } else {

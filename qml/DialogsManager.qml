@@ -72,7 +72,7 @@ Item {
                 Connections {
                     target: item
 
-                    onClosing: {
+                    function onClosing() {
                         d.loadersMap[id] = "";
                         d.activeWindowsCount--;
 

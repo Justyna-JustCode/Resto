@@ -166,7 +166,8 @@ void UpdateController::checkPlatformInfo()
 void UpdateController::getVersionResponse()
 {
     auto request = QNetworkRequest(m_versionUrl);
-    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                         QNetworkRequest::NoLessSafeRedirectPolicy);
 
     m_curReply = m_nam.get(request);
 }
