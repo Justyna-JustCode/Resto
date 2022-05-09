@@ -31,11 +31,15 @@ import "dialogs"
 import "style"
 
 Item {
-    Keys.onSpacePressed: {
-        if (controller.state == Controller.Working) {
-            controller.pause()
-        } else {
-            controller.start()
+    id: root
+    Shortcut {
+        sequence: "space"
+        onActivated: {
+            if (controller.state == Controller.Working) {
+                controller.pause()
+            } else {
+                controller.start()
+            }
         }
     }
 
@@ -163,6 +167,7 @@ Item {
                     var timeDiff = newValue - controller.timer.elapsedBreakInterval
                     controller.timer.elapsedBreakInterval = newValue
                     controller.timer.elapsedWorkTime += timeDiff
+                    root.forceActiveFocus()
                 }
             }
 
@@ -196,6 +201,7 @@ Item {
                 {
                     var timeDiff = newValue - controller.timer.elapsedWorkTime
                     controller.timer.elapsedWorkTime = newValue
+                    root.forceActiveFocus()
                 }
             }
 
@@ -254,5 +260,6 @@ Item {
             onClicked: dialogsManager.showAboutDialog()
         }
     }
+
 }
 
