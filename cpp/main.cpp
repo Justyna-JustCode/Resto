@@ -42,12 +42,13 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(APP_VERSION);
 
     QCommandLineParser cmdParser;
-    auto checkDevelopOption = QCommandLineOption{"d", QCoreApplication::translate("develop", "Checks if is a develop version of the application")};
+    auto checkDevelopOption = QCommandLineOption{"d", QCoreApplication::translate(
+                                                          "develop", "Checks if is a develop version of the application")};
     cmdParser.addOption(checkDevelopOption);
     cmdParser.addVersionOption();
     cmdParser.process(app);
     if (cmdParser.isSet(checkDevelopOption)) {
-        fputs(qPrintable(DEVELOP_BUILD), stdout);
+        fputs("DEVELOP_BUILD", stdout);
         return 0;
     }
 

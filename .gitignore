@@ -59,6 +59,9 @@ Thumbs.db
 *.vcxproj
 *vcxproj.*
 
+# CMake user files
+*CMakeLists.txt.user
+
 # MinGW generated files
 *.Debug
 *.Release
