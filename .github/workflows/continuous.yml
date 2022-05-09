@@ -24,7 +24,12 @@ jobs:
         pip install -U pip
         pip install aqtinstall
         aqt install-qt linux desktop ${{env.QT_VERSION}} gcc_64 --outputdir ${{github.workspace}}/qt
-
+        
+    - name: Install other dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install mesa-common-dev libglu1-mesa-dev
+          
     - name: Configure CMake
       env:
         CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{env.QT_VERSION}}/gcc_64/lib/cmake/
@@ -48,7 +53,7 @@ jobs:
         
     - name: Configure CMake
       env:
-        CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{env.QT_VERSION}}/win64_mingw81/lib/cmake/
+        CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{env.QT_VERSION}}/mingw81_64/lib/cmake/
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
