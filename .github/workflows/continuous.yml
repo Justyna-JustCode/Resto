@@ -26,9 +26,9 @@ jobs:
         aqt install-qt linux desktop ${{env.QT_VERSION}} gcc_64 --outputdir ${{github.workspace}}/qt
         
     - name: Install other dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install mesa-common-dev libglu1-mesa-dev
+      run: |
+        sudo apt-get update
+        sudo apt-get install mesa-common-dev libglu1-mesa-dev
           
     - name: Configure CMake
       env:
