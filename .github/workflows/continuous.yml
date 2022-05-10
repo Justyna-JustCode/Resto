@@ -54,7 +54,7 @@ jobs:
         
     - name: Configure CMake
       env:
-        CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{env.QT_VERSION}}/msvc2019/lib/cmake/
+        CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{env.QT_VERSION}}/msvc2019_64/lib/cmake/
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
