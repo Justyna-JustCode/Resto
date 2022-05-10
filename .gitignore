@@ -61,6 +61,7 @@ Thumbs.db
 
 # CMake user files
 *CMakeLists.txt.user
+*CMakeLists.txt.user.*
 
 # MinGW generated files
 *.Debug
