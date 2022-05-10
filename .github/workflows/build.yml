@@ -48,6 +48,14 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{inputs.build-type}}
       
     - name: Start a delivery script
-      if: ${{inputs.delivery}}
+      if: ${{inputs.delivery && inputs.os == 'linux'}}
+      run: |
+        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-delivery.sh
+        ./scripts/desktop/${{inputs.os}}/create-delivery.sh ${{github.workspace}}/build ${{github.workspace}}/packages
+        ls ${{github.workspace}}/packages
+        
+    - name: Start a delivery script
+      if: ${{inputs.delivery && inputs.os == 'windows'}}
       run: |
         ./scripts/desktop/${{inputs.os}}/create-delivery.sh ${{github.workspace}}/build ${{github.workspace}}/packages
+        dir ${{github.workspace}}/packages

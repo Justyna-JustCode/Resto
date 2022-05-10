@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build-linux:
+  delivery-linux:
     uses: ./.github/workflows/build.yml
     with:
       build-type: Release   # TODO: find a way to avoid duplication
@@ -15,7 +15,7 @@ jobs:
       os: linux
       delivery: true
       
-  build-windows:
+  delivery-windows:
     uses: ./.github/workflows/build.yml
     with:
       build-type: Release   # TODO: find a way to avoid duplication
