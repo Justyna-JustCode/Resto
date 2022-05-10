@@ -8,15 +8,27 @@ on:
 
 jobs:
   build-linux:
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/workflows/build.yml
     with:
       build-type: Release   # TODO: find a way to avoid duplication
       qt-version: 5.15.2
       os: linux
       
-  build_windows:
+  deploy-linux:
+    needs: build-linux
     uses: ./.github/workflows/deploy.yml
+    with:
+      os: linux
+      
+  build_windows:
+    uses: ./.github/workflows/build.yml
     with:
       build-type: Release   # TODO: find a way to avoid duplication
       qt-version: 5.15.2
+      os: windows
+      
+  deploy_windows:
+    needs: build-windows
+    uses: ./.github/workflows/deploy.yml
+    with:
       os: windows

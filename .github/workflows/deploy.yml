@@ -3,27 +3,13 @@ name: deploy
 on:
   workflow_call:
     inputs:
-      build-type:
-        required: true
-        type: string
-      qt-version:
-        required: true
-        type: string
       os:
         required: true
         type: string
     
     
 jobs:
-  build-job:
-    uses: ./.github/workflows/build.yml
-    with:
-      build-type: inputs.build-type
-      qt-version: inputs.qt-version
-      os: inputs.os
-      
   deploy-job:
-    needs: build-job
     name: Package for ${{inputs.os}}
     runs-on: ${{ inputs.os == 'linux' && 'ubuntu' || 'windows' }}-latest
     
