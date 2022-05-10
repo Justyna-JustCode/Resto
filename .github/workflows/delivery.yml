@@ -20,7 +20,7 @@ jobs:
     with:
       os: linux
       
-  build_windows:
+  build-windows:
     uses: ./.github/workflows/build.yml
     with:
       build-type: Release   # TODO: find a way to avoid duplication
