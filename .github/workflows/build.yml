@@ -13,6 +13,9 @@ on:
         required: true
         type: string
     
+env:
+  ARCH: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
+    
 jobs:
   reusable_workflow_job:
     name: Build for ${{inputs.os}}
@@ -22,15 +25,13 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install qt
-      env:
-        ARCH: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
       run: |
         echo ${{inputs.os}}
         echo ${{inputs.qt-version}}
         echo $ARCH
         pip install -U pip
         pip install aqtinstall
-        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} $ARCH --outputdir ${{github.workspace}}/qt
+        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} $${{env.ARCH}} --outputdir ${{github.workspace}}/qt
         
     - name: Install other dependencies
       if: ${{inputs.os}} == 'linux'
