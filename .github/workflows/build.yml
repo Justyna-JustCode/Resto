@@ -31,7 +31,7 @@ jobs:
         aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.ARCH}} --outputdir ${{github.workspace}}/qt
         
     - name: Install other dependencies
-      if: ${{inputs.os}} == 'linux'
+      if: ${{inputs.os == 'linux'}}
       run: |
         sudo apt-get update
         sudo apt-get install mesa-common-dev libglu1-mesa-dev
