@@ -1,0 +1,43 @@
+name: build
+
+workflow_call:
+  inputs:
+    build-type:
+      required: true
+      type: string
+    qt-version:
+      required: true
+      type: string
+    os:
+      required: true
+      type: string
+    
+jobs:
+  reusable_workflow_job:
+    name: Build for ${{inputs.os}}
+    runs-on: ${{inputs.os}}-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install qt
+      env:
+        ARCH: "${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}"
+      run: |
+        pip install -U pip
+        pip install aqtinstall
+        aqt install-qt ${{inputs.os}} desktop ${{inputs.QT_VERSION}} ${{evn.ARCH}} --outputdir ${{github.workspace}}/qt
+        
+    - name: Install other dependencies
+      if: ${{inputs.os}} == 'linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install mesa-common-dev libglu1-mesa-dev
+          
+    - name: Configure CMake
+      env:
+        CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{inputs.qt-version}}/${{ inputs.os == 'linux' && 'gcc_64' || 'msvc2019_64' }}/lib/cmake/
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build-type}}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{inputs.build-type}}
