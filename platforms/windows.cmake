@@ -1,2 +1,1 @@
-# TODO
-# RC_ICONS += resources/images/app-logo.ico
+set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/Resource.rc")

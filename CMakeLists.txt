@@ -22,42 +22,42 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick Widgets)
 
 include_directories(cpp)
 set(PROJECT_HEADERS
-  cpp/controller/controller.h
-  cpp/controller/cyclescontroller.h
-  cpp/model/settings.h
-  cpp/controller/settingscontroller.h
-  cpp/controller/timercontroller.h
-  cpp/workers/backupmanager.h
-  cpp/view/traymanager.h
-  cpp/workers/singleappmanager.h
-  cpp/workers/savemanager.h
-  cpp/utility/helpers.h
-  cpp/controller/updatecontroller.h
+    cpp/controller/controller.h
+    cpp/controller/cyclescontroller.h
+    cpp/model/settings.h
+    cpp/controller/settingscontroller.h
+    cpp/controller/timercontroller.h
+    cpp/workers/backupmanager.h
+    cpp/view/traymanager.h
+    cpp/workers/singleappmanager.h
+    cpp/workers/savemanager.h
+    cpp/utility/helpers.h
+    cpp/controller/updatecontroller.h
 )
 
 set(PROJECT_SOURCES
-  cpp/main.cpp
-  cpp/controller/controller.cpp
-  cpp/controller/cyclescontroller.cpp
-  cpp/model/settings.cpp
-  cpp/controller/settingscontroller.cpp
-  cpp/controller/timercontroller.cpp
-  cpp/workers/backupmanager.cpp
-  cpp/view/traymanager.cpp
-  cpp/workers/singleappmanager.cpp
-  cpp/workers/savemanager.cpp
-  cpp/utility/helpers.cpp
-  cpp/controller/updatecontroller.cpp
+    cpp/main.cpp
+    cpp/controller/controller.cpp
+    cpp/controller/cyclescontroller.cpp
+    cpp/model/settings.cpp
+    cpp/controller/settingscontroller.cpp
+    cpp/controller/timercontroller.cpp
+    cpp/workers/backupmanager.cpp
+    cpp/view/traymanager.cpp
+    cpp/workers/singleappmanager.cpp
+    cpp/workers/savemanager.cpp
+    cpp/utility/helpers.cpp
+    cpp/controller/updatecontroller.cpp
 )
 
 set(QRC_FILES
-  qml.qrc
+    qml.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-  qt6_add_resources(${QRC_FILES})
+    qt6_add_resources(${QRC_FILES})
 else()
-  qt5_add_resources(${QRC_FILES})
+    qt5_add_resources(${QRC_FILES})
 endif()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -65,30 +65,18 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET Resto APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
-    if(ANDROID)
-        add_library(Resto SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(Resto
-          ${PROJECT_SOURCES}
-          ${QRC_FILES}
-        )
-    endif()
+    add_executable(Resto
+        ${PROJECT_SOURCES}
+        ${QRC_FILES}
+        ${APP_ICON_RESOURCE_WINDOWS}
+    )
 endif()
 
 target_compile_definitions(Resto
-  PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+    PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(Resto
-  PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Widgets)
+    PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Widgets)
 
 set_target_properties(Resto PROPERTIES
     WIN32_EXECUTABLE TRUE
