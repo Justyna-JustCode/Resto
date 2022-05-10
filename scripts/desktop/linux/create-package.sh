@@ -77,7 +77,7 @@ echo -e "================================================\n"
 
 source ${SCRIPTS_DIR}/variables.sh
 
-BUILD_PACKAGE_FILES="${APP_NAME} help.pdf"
+BUILD_PACKAGE_FILES="${APP_NAME} help.html"
 echo "Copying build package files:"
 for file in $BUILD_PACKAGE_FILES; do
 	fileSubdir=$(dirname $file)
@@ -88,7 +88,7 @@ for file in $BUILD_PACKAGE_FILES; do
 done
 
 echo -e "\n"
-USER_PACKAGE_FILES="help.pdf"
+USER_PACKAGE_FILES="help.html"
 echo "Copying user package files:"
 for file in $USER_PACKAGE_FILES; do
 	filePath=$BUILD_DIR/$file
