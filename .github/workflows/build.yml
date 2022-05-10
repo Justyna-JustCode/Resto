@@ -28,7 +28,7 @@ jobs:
       run: |
         pip install -U pip
         pip install aqtinstall
-        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} $${{env.ARCH}} --outputdir ${{github.workspace}}/qt
+        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.ARCH}} --outputdir ${{github.workspace}}/qt
         
     - name: Install other dependencies
       if: ${{inputs.os}} == 'linux'
