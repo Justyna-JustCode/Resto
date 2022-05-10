@@ -16,7 +16,7 @@ on:
 jobs:
   reusable_workflow_job:
     name: Build for ${{inputs.os}}
-    runs-on: ${{inputs.os}}-latest
+    runs-on: ${{ inputs.os == 'linux' && 'ubuntu' || 'windows' }}-latest
     
     steps:
     - uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
       run: |
         pip install -U pip
         pip install aqtinstall
-        aqt install-qt ${{inputs.os}} desktop ${{inputs.QT_VERSION}} $ARCH --outputdir ${{github.workspace}}/qt
+        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} $ARCH --outputdir ${{github.workspace}}/qt
         
     - name: Install other dependencies
       if: ${{inputs.os}} == 'linux'
