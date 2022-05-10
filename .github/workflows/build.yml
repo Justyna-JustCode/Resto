@@ -28,7 +28,7 @@ jobs:
       run: |
         echo ${{inputs.os}}
         echo ${{inputs.qt-version}}
-        echo $ARCH
+        echo $${{env.ARCH}}
         pip install -U pip
         pip install aqtinstall
         aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} $${{env.ARCH}} --outputdir ${{github.workspace}}/qt
