@@ -9,42 +9,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-### INCLUDES
-#= orgInfo.pri
-# application info
-set(ORG_NAME "JustCode")
-set(ORG_DOMAIN "just-code.org")
+OPTION(DELIVERY_BUILD "Build an application in a delivery mode." OFF)
 
-# add defines
-add_compile_definitions(ORG_NAME=\"${ORG_NAME}\")
-add_compile_definitions(ORG_DOMAIN=\"${ORG_DOMAIN}\")
-
-#= appInfo.pri
-# application info
-set(APP_NAME, "Resto")
-set(APP_DESCRIPTION, "A small application for work time management")
-
-set(APP_VERSION, 1.0.7)
-execute_process(COMMAND git --git-dir $$PWD/.git --work-tree $$PWD log --pretty=format:'%h' -n 1
-                OUTPUT_VARIABLE BUILD_NUMBER
-                ERROR_QUIET)
-
-# TODO
-#delivery {
-#    APP_VERSION_URL = "$${ORG_DOMAIN}/applications/$${APP_NAME}/version"
-#    DEVELOP_BUILD = false
-#} else {
-    set(APP_VERSION_URL "${ORG_DOMAIN}/applications/${APP_NAME}/version_develop")
-#}
-
-# add defines
-add_compile_definitions(APP_NAME=\"${APP_NAME}\")
-add_compile_definitions(APP_DESCRIPTION=\"${APP_DESCRIPTION}\")
-add_compile_definitions(APP_VERSION=\"${APP_VERSION}\")
-add_compile_definitions(APP_VERSION_URL=\"${APP_VERSION_URL}\")
-add_compile_definitions(BUILD_NUMBER=\"${BUILD_NUMBER}\")
-add_compile_definitions(DEVELOP_BUILD)
-#======================================================================================================
+include(orgInfo.cmake) # organization details
+include(appInfo.cmake) # application details
+include(platforms/platforms.cmake) # platfrom specific setup
 
 project(Resto VERSION ${APP_VERSION} LANGUAGES CXX)
 
@@ -129,3 +98,6 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_import_qml_plugins(Resto)
     qt_finalize_executable(Resto)
 endif()
+
+# add deployment actions
+include(deployment.cmake)

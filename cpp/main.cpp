@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     cmdParser.addVersionOption();
     cmdParser.process(app);
     if (cmdParser.isSet(checkDevelopOption)) {
-        fputs("DEVELOP_BUILD", stdout);
+        fputs(qPrintable(DEVELOP_BUILD), stdout);
         return 0;
     }
 
