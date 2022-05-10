@@ -13,14 +13,14 @@ env:
 
 jobs:
   build-linux:
-    uses: ./.github/workflows/build.yml@main
+    uses: ./.github/workflows/build.yml
     with:
       build-type: ${{env.BUILD_TYPE}}
       qt-version: ${{env.QT_VERSION}}
       os: linux
       
   build_windows:
-    uses: ./.github/workflows/build.yml@main
+    uses: ./.github/workflows/build.yml
     with:
       build-type: ${{env.BUILD_TYPE}}
       qt-version: ${{env.QT_VERSION}}
