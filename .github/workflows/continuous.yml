@@ -12,17 +12,15 @@ env:
 
 jobs:
   build-linux:
-    steps:
-    - uses: ./.github/workflows/build.yml
-      with:
-        build-type: $${{env.BUILD_TYPE}}
-        qt-version: $${{env.QT_VERSION}}
-        os: linux
+    uses: ./.github/workflows/build.yml
+    with:
+      build-type: $${{env.BUILD_TYPE}}
+      qt-version: $${{env.QT_VERSION}}
+      os: linux
       
   build_windows:
-    steps:
-    - uses: ./.github/workflows/build.yml
-      with:
-        build-type: $${{env.BUILD_TYPE}}
-        qt-version: $${{env.QT_VERSION}}
-        os: windows
+    uses: ./.github/workflows/build.yml
+    with:
+      build-type: $${{env.BUILD_TYPE}}
+      qt-version: $${{env.QT_VERSION}}
+      os: windows
