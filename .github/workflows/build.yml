@@ -19,7 +19,6 @@ env:
 jobs:
   reusable_workflow_job:
     name: Build for ${{inputs.os}}
-    runs-on: ${{ inputs.os == 'linux' && 'ubuntu' || 'windows' }}-latest
     
     steps:
     - uses: actions/checkout@v3
