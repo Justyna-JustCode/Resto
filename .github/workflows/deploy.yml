@@ -16,4 +16,6 @@ jobs:
     steps:
     - name: Start a script
       run: |
+        ls ./
+        ls ${{github.workspace}}
         ./scripts/desktop/${{inputs.os}}/create-delivery.sh ${{github.workspace}}/build ${{github.workspace}}/packages
