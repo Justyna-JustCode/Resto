@@ -13,23 +13,15 @@ env:
 
 jobs:
   build-linux:
-    env:
-      build-type: ${{env.BUILD_TYPE}}
-      qt-version: ${{env.QT_VERSION}}
-      
     uses: ./.github/workflows/build.yml
     with:
-      build-type: ${{env.build-type}}
-      qt-version: ${{env.qt-version}}
+      build-type: $BUILD_TYPE
+      qt-version: $QT_VERSION
       os: linux
       
   build_windows:
-    env:
-      build-type: ${{env.BUILD_TYPE}}
-      qt-version: ${{env.QT_VERSION}}
-      
     uses: ./.github/workflows/build.yml
     with:
-      build-type: ${{env.build-type}}
-      qt-version: ${{env.qt-version}}
+      build-type: $BUILD_TYPE
+      qt-version: $QT_VERSION
       os: windows
