@@ -50,7 +50,7 @@ jobs:
         pip install -U pip
         pip install aqtinstall
         aqt install-qt windows desktop ${{env.QT_VERSION}} win64_msvc2019_64 --outputdir ${{github.workspace}}/qt
-        dir ${{github.workspace}}/qt
+        dir ${{github.workspace}}/qt/${{env.QT_VERSION}}/
         
     - name: Configure CMake
       env:
