@@ -1,16 +1,17 @@
 name: build
 
-workflow_call:
-  inputs:
-    build-type:
-      required: true
-      type: string
-    qt-version:
-      required: true
-      type: string
-    os:
-      required: true
-      type: string
+on:
+  workflow_call:
+    inputs:
+      build-type:
+        required: true
+        type: string
+      qt-version:
+        required: true
+        type: string
+      os:
+        required: true
+        type: string
     
 jobs:
   reusable_workflow_job:
