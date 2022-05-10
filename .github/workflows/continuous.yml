@@ -12,18 +12,18 @@ env:
 
 jobs:
   build-linux:
+    runs-on: ubuntu-latest
     steps:
     - uses: ./.github/workflows/build.yml
-      runs-on: ubuntu-latest
       with:
         build-type: $${{env.BUILD_TYPE}}
         qt-version: $${{env.QT_VERSION}}
         os: linux
       
   build_windows:
+    runs-on: windows-latest
     steps:
     - uses: ./.github/workflows/build.yml
-      runs-on: windows-latest
       with:
         build-type: $${{env.BUILD_TYPE}}
         qt-version: $${{env.QT_VERSION}}
