@@ -6,21 +6,17 @@ on:
   pull_request:
     branches: [ develop ]
 
-env:
-  BUILD_TYPE: Release
-  QT_VERSION: "5.15.2"
-
 jobs:
   build-linux:
     uses: ./.github/workflows/build.yml
     with:
-      build-type: $BUILD_TYPE
-      qt-version: $QT_VERSION
+      build-type: Release
+      qt-version: 5.15.2
       os: linux
       
   build_windows:
     uses: ./.github/workflows/build.yml
     with:
-      build-type: $BUILD_TYPE
-      qt-version: $QT_VERSION
+      build-type: Release
+      qt-version: 5.15.2
       os: windows

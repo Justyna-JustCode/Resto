@@ -23,7 +23,7 @@ jobs:
 
     - name: Install qt
       env:
-        ARCH: "${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}"
+        ARCH: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
       run: |
         echo ${{inputs.os}}
         echo ${{inputs.qt-version}}
