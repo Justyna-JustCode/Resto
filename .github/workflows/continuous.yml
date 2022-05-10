@@ -49,6 +49,7 @@ jobs:
       run: |
         pip install -U pip
         pip install aqtinstall
+        aqt list-qt windows desktop --arch 5.15.2
         aqt install-qt windows desktop ${{env.QT_VERSION}} win64_mingw81 --outputdir ${{github.workspace}}/qt
         
     - name: Configure CMake
