@@ -86,6 +86,8 @@ void BackupManager::initialize()
     // initialize next backup checking
     connect(&m_timer, &QTimer::timeout, this, &BackupManager::doBackup);
     updateInterval();
+
+    start();
 }
 
 BackupManager::Data &BackupManager::data()
