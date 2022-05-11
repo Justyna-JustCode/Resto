@@ -14,11 +14,12 @@ jobs:
       qt-version: 5.15.2
       os: linux
       create-package: true
-      
-  delivery-windows:
-    uses: ./.github/workflows/build.yml
-    with:
-      build-type: Release   # TODO: find a way to avoid duplication
-      qt-version: 5.15.2
-      os: windows
-      create-package: true
+   
+  # skipping for now 
+  #delivery-windows:
+  #  uses: ./.github/workflows/build.yml
+  #  with:
+  #    build-type: Release   # TODO: find a way to avoid duplication
+  #    qt-version: 5.15.2
+  #    os: windows
+  #    create-package: true

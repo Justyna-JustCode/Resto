@@ -6,7 +6,7 @@ PROJECT_DIR=$(readlink -m "${SCRIPTS_DIR}/../../../")
 
 # setup up this with your variables ==================
 # QT:
-LINUXDEPLOYQT_FILE="${QT_PATH}/Tools/inuxdeployqt-continuous-x86_64.AppImage"
+LINUXDEPLOYQT_FILE="${QT_PATH}/Tools/linuxdeployqt-continuous-x86_64.AppImage"
 QT_INSTALLER_FRAMEWORK_BIN="${QT_PATH}/Tools/QtInstallerFramework/${QT_IFW_VERSION}/bin/"
 # ====================================================
 

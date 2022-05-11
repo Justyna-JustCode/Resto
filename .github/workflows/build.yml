@@ -59,7 +59,9 @@ jobs:
     - name: Install deploy dependencies (linux)
       if: ${{inputs.create-package && inputs.os == 'linux'}}
       run: |
-        wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage -P ${{github.workspace}}/qt/Tools/
+        wget ${{env.linuxdeployqt-download-path}} -P ${{github.workspace}}/qt/Tools/
+        url=${{env.linuxdeployqt-download-path}}
+        chmod +x ${{github.workspace}}/qt/Tools/${url##*/}
           
     - name: Start a package script (linux)
       if: ${{inputs.create-package && inputs.os == 'linux'}}
