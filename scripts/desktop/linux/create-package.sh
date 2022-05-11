@@ -120,6 +120,9 @@ echo -e "------------------------------------------------\n"
 
 echo "Running linuxdeployqt tool:"
 echo "using qmake: $QMAKE_FILE"
+# workaround for -unsupported-allow-new-glibc option
+mkdir -p ${TEMP_PACKAGE_DIR}/usr/share/doc/libc6/
+touch ${TEMP_PACKAGE_DIR}/usr/share/doc/libc6/copyright
 (cd ${TEMP_DIR} && $LINUXDEPLOYQT_FILE ${TEMP_PACKAGE_DIR}/usr/share/applications/${APP_NAME}.desktop -qmake=$QMAKE_FILE ${APP_IMAGE} -bundle-non-qt-libs -qmldir=${PROJECT_DIR}/qml -unsupported-allow-new-glibc)
 echo -e "------------------------------------------------\n"
 
