@@ -62,7 +62,7 @@ jobs:
         wget ${{env.linuxdeployqt-download-path}} -P ${{github.workspace}}/qt/Tools/
         url=${{env.linuxdeployqt-download-path}}
         chmod +x ${{github.workspace}}/qt/Tools/${url##*/}
-        sudo apt-get install libxcb-icccm4
+        sudo apt-get install libxcb-glx0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-xkb-dev libxcb-util-dev libxcb-xfixes0 libxkbcommon-x11-0 libegl1-mesa libegl1
           
     - name: Start a package script (linux)
       if: ${{inputs.create-package && inputs.os == 'linux'}}
