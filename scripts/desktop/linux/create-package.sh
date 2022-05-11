@@ -120,7 +120,7 @@ echo -e "------------------------------------------------\n"
 
 echo "Running linuxdeployqt tool:"
 echo "using qmake: $QMAKE_FILE"
-(cd ${TEMP_DIR} && $LINUXDEPLOYQT_FILE ${TEMP_PACKAGE_DIR}/usr/share/applications/${APP_NAME}.desktop -qmake=$QMAKE_FILE ${APP_IMAGE} -bundle-non-qt-libs -qmldir=${PROJECT_DIR}/qml)
+(cd ${TEMP_DIR} && $LINUXDEPLOYQT_FILE ${TEMP_PACKAGE_DIR}/usr/share/applications/${APP_NAME}.desktop -qmake=$QMAKE_FILE ${APP_IMAGE} -bundle-non-qt-libs -qmldir=${PROJECT_DIR}/qml -unsupported-allow-new-glibc)
 echo -e "------------------------------------------------\n"
 
 
