@@ -3,7 +3,7 @@ name: build
 on:
   workflow_call:
     inputs:
-      delivery:
+      create-package:
         type: boolean
         default: false
       build-type:
@@ -16,6 +16,11 @@ on:
         required: true
         type: string
     
+env:
+  linuxdeployqt-download-path: https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+  QT_VERSION: ${{inputs.qt-version}}
+  QT_COMPILER: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
+  QT_IFW_VERSION: 4.3
     
 jobs:
   build_job:
@@ -26,14 +31,12 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install qt
-      env:
-        ARCH: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
       run: |
         pip install -U pip
         pip install aqtinstall
-        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.ARCH}} --outputdir ${{github.workspace}}/qt
+        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{github.workspace}}/qt
         
-    - name: Install other dependencies
+    - name: Install other dependencies (linux)
       if: ${{inputs.os == 'linux'}}
       run: |
         sudo apt-get update
@@ -46,9 +49,22 @@ jobs:
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{inputs.build-type}}
-      
-    - name: Start a delivery script
-      if: ${{inputs.delivery && inputs.os == 'linux'}}
+       
+    - name: Install deploy dependencies (common)
+      if: ${{inputs.create-package}}
+      run: |
+        QT_IFW_TOOL="${QT_IFW_VERSION//./}"
+        aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL}
+        
+    - name: Install deploy dependencies (linux)
+      if: ${{inputs.create-package && inputs.os == 'linux'}}
+      run: |
+        wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage -P ${{github.workspace}}/qt/Tools/
+          
+    - name: Start a package script (linux)
+      if: ${{inputs.create-package && inputs.os == 'linux'}}
+      env:
+        QT_PATH: ${{github.workspace}}/qt
       run: |
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
         echo "Running a script!"

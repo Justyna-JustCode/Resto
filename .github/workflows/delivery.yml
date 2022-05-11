@@ -13,7 +13,7 @@ jobs:
       build-type: Release   # TODO: find a way to avoid duplication
       qt-version: 5.15.2
       os: linux
-      delivery: true
+      create-package: true
       
   delivery-windows:
     uses: ./.github/workflows/build.yml
@@ -21,4 +21,4 @@ jobs:
       build-type: Release   # TODO: find a way to avoid duplication
       qt-version: 5.15.2
       os: windows
-      delivery: true
+      create-package: true
