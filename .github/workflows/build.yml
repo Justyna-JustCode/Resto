@@ -70,15 +70,12 @@ jobs:
         QT_PATH: ${{github.workspace}}/qt
       run: |
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
-        echo "Running a script!"
         ./scripts/desktop/${{inputs.os}}/create-package.sh -i ${{github.workspace}}/build ${{github.workspace}}/packages
-        echo "PACKAGE_NAME=$(ls ${{github.workspace}}/packages)"
-        echo "PACKAGE_NAME=$(ls ${{github.workspace}}/packages)" >> $GITHUB_ENV
         
     - name: 'Upload Artifact'
       if: ${{inputs.create-package}}
       uses: actions/upload-artifact@v3
       with:
-        name: ${{env.PACKAGE_NAME}}
-        path: ${{github.workspace}}/packages/${{env.PACKAGE_NAME}}
+        name: Resto.AppImage
+        path: ${{github.workspace}}/packages/Resto.AppImage
         retention-days: 3

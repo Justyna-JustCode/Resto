@@ -151,10 +151,7 @@ fi
 if [ -z "$APP_IMAGE" ]; then
 	mv "${TEMP_PACKAGE_DIR}" "${OUTPUT_DIR}"
 else
-	VersionInfo=($("${BUILD_DIR}/${APP_NAME}" -v))
-	APP_VERSION=${VersionInfo[1]}
-
-	mv "${TEMP_DIR}"/${APP_NAME}*.AppImage "${OUTPUT_DIR}/${APP_NAME}_${APP_VERSION}.AppImage"
+	mv "${TEMP_DIR}"/${APP_NAME}*.AppImage "${OUTPUT_DIR}/${APP_NAME}.AppImage"
 fi
 
 echo "DONE."
