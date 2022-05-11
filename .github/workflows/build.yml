@@ -62,6 +62,7 @@ jobs:
         wget ${{env.linuxdeployqt-download-path}} -P ${{github.workspace}}/qt/Tools/
         url=${{env.linuxdeployqt-download-path}}
         chmod +x ${{github.workspace}}/qt/Tools/${url##*/}
+        sudo apt-get install libxcb-icccm4
           
     - name: Start a package script (linux)
       if: ${{inputs.create-package && inputs.os == 'linux'}}
@@ -70,5 +71,14 @@ jobs:
       run: |
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
         echo "Running a script!"
-        ./scripts/desktop/${{inputs.os}}/create-package.sh ${{github.workspace}}/build ${{github.workspace}}/packages
-        ls ${{github.workspace}}/packages
+        ./scripts/desktop/${{inputs.os}}/create-package.sh -i ${{github.workspace}}/build ${{github.workspace}}/packages
+        echo "PACKAGE_NAME=$(ls ${{github.workspace}}/packages)"
+        echo "PACKAGE_NAME=$(ls ${{github.workspace}}/packages)" >> $GITHUB_ENV
+        
+    - name: 'Upload Artifact'
+      if: ${{inputs.create-package}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{env.PACKAGE_NAME}}
+        path: ${{github.workspace}}/packages/${{env.PACKAGE_NAME}}
+        retention-days: 3
