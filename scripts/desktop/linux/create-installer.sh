@@ -143,6 +143,7 @@ ArchiveDataFile="${INSTALLER_DATA_DIR}/packages/${PACKAGE_NAME}/data/data.7z"
 echo "Creating a data archive:"
 echo ${ArchiveDataFile}
 rm -f "${ArchiveDataFile}"
+mkdir -p $( dirname -- "${ArchiveDataFile}")
 ${QT_INSTALLER_FRAMEWORK_BIN}/archivegen "${ArchiveDataFile}" "${PACKAGE_DIR}/*"
 echo -e "------------------------------------------------\n"
 

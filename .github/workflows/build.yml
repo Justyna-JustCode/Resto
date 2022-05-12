@@ -84,12 +84,13 @@ jobs:
       if: ${{inputs.create-installers}}
       run: |
         QT_IFW_TOOL="${QT_IFW_VERSION//./}"
-        aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL}
+        aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL} --outputdir ${{env.QT_PATH}}
         
     - name: Start an installers script (linux)
       if: ${{inputs.create-installers && inputs.os == 'linux'}}
       run: |
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-installer.sh
+        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
         ./scripts/desktop/${{inputs.os}}/create-installer.sh -o ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_offline-installer
         ./scripts/desktop/${{inputs.os}}/create-installer.sh -r ${{github.workspace}}/installers/Resto_repository ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_installer
         
