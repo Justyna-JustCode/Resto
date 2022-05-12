@@ -99,7 +99,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Resto_offline-installler
-        path: ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_offline-installer
+        path: ${{github.workspace}}/installers/Resto_offline-installer
         retention-days: 3
         
     - name: Upload online installer
@@ -107,7 +107,15 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Resto_installler
-        path: ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_installer
+        path: ${{github.workspace}}/installers/Resto_installer
+        retention-days: 3
+        
+    - name: Upload online installer repository
+      if: ${{inputs.create-installers}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Resto_installler-repository
+        path: ${{github.workspace}}/installers/Resto_repository
         retention-days: 3
 
         
