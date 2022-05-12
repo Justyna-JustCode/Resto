@@ -9,4 +9,4 @@ remaining time of your work and to take care of your regular rests.
 More information and prebuild packages available on a project webpage: http://just-code.org/applications/resto/
 
 ## Build information
-Built and tested with Qt 5.14.1.
+Built and tested with Qt 5.15.2.
