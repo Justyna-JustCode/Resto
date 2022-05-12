@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=${APP_NAME}
+Version=${APP_VERSION}
 Comment=${APP_DESC}
 Exec=${DE_EXEC}
 Icon=${DE_ICON}
