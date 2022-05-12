@@ -38,18 +38,18 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Install dependencies (linux)
+      if: ${{inputs.os == 'linux'}}
+      run: |
+        sudo apt-get update
+        sudo apt-get install mesa-common-dev libglu1-mesa-dev
+          
     - name: Install qt
       run: |
         python3 -m pip install -U pip
         python3 -m pip install aqtinstall
         python3 -m aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{env.QT_PATH}}
         
-    - name: Install other dependencies (linux)
-      if: ${{inputs.os == 'linux'}}
-      run: |
-        sudo apt-get update
-        sudo apt-get install mesa-common-dev libglu1-mesa-dev
-          
     - name: Configure CMake
       env:
         CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{inputs.qt-version}}/${{ inputs.os == 'linux' && 'gcc_64' || 'msvc2019_64' }}/lib/cmake/
