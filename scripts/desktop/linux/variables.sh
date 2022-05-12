@@ -16,6 +16,7 @@ QMAKE_FILE=$(readlink -m "/$QT_PATH/$QT_VERSION/$QT_COMPILER/bin/qmake")
 ORG_NAME="JustCode"
 ORG_URL="http://just-code.org"
 APP_NAME="Resto"
+APP_VERSION=$(grep -m 1 -r "APP_VERSION" ./appInfo.cmake | cut -c17-21)
 APP_DESC="Resto is a simple application to control work time and breaks."
 APP_URL="${ORG_URL}/applications/${APP_NAME,,}"
 APP_CATEGORIES="Utility;Office;"

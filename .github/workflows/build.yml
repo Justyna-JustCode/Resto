@@ -9,6 +9,9 @@ on:
       create-installers:
         type: boolean
         default: false
+      production-build:
+        type: boolean
+        default: false
       build-type:
         required: true
         type: string
@@ -21,6 +24,7 @@ on:
     
 env:
   linuxdeployqt-download-path: https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+  PRODUCTION_BUILD: ${{inputs.production-build}}
   QT_VERSION: ${{inputs.qt-version}}
   QT_COMPILER: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
   QT_IFW_VERSION: 4.3

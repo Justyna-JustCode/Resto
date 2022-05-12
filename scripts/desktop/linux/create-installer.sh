@@ -78,11 +78,8 @@ echo -e "================================================\n"
 
 source ${SCRIPTS_DIR}/variables.sh
 
-VersionInfo=($("${BUILD_DIR}/${APP_NAME}" -v))
-APP_VERSION=${VersionInfo[1]}
-IsDevelop=($("${BUILD_DIR}/${APP_NAME}" -d))
 APP_DEVELOP=""
-if [ "${IsDevelop}" = true ]; then
+if [ -z "${PRODUCTION_BUILD}" ] || [ ${PRODUCTION_BUILD} != true ]; then
 	APP_DEVELOP="_develop"
 fi
 
@@ -94,7 +91,6 @@ ${SCRIPTS_DIR}/create-package.sh "${BUILD_DIR}" "${PACKAGE_DIR}" > /dev/null
 echo -e "------------------------------------------------\n"
 
 INSTALLER_DATA_DIR="${PROJECT_DIR}/installers"
-
 
 ConfigOutputFile="${INSTALLER_DATA_DIR}/config/config.xml"
 echo "Creating an installer config file:"
