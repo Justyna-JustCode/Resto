@@ -43,6 +43,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install mesa-common-dev libglu1-mesa-dev
+        sudo apt-get install python3-setuptools
           
     - name: Install qt
       run: |
