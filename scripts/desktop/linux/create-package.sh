@@ -104,7 +104,7 @@ DesktopEntryOutputFile="${TEMP_PACKAGE_DIR}/usr/share/applications/${APP_NAME}.d
 echo "Creating a desktop entry:"
 echo ${DesktopEntryOutputFile}
 mkdir -p "$(dirname ${DesktopEntryOutputFile})"
-export "APP_NAME=${APP_NAME}" "APP_VERSION=${APP_VERSION}" "APP_DESC=${APP_DESC}" "APP_CATEGORIES=${APP_CATEGORIES}" "DE_EXEC=${APP_NAME}" "DE_ICON=${APP_NAME}"
+export "APP_NAME=${APP_NAME}" "APP_DESC=${APP_DESC}" "APP_CATEGORIES=${APP_CATEGORIES}" "DE_EXEC=${APP_NAME}" "DE_ICON=${APP_NAME}"
 envsubst < "${DesktopEntryTemplateFile}" > "${DesktopEntryOutputFile}"
 echo -e "------------------------------------------------\n"
 
