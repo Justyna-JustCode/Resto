@@ -40,9 +40,9 @@ jobs:
 
     - name: Install qt
       run: |
-        pip install -U pip
-        pip install aqtinstall
-        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{env.QT_PATH}}
+        python3 -m pip install -U pip
+        python3 -m pip install aqtinstall
+        python3 -m aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{env.QT_PATH}}
         
     - name: Install other dependencies (linux)
       if: ${{inputs.os == 'linux'}}
@@ -84,7 +84,7 @@ jobs:
       if: ${{inputs.create-installers}}
       run: |
         QT_IFW_TOOL="${QT_IFW_VERSION//./}"
-        aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL} --outputdir ${{env.QT_PATH}}
+        python3 -m aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL} --outputdir ${{env.QT_PATH}}
         
     - name: Start an installers script (linux)
       if: ${{inputs.create-installers && inputs.os == 'linux'}}
