@@ -94,3 +94,20 @@ jobs:
         ./scripts/desktop/${{inputs.os}}/create-installer.sh -o ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_offline-installer
         ./scripts/desktop/${{inputs.os}}/create-installer.sh -r ${{github.workspace}}/installers/Resto_repository ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_installer
         
+    - name: Upload offline installer
+      if: ${{inputs.create-installers}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Resto_offline-installler
+        path: ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_offline-installer
+        retention-days: 3
+        
+    - name: Upload online installer
+      if: ${{inputs.create-installers}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Resto_installler
+        path: ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_installer
+        retention-days: 3
+
+        
