@@ -33,7 +33,7 @@ env:
 jobs:
   build_job:
     name: Build for ${{inputs.os}}
-    runs-on: ${{ inputs.os == 'linux' && 'ubuntu' || 'windows' }}-latest
+    runs-on: ${{ inputs.os == 'linux' && 'ubuntu-18.04' || 'windows-2019' }}
     
     steps:
     - uses: actions/checkout@v3
