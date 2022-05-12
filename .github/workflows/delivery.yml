@@ -13,7 +13,8 @@ jobs:
       build-type: Release   # TODO: find a way to avoid duplication
       qt-version: 5.15.2
       os: linux
-      create-package: true
+      create-package: false # skipping for now
+      create-installers: true
    
   # skipping for now 
   #delivery-windows:

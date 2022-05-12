@@ -6,6 +6,9 @@ on:
       create-package:
         type: boolean
         default: false
+      create-installers:
+        type: boolean
+        default: false
       build-type:
         required: true
         type: string
@@ -21,6 +24,7 @@ env:
   QT_VERSION: ${{inputs.qt-version}}
   QT_COMPILER: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
   QT_IFW_VERSION: 4.3
+  QT_PATH: ${{github.workspace}}/qt
     
 jobs:
   build_job:
@@ -34,7 +38,7 @@ jobs:
       run: |
         pip install -U pip
         pip install aqtinstall
-        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{github.workspace}}/qt
+        aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{env.QT_PATH}}
         
     - name: Install other dependencies (linux)
       if: ${{inputs.os == 'linux'}}
@@ -50,14 +54,8 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{inputs.build-type}}
        
-    - name: Install deploy dependencies (common)
-      if: ${{inputs.create-package}}
-      run: |
-        QT_IFW_TOOL="${QT_IFW_VERSION//./}"
-        aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL}
-        
     - name: Install deploy dependencies (linux)
-      if: ${{inputs.create-package && inputs.os == 'linux'}}
+      if: ${{(inputs.create-package || inputs.create-installers) && inputs.os == 'linux'}}
       run: |
         wget ${{env.linuxdeployqt-download-path}} -P ${{github.workspace}}/qt/Tools/
         url=${{env.linuxdeployqt-download-path}}
@@ -66,16 +64,28 @@ jobs:
           
     - name: Start a package script (linux)
       if: ${{inputs.create-package && inputs.os == 'linux'}}
-      env:
-        QT_PATH: ${{github.workspace}}/qt
       run: |
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
         ./scripts/desktop/${{inputs.os}}/create-package.sh -i ${{github.workspace}}/build ${{github.workspace}}/packages
         
-    - name: 'Upload Artifact'
+    - name: Upload package
       if: ${{inputs.create-package}}
       uses: actions/upload-artifact@v3
       with:
         name: Resto.AppImage
         path: ${{github.workspace}}/packages/Resto.AppImage
         retention-days: 3
+
+    - name: Install deploy installer dependencies (common)
+      if: ${{inputs.create-installers}}
+      run: |
+        QT_IFW_TOOL="${QT_IFW_VERSION//./}"
+        aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL}
+        
+    - name: Start an installers script (linux)
+      if: ${{inputs.create-installers && inputs.os == 'linux'}}
+      run: |
+        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-installer.sh
+        ./scripts/desktop/${{inputs.os}}/create-installer.sh -o ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_offline-installer
+        ./scripts/desktop/${{inputs.os}}/create-installer.sh -r ${{github.workspace}}/installers/Resto_repository ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_installer
+        
