@@ -1,0 +1,38 @@
+name: delivery
+
+on:
+  workflow_dispatch:
+    inputs:
+      create-package:
+        description: 'With true standalone packages will be created.'
+        type: boolean
+        default: false
+      create-installers:
+        description: 'With true installers will be created.'
+        type: boolean
+        default: false
+      production-build:
+        description: 'With true build and all output files will be prepared for production release.'
+        type: boolean
+        default: false
+
+jobs:
+  delivery-linux:
+    uses: ./.github/workflows/build.yml
+    with:
+      build-type: Release   # TODO: find a way to avoid duplication
+      qt-version: 5.15.2
+      os: linux
+      create-package: ${{inputs.create-package}}
+      create-installers: ${{inputs.create-installers}}
+      production-build: ${{inputs.production-build}}
+   
+  delivery-windows:
+    uses: ./.github/workflows/build.yml
+    with:
+      build-type: Release   # TODO: find a way to avoid duplication
+      qt-version: 5.15.2
+      os: windows
+      create-package: ${{inputs.create-package}}
+      create-installers: ${{inputs.create-installers}}
+      production-build: ${{inputs.production-build}}
