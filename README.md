@@ -1,4 +1,6 @@
 # Resto
+[![continuous](https://github.com/Justyna-JustCode/Resto/actions/workflows/continuous.yml/badge.svg)](https://github.com/Justyna-JustCode/Resto/actions/workflows/continuous.yml)
+
 „Resto” is a Spanish first person singular form of a verb „restar”, which can
 be translated as „to remain”. There is also an obvious phonetic connection to
 an English verb „to rest”.
