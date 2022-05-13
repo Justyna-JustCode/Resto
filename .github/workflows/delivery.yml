@@ -1,0 +1,26 @@
+name: delivery
+
+on:
+  push:
+    branches: [ 'releases/**' ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  delivery-linux:
+    uses: ./.github/workflows/build.yml
+    with:
+      build-type: Release   # TODO: find a way to avoid duplication
+      qt-version: 5.15.2
+      os: linux
+      create-package: true
+      create-installers: true
+   
+  # skipping for now 
+  #delivery-windows:
+  #  uses: ./.github/workflows/build.yml
+  #  with:
+  #    build-type: Release   # TODO: find a way to avoid duplication
+  #    qt-version: 5.15.2
+  #    os: windows
+  #    create-package: true
