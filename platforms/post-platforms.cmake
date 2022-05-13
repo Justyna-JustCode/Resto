@@ -1,0 +1,5 @@
+if (UNIX)
+  include(platforms/post-linux.cmake)
+elseif(WIN32)
+  include(platforms/post-windows.cmake)
+endif()
