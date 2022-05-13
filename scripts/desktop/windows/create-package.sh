@@ -79,7 +79,7 @@ fi
 echo "Temporary directory: ${TEMP_DIR}"
 echo -e "================================================\n"
 
-BUILD_PACKAGE_FILES="${APP_NAME}.exe help.pdf"
+BUILD_PACKAGE_FILES="${APP_NAME}.exe help.html"
 echo "Copying build package files:"
 for file in $BUILD_PACKAGE_FILES; do
 	fileSubdir=$(dirname $file)
@@ -92,30 +92,13 @@ echo -e "------------------------------------------------\n"
 
 echo "Running a windeployqt tool:"
 echo "using qmake: $QMAKE_FILE"
-(cd ${TEMP_DIR} && $WINDEPLOYQT_FILE -qmldir=${PROJECT_DIR}/qml ${TEMP_PACKAGE_DIR}/)
-echo -e "------------------------------------------------\n"
-
-VC_REDIST_FILES="msvcp${VC_REDIST_NUM}.dll vcruntime${VC_REDIST_NUM}.dll"
-echo "Copying VC redist files:"
-for file in $VC_REDIST_FILES; do
-	filePath="${VC_REDIST_DIR}/$file"
-	echo -e "\t$filePath"
-	cp -f "$filePath" "${TEMP_PACKAGE_DIR}/"
-done
-
-echo "Copying VC redist api files:"
-for filePath in "${VC_REDIST_API_DIR}"/*; do
-	echo -e "\t$filePath"
-	cp -f "$filePath" "${TEMP_PACKAGE_DIR}/"
-done
+(cd ${TEMP_DIR} && $WINDEPLOYQT_FILE --compiler-runtime --qmldir=${PROJECT_DIR}/qml ${TEMP_PACKAGE_DIR}/)
 echo -e "------------------------------------------------\n"
 
 if [ "${ZIPPED}" = false ]; then
 	mv "${TEMP_PACKAGE_DIR}" "${OUTPUT_DIR}"
 else
-	VersionInfo=($("${TEMP_PACKAGE_DIR}/${APP_NAME}.exe" -v))
-	APP_VERSION=${VersionInfo[1]}
-	(cd "${TEMP_PACKAGE_DIR}/.." && "${SEVEN_ZIP}" a -tzip "${OUTPUT_DIR}/${APP_NAME}_${APP_VERSION}.zip" "*")
+	(cd "${TEMP_PACKAGE_DIR}/.." && 7z a -tzip "${OUTPUT_DIR}/${APP_NAME}.zip" "*")
 fi
 
 echo "DONE."
