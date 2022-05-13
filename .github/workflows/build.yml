@@ -54,7 +54,7 @@ jobs:
     - name: Configure CMake
       env:
         CMAKE_PREFIX_PATH: ${{github.workspace}}/qt/${{inputs.qt-version}}/${{ inputs.os == 'linux' && 'gcc_64' || 'msvc2019_64' }}/lib/cmake/
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build-type}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{inputs.build-type}} -DPRODUCTION_BUILD=${{ inputs.production-build == true && 'ON' || 'OFF' }}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{inputs.build-type}}
