@@ -73,12 +73,20 @@ jobs:
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
         ./scripts/desktop/${{inputs.os}}/create-package.sh -i ${{github.workspace}}/build ${{github.workspace}}/packages
         
+    - name: Start a package script (windows)
+      if: ${{inputs.create-package && inputs.os == 'windows'}}
+      uses: msys2/setup-msys2@v2
+      shell: msys2 {0}
+      run: |
+        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
+        ./scripts/desktop/${{inputs.os}}/create-package.sh -i ${{github.workspace}}/build ${{github.workspace}}/packages
+        
     - name: Upload package
       if: ${{inputs.create-package}}
       uses: actions/upload-artifact@v3
       with:
-        name: Resto.AppImage
-        path: ${{github.workspace}}/packages/Resto.AppImage
+        name: Resto.${{ inputs.os == 'linux' && 'AppImage' || 'zip' }}
+        path: ${{github.workspace}}/packages/Resto.${{ inputs.os == 'linux' && 'AppImage' || 'zip' }}
         retention-days: 3
 
     - name: Install deploy installer dependencies (common)
@@ -92,23 +100,23 @@ jobs:
       run: |
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-installer.sh
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
-        ./scripts/desktop/${{inputs.os}}/create-installer.sh -o ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_offline-installer
-        ./scripts/desktop/${{inputs.os}}/create-installer.sh -r ${{github.workspace}}/installers/Resto_repository ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_installer
+        ./scripts/desktop/${{inputs.os}}/create-installer.sh -o ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_offline-installer.run
+        ./scripts/desktop/${{inputs.os}}/create-installer.sh -r ${{github.workspace}}/installers/Resto_repository ${{github.workspace}}/build ${{github.workspace}}/installers/Resto_installer.run
         
     - name: Upload offline installer
       if: ${{inputs.create-installers}}
       uses: actions/upload-artifact@v3
       with:
-        name: Resto_offline-installler
-        path: ${{github.workspace}}/installers/Resto_offline-installer
+        name: Resto_offline-installler.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        path: ${{github.workspace}}/installers/Resto_offline-installer.${{ inputs.os == 'linux' && 'run' || 'exe' }}
         retention-days: 3
         
     - name: Upload online installer
       if: ${{inputs.create-installers}}
       uses: actions/upload-artifact@v3
       with:
-        name: Resto_installler
-        path: ${{github.workspace}}/installers/Resto_installer
+        name: Resto_installler.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        path: ${{github.workspace}}/installers/Resto_installer.${{ inputs.os == 'linux' && 'run' || 'exe' }}
         retention-days: 3
         
     - name: Upload online installer repository
