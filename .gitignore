@@ -59,6 +59,10 @@ Thumbs.db
 *.vcxproj
 *vcxproj.*
 
+# CMake user files
+*CMakeLists.txt.user
+*CMakeLists.txt.user.*
+
 # MinGW generated files
 *.Debug
 *.Release
@@ -71,3 +75,9 @@ Thumbs.db
 *.dll
 *.exe
 
+# Installers files
+installers/config/config.xml
+installers/config/control.qs
+installers/packages/org.justcode.resto/data/*
+installers/packages/org.justcode.resto/meta/installscript.qs
+installers/packages/org.justcode.resto/meta/package.xml

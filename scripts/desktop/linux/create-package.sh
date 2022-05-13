@@ -120,7 +120,10 @@ echo -e "------------------------------------------------\n"
 
 echo "Running linuxdeployqt tool:"
 echo "using qmake: $QMAKE_FILE"
-(cd ${TEMP_DIR} && $LINUXDEPLOYQT_FILE ${TEMP_PACKAGE_DIR}/usr/share/applications/${APP_NAME}.desktop -qmake=$QMAKE_FILE ${APP_IMAGE} -bundle-non-qt-libs -qmldir=${PROJECT_DIR}/qml)
+# workaround for -unsupported-allow-new-glibc option
+mkdir -p ${TEMP_PACKAGE_DIR}/usr/share/doc/libc6/
+touch ${TEMP_PACKAGE_DIR}/usr/share/doc/libc6/copyright
+(cd ${TEMP_DIR} && $LINUXDEPLOYQT_FILE ${TEMP_PACKAGE_DIR}/usr/share/applications/${APP_NAME}.desktop -qmake=$QMAKE_FILE ${APP_IMAGE} -bundle-non-qt-libs -qmldir=${PROJECT_DIR}/qml -unsupported-allow-new-glibc)
 echo -e "------------------------------------------------\n"
 
 
@@ -148,10 +151,7 @@ fi
 if [ -z "$APP_IMAGE" ]; then
 	mv "${TEMP_PACKAGE_DIR}" "${OUTPUT_DIR}"
 else
-	VersionInfo=($("${BUILD_DIR}/${APP_NAME}" -v))
-	APP_VERSION=${VersionInfo[1]}
-
-	mv "${TEMP_DIR}"/${APP_NAME}*.AppImage "${OUTPUT_DIR}/${APP_NAME}_${APP_VERSION}.AppImage"
+	mv "${TEMP_DIR}"/${APP_NAME}*.AppImage "${OUTPUT_DIR}/${APP_NAME}.AppImage"
 fi
 
 echo "DONE."
