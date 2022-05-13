@@ -34,7 +34,10 @@ jobs:
   build_job:
     name: Build for ${{inputs.os}}
     runs-on: ${{ inputs.os == 'linux' && 'ubuntu-18.04' || 'windows-2019' }}
-    
+    defaults:
+      run:
+        shell: bash
+        
     steps:
     - uses: actions/checkout@v3
 
@@ -67,19 +70,11 @@ jobs:
         chmod +x ${{github.workspace}}/qt/Tools/${url##*/}
         sudo apt-get install libxcb-glx0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-xkb-dev libxcb-util-dev libxcb-xfixes0 libxkbcommon-x11-0 libegl1-mesa libegl1
           
-    - name: Start a package script (linux)
-      if: ${{inputs.create-package && inputs.os == 'linux'}}
+    - name: Start a package script
+      if: ${{inputs.create-package}}
       run: |
         sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
-        ./scripts/desktop/${{inputs.os}}/create-package.sh -i ${{github.workspace}}/build ${{github.workspace}}/packages
-        
-    - name: Start a package script (windows)
-      if: ${{inputs.create-package && inputs.os == 'windows'}}
-      uses: msys2/setup-msys2@v2
-      shell: msys2 {0}
-      run: |
-        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
-        ./scripts/desktop/${{inputs.os}}/create-package.sh -i ${{github.workspace}}/build ${{github.workspace}}/packages
+        ./scripts/desktop/${{inputs.os}}/create-package.sh -${{ inputs.os == 'linux' && 'i' || 'z' }} ${{github.workspace}}/build ${{github.workspace}}/packages
         
     - name: Upload package
       if: ${{inputs.create-package}}
