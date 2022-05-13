@@ -6,7 +6,7 @@ PROJECT_DIR=$(readlink -m "${SCRIPTS_DIR}/../../../")
 
 # setup up this with your variables ==================
 # QT:
-WINDEPLOYQT_FILE=$(readlink -m "${QT_PATH}/${QT_VERSION}/${QT_COMPILER}/bin/windeployqt.exe")
+WINDEPLOYQT_FILE=$(readlink -m "${QT_PATH}/${QT_VERSION}/${QT_COMPILER_PATH}/bin/windeployqt.exe")
 QT_INSTALLER_FRAMEWORK_BIN="${QT_PATH}/Tools/QtInstallerFramework/${QT_IFW_VERSION}/bin/"
 # ====================================================
 

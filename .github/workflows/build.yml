@@ -27,6 +27,7 @@ env:
   PRODUCTION_BUILD: ${{inputs.production-build}}
   QT_VERSION: ${{inputs.qt-version}}
   QT_COMPILER: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
+  QT_COMPILER_PATH: ${{ inputs.os == 'linux' && 'gcc_64' || 'msvc2019_64' }}
   QT_IFW_VERSION: 4.3
     
 jobs:
@@ -61,7 +62,7 @@ jobs:
         
     - name: Configure CMake
       env:
-        CMAKE_PREFIX_PATH: ${{env.WORKSPACE_PATH}}/qt/${{inputs.qt-version}}/${{ inputs.os == 'linux' && 'gcc_64' || 'msvc2019_64' }}/lib/cmake/
+        CMAKE_PREFIX_PATH: ${{env.WORKSPACE_PATH}}/qt/${{inputs.qt-version}}/${{env.QT_COMPILER_PATH}}/lib/cmake/
       run: cmake -B ${WORKSPACE_PATH}/build -DCMAKE_BUILD_TYPE=${{inputs.build-type}} -DPRODUCTION_BUILD=${{ inputs.production-build == true && 'ON' || 'OFF' }}
 
     - name: Build
