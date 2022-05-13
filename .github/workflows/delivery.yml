@@ -7,15 +7,14 @@ on:
     branches: [ master ]
 
 jobs:
-  # skipping for now
   delivery-linux:
     uses: ./.github/workflows/build.yml
     with:
       build-type: Release   # TODO: find a way to avoid duplication
       qt-version: 5.15.2
       os: linux
-  #    create-package: true
-  #    create-installers: true
+      create-package: true
+      create-installers: true
    
   delivery-windows:
     uses: ./.github/workflows/build.yml
