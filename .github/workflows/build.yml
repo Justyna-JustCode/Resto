@@ -54,13 +54,6 @@ jobs:
         github_workspace=$(echo "${{github.workspace}}" | sed 's:\\:/:g')
         echo "WORKSPACE_PATH=${github_workspace}" >> $GITHUB_ENV
         echo "QT_PATH=${github_workspace}/qt" >> $GITHUB_ENV
-        
-    - name: Test VC Redist paths (windows)
-      if: ${{inputs.os == 'windows'}}
-      run: |
-        ls 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/'
-        ls 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/x64/'
-        ls 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/x64/Microsoft.VC142.CRT'
 
     - name: Install dependencies (linux)
       if: ${{inputs.os == 'linux'}}

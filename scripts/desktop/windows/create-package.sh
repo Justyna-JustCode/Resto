@@ -92,7 +92,7 @@ echo -e "------------------------------------------------\n"
 
 echo "Running a windeployqt tool:"
 echo "using qmake: $QMAKE_FILE"
-(cd ${TEMP_DIR} && $WINDEPLOYQT_FILE --compiler-runtime --qmldir=${PROJECT_DIR}/qml ${TEMP_PACKAGE_DIR}/)
+(cd ${TEMP_DIR} && $WINDEPLOYQT_FILE --no-compiler-runtime --qmldir=${PROJECT_DIR}/qml ${TEMP_PACKAGE_DIR}/)
 echo -e "------------------------------------------------\n"
 
 VC_REDIST_FILES="msvcp${VC_REDIST_NUM}.dll vcruntime${VC_REDIST_NUM}.dll msvcp${VC_REDIST_NUM}_1.dll vcruntime${VC_REDIST_NUM}_1.dll"
