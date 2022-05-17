@@ -21,6 +21,12 @@ on:
       os:
         required: true
         type: string
+      vc-redist-dir:
+        type: string
+        default: ""
+      vc-redist-num:
+        type: string
+        default: ""
     
 env:
   linuxdeployqt-download-path: https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
@@ -29,6 +35,8 @@ env:
   QT_COMPILER: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
   QT_COMPILER_PATH: ${{ inputs.os == 'linux' && 'gcc_64' || 'msvc2019_64' }}
   QT_IFW_VERSION: 4.3
+  VC_REDIST_DIR: ${{inputs.vc-redist-dir}}
+  VC_REDIST_NUM: ${{inputs.vc-redist-num}}
     
 jobs:
   build_job:
@@ -47,6 +55,13 @@ jobs:
         echo "WORKSPACE_PATH=${github_workspace}" >> $GITHUB_ENV
         echo "QT_PATH=${github_workspace}/qt" >> $GITHUB_ENV
         
+    - name: Test VC Redist paths (windows)
+      if: ${{inputs.os == 'windows'}}
+      run: |
+        ls 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/'
+        ls 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/x64/'
+        ls 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/x64/Microsoft.VC142.CRT'
+
     - name: Install dependencies (linux)
       if: ${{inputs.os == 'linux'}}
       run: |

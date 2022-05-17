@@ -95,6 +95,15 @@ echo "using qmake: $QMAKE_FILE"
 (cd ${TEMP_DIR} && $WINDEPLOYQT_FILE --compiler-runtime --qmldir=${PROJECT_DIR}/qml ${TEMP_PACKAGE_DIR}/)
 echo -e "------------------------------------------------\n"
 
+VC_REDIST_FILES="msvcp${VC_REDIST_NUM}.dll vcruntime${VC_REDIST_NUM}.dll msvcp${VC_REDIST_NUM}_1.dll vcruntime${VC_REDIST_NUM}_1.dll"
+echo "Copying VC redist files:"
+for file in $VC_REDIST_FILES; do
+	filePath="${VC_REDIST_DIR}/$file"
+	echo -e "\t$filePath"
+	cp -f "$filePath" "${TEMP_PACKAGE_DIR}/"
+done
+echo -e "------------------------------------------------\n"
+
 if [ "${ZIPPED}" = false ]; then
 	mv "${TEMP_PACKAGE_DIR}" "${OUTPUT_DIR}"
 else
