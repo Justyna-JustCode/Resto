@@ -62,7 +62,7 @@ Item {
     Connections {
         target: focusItem
 
-        onActiveFocusChanged:
+        function onActiveFocusChanged()
         {
             if (!focusItem.activeFocus)
             {

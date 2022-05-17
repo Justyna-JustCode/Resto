@@ -72,7 +72,7 @@ CustomDialog {
     Connections {
         target: controller
 
-        onBreakEndRequest: {
+        function onBreakEndRequest() {
             endButton.text = qsTr("Ok");
         }
     }
