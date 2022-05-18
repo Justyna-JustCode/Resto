@@ -6,13 +6,14 @@
     <Publisher>${ORG_NAME}</Publisher>
     <ProductUrl>${APP_URL}</ProductUrl>
     <StartMenuDir>${ORG_NAME}</StartMenuDir>
-    <TargetDir>@HomeDir@/@Publisher@/@ProductName@/</TargetDir>
-    <AdminTargetDir>@ApplicationsDir@/@Publisher@/@ProductName@/</AdminTargetDir>
+    <TargetDir>@ApplicationsDirX64@/@Publisher@/@ProductName@/</TargetDir>
+    <AdminTargetDir>@ApplicationsDirX64@/@Publisher@/@ProductName@/</AdminTargetDir>
     <MaintenanceToolName>Uninstall</MaintenanceToolName>
     <InstallerWindowIcon>installericon</InstallerWindowIcon>
     <InstallerApplicationIcon>installericon</InstallerApplicationIcon>
     <ControlScript>control.qs</ControlScript>
     <AllowSpaceInPath>true</AllowSpaceInPath>
+    <SupportsModify>false</SupportsModify>
 
     <RemoteRepositories>
         <Repository>
