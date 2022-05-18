@@ -3,7 +3,7 @@
 
 "Resto" is a Spanish first person singular form of a verb "restar", which can be translated as "to remain". There is also an obvious phonetic connection to an English verb "to rest".
 
-The name is explaining two main purposes of the application: to count a remaining work-time and to remind about taking regular rests.
+The name explains two main purposes of the application: to count a remaining work-time and to remind about taking regular rests.
 
 ## Packages
 More information and prebuild packages available on a project webpage: http://just-code.org/applications/resto/
