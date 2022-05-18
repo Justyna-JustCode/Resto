@@ -1,4 +1,4 @@
-name: delivery
+name: manual-delivery
 
 on:
   workflow_dispatch:
@@ -16,6 +16,11 @@ on:
         type: boolean
         default: false
 
+env:
+  create-package: ${{inputs.create-package}}
+  create-installers: ${{inputs.create-installers}}
+  production-build: ${{inputs.production-build}}
+
 jobs:
   delivery-linux:
     uses: ./.github/workflows/build.yml
@@ -23,9 +28,9 @@ jobs:
       build-type: Release   # TODO: find a way to avoid duplication
       qt-version: 5.15.2
       os: linux
-      create-package: ${{inputs.create-package}}
-      create-installers: ${{inputs.create-installers}}
-      production-build: ${{inputs.production-build}}
+      create-package: ${{env.create-package}}
+      create-installers: ${{env.create-installers}}
+      production-build: ${{env.production-build}}
    
   delivery-windows:
     uses: ./.github/workflows/build.yml
@@ -35,6 +40,6 @@ jobs:
       os: windows
       vc-redist-dir: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/x64/Microsoft.VC142.CRT
       vc-redist-num: 140
-      create-package: ${{inputs.create-package}}
-      create-installers: ${{inputs.create-installers}}
-      production-build: ${{inputs.production-build}}
+      create-package: ${{env.create-package}}
+      create-installers: ${{env.create-installers}}
+      production-build: ${{env.production-build}}
