@@ -85,14 +85,6 @@ echo "${PACKAGE_DIR}"
 ${SCRIPTS_DIR}/create-package.sh "${BUILD_DIR}" "${PACKAGE_DIR}" > /dev/null
 echo -e "------------------------------------------------\n"
 
-# copying required workaround application, for QTIFW-859
-UpdaterWorkaroundOutputFile="${PACKAGE_DIR}/Update.exe"
-echo "Copying an updater workaround application:"
-echo ${UpdaterWorkaroundOutputFile}
-UpdaterWorkaroundFile="${SCRIPTS_DIR}/data/Update.exe"
-cp "${UpdaterWorkaroundFile}" "${UpdaterWorkaroundOutputFile}"
-echo -e "------------------------------------------------\n"
-
 APP_DEVELOP=""
 if [ -z "${PRODUCTION_BUILD}" ] || [ ${PRODUCTION_BUILD} != true ]; then
 	APP_DEVELOP="_develop"
@@ -110,15 +102,11 @@ envsubst < "${ConfigTemplateFile}" > "${ConfigOutputFile}"
 echo -e "------------------------------------------------\n"
 
 
-FileInfo=($(file "${PACKAGE_DIR}/${APP_NAME}.exe"))
-#app bit info, skipping comma at the end
-APP_BIT=${FileInfo[4]::-1}
 ControlOutputFile="${INSTALLER_DATA_DIR}/config/control.qs"
 echo "Creating a control file:"
 echo ${ControlOutputFile}
 ControlTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/control.qs"
-export "APP_BIT=${APP_BIT}"
-envsubst < "${ControlTemplateFile}" > "${ControlOutputFile}"
+cp "${ControlTemplateFile}" "${ControlOutputFile}"
 echo -e "------------------------------------------------\n"
 
 
