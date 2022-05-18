@@ -7,7 +7,7 @@ execute_process(COMMAND git --git-dir ${CMAKE_SOURCE_DIR}/.git --work-tree ${CMA
                 OUTPUT_VARIABLE BUILD_NUMBER
                 ERROR_QUIET)
 
-if (DELIVERY_BUILD)
+if (PRODUCTION_BUILD)
   set(APP_VERSION_URL "${ORG_DOMAIN}/applications/${APP_NAME}/version")
   set(DEVELOP_BUILD false)
 else()

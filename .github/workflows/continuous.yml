@@ -14,7 +14,7 @@ jobs:
       qt-version: 5.15.2
       os: linux
       
-  build_windows:
+  build-windows:
     uses: ./.github/workflows/build.yml
     with:
       build-type: Release   # TODO: find a way to avoid duplication

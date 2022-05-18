@@ -9,11 +9,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-OPTION(DELIVERY_BUILD "Build an application in a delivery mode." OFF)
+OPTION(PRODUCTION_BUILD "Build an application for production." OFF)
 
 include(orgInfo.cmake) # organization details
 include(appInfo.cmake) # application details
-include(platforms/platforms.cmake) # platfrom specific setup
+include(platforms/pre-platforms.cmake) # platfrom specific setup - initial setting
 
 project(Resto VERSION ${APP_VERSION} LANGUAGES CXX)
 
@@ -73,19 +73,16 @@ else()
     )
 endif()
 
+
 target_compile_definitions(Resto
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(Resto
     PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Widgets)
-
-set_target_properties(Resto PROPERTIES
-    WIN32_EXECUTABLE TRUE
-)
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_import_qml_plugins(Resto)
     qt_finalize_executable(Resto)
 endif()
 
-# add deployment actions
-include(deployment.cmake)
+include(deployment.cmake) # add deployment actions
+include(platforms/post-platforms.cmake) # platfrom specific setup - post executable settings

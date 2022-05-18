@@ -40,7 +40,7 @@
 #ifdef Q_OS_LINUX
     const QString UpdateController::sc_updaterAppName = QStringLiteral("Uninstall");
 #elif defined(Q_OS_WIN)
-    const QString UpdateController::sc_updaterAppName = QStringLiteral("Update.exe");
+    const QString UpdateController::sc_updaterAppName = QStringLiteral("Uninstall.exe");
 #endif
 
 UpdateController::UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent)
@@ -91,12 +91,7 @@ void UpdateController::update()
         return;
     }
 
-    auto started = false;
-#ifdef Q_OS_LINUX
-    started = QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath()); // TODO: better solution? with Update.desktop
-#elif defined(Q_OS_WIN)
-    started = QProcess::startDetached(m_updaterAppPath, {}, QApplication::applicationDirPath());
-#endif
+    auto started = QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath());
 
     if (started) {
         emit updateStarted();
