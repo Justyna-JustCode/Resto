@@ -31,6 +31,18 @@ import "dialogs"
 import "style"
 
 Item {
+    id: root
+    Shortcut {
+        sequence: "space"
+        onActivated: {
+            if (controller.state == Controller.Working) {
+                controller.pause()
+            } else {
+                controller.start()
+            }
+        }
+    }
+
     Background {
         Decorative {}
     }
@@ -155,6 +167,7 @@ Item {
                     var timeDiff = newValue - controller.timer.elapsedBreakInterval
                     controller.timer.elapsedBreakInterval = newValue
                     controller.timer.elapsedWorkTime += timeDiff
+                    root.forceActiveFocus()
                 }
             }
 
@@ -188,6 +201,7 @@ Item {
                 {
                     var timeDiff = newValue - controller.timer.elapsedWorkTime
                     controller.timer.elapsedWorkTime = newValue
+                    root.forceActiveFocus()
                 }
             }
 
@@ -246,5 +260,6 @@ Item {
             onClicked: dialogsManager.showAboutDialog()
         }
     }
+
 }
 
