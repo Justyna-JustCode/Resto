@@ -53,7 +53,7 @@ Component.prototype.installationFinished = function()
         if (installer.isInstaller() && installer.status == QInstaller.Success) {
             var openHelp = component.userInterface( "OpenHelpForm" ).openHelpCheckBox.checked;
             if (openHelp) {
-                QDesktopServices.openUrl("file:///" + installer.value("TargetDir") + "/help.pdf");
+                QDesktopServices.openUrl("file:///" + installer.value("TargetDir") + "/help.html");
             }
         }
     } catch(e) {
