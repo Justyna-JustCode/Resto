@@ -5,30 +5,23 @@
 /* fonts */
 @font-face {
   font-family: 'josefin_sans-light';
-  src: url("./fonts/JosefinSans-Light.ttf");
+  src: url("./helpResources/fonts/JosefinSans-Light.ttf");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: 'josefin_sans-regular';
-  src: url("./fonts/JosefinSans-Regular.ttf");
+  src: url("./helpResources/fonts/JosefinSans-Regular.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
-/* images */
 
 /* styles */
-@page {
-  size: A2;
-  margin: 50mm;
-}
-
 body {
-/* uncomment for real html */
-/*   width: 60%; */
-/*   margin: auto; */
-/*   padding-bottom: 2em; */
+  width: 60%;
+  margin: auto;
+  padding-bottom: 2em;
   
   font-family: 'josefin_sans-light';
   font-size: 18pt;
@@ -171,7 +164,7 @@ span.lessEmphasised {
 </head>
 
 <body>
-<h1>Resto<img id="titleImage" alt="" src="./imgs/resto-logo.png" /></h1>
+<h1>Resto<img id="titleImage" alt="" src="./helpResources/imgs/resto-logo.png" /></h1>
 <div class="subtitle">ver. 1.0.7</div>
 
 <div class="tableContents">
@@ -215,7 +208,7 @@ span.lessEmphasised {
 <div class="h2">
     <h3 id="mainWindow_idle">Main window (idle)</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/main-stopped.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/main-stopped.png" />
         <ul>
             <li><span class="emphasised">Start button:</span> can be used to start counting a work time.<br />Navigates to <a href="#mainWindow_working">a working window</a>.</li>
             <li><span class="emphasised">Help button:</span> can be used to open this help page.</li>
@@ -232,7 +225,7 @@ span.lessEmphasised {
     
 	<h3 id="mainWindow_working">Main window (working)</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/main-running.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/main-running.png" />
         <ul>
             <li><span class="emphasised">Break button:</span> can be used to start the next break manually.<br />Navigates to <a href="#breakDialog">a break dialog</a>.</li>
             <li><span class="emphasised">Pause button:</span> can be used to pause the application.<br />Navigates to <a href="#mainWindow_idle">an idle window</a>.</li>
@@ -242,7 +235,7 @@ span.lessEmphasised {
     
 	<h3 id="breakReminderDialog">Break reminder dialog</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/break-reminder.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/break-reminder.png" />
         <ul>
             <li><span class="emphasised">Skip button:</span> can be used to skip a break. The break is considered taken.</li>
             <li><span class="emphasised">Postpone button:</span> can be used to postponse a break for a defined time.</li>
@@ -252,7 +245,7 @@ span.lessEmphasised {
     
 	<h3 id="breakDialog">Break dialog</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/break-progress.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/break-progress.png" />
         <ul>
             <li><span class="emphasised">Duration bar:</span> shows the time elapsed since the break is taken compared to a defined break time.</li>
             <li><span class="emphasised">Abort / Ok buttons:</span> can be used to finish a break.</li>
@@ -261,7 +254,7 @@ span.lessEmphasised {
 	
 	<h3 id="finishWorkReminderDialog">Finish work reminder dialog</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/finish-reminder.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/finish-reminder.png" />
         <ul>
             <li><span class="emphasised">Ignore button:</span> can be used to ignore the reminder and continue counting the times.</li>
             <li><span class="emphasised">Ok button:</span> can be used to stop the application.</li>
@@ -270,7 +263,7 @@ span.lessEmphasised {
     
 	<h3 id="settingsDialog">Settings dialog</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/settings-dialog.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/settings-dialog.png" />
         <ul>
             <li><span class="emphasised">Behaviour button:</span> can be used to show <a href="#behaviourSettings">behaviour settings</a>.</li>
             <li><span class="emphasised">General button:</span> can be used to show <a href="#generalSettings">general settings</a>.</li>
@@ -326,7 +319,7 @@ span.lessEmphasised {
         
     <h3 id="aboutDialog">About dialog</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/about-dialog.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/about-dialog.png" />
         <p>The dialog contains information about: the application version, author and author's page, all resources used in the application.</p>
         <ul>
             <li><span class="emphasised">Ok button:</span> can be used to close the dialog.</li>
@@ -336,7 +329,7 @@ span.lessEmphasised {
         
 	<h3 id="updateDialogs">Update dialogs</h3>
     <div class="h3">
-        <img class="paragraphImage" alt="" src="./imgs/update-dialogs.png" />
+        <img class="paragraphImage" alt="" src="./helpResources/imgs/update-dialogs.png" />
         <p>The update available dialog can be opened manually using <span class="emphasised">the check update button</span> from <a href="#aboutDialog">the about dialog</a> but it is also opened automatically after run if a new version is available.</p>
         <ul>
             <li><span class="emphasised">Update button:</span> can be used to start the application update process right away.</li>
@@ -352,7 +345,7 @@ span.lessEmphasised {
 <!-- Epilogue -->
 <h2 id="epilogue">Epilogue</h2>
 <div class="h2">
-    <p>Source code is available on <a class="emphasised" href="https://github.com/Justyna-JustCode/Resto">the GitHub <img class="inlineImage" alt="" src="./imgs/github.png" /></a></p>
+    <p>Source code is available on <a class="emphasised" href="https://github.com/Justyna-JustCode/Resto">the GitHub <img class="inlineImage" alt="" src="./helpResources/imgs/github.png" /></a></p>
     <p>Any additional questions, notes or comments are welcomed. Please take a look on <a class="emphasised" href="http://just-code.org/">the author's page</a> for contact details.</p>
 </div>
 
