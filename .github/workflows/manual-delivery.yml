@@ -1,0 +1,40 @@
+name: manual-delivery
+
+on:
+  workflow_dispatch:
+    #inputs:
+    #  create-package:
+    #    description: 'With true standalone packages will be created.'
+    #    type: boolean
+    #    default: false
+    #  create-installers:
+    #    description: 'With true installers will be created.'
+    #    type: boolean
+    #    default: false
+    #  production-build:
+    #    description: 'With true build and all output files will be prepared for production release.'
+    #    type: boolean
+    #    default: false
+
+jobs:
+  delivery-linux:
+    uses: ./.github/workflows/build.yml
+    with:
+      build-type: Release   # TODO: find a way to avoid duplication
+      qt-version: 5.15.2
+      os: linux
+      create-package: true
+      create-installers: true
+      production-build: true
+   
+  delivery-windows:
+    uses: ./.github/workflows/build.yml
+    with:
+      build-type: Release   # TODO: find a way to avoid duplication
+      qt-version: 5.15.2
+      os: windows
+      vc-redist-dir: C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Redist/MSVC/14.29.30133/x64/Microsoft.VC142.CRT
+      vc-redist-num: 140
+      create-package: true
+      create-installers: true
+      production-build: true

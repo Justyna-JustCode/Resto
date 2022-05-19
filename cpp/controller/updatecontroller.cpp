@@ -40,7 +40,7 @@
 #ifdef Q_OS_LINUX
     const QString UpdateController::sc_updaterAppName = QStringLiteral("Uninstall");
 #elif defined(Q_OS_WIN)
-    const QString UpdateController::sc_updaterAppName = QStringLiteral("Update.exe");
+    const QString UpdateController::sc_updaterAppName = QStringLiteral("Uninstall.exe");
 #endif
 
 UpdateController::UpdateController(SettingsController &settingsController, const QUrl &versionUrl, QObject *parent)
@@ -91,12 +91,7 @@ void UpdateController::update()
         return;
     }
 
-    auto started = false;
-#ifdef Q_OS_LINUX
-    started = QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath()); // TODO: better solution? with Update.desktop
-#elif defined(Q_OS_WIN)
-    started = QProcess::startDetached(m_updaterAppPath, {}, QApplication::applicationDirPath());
-#endif
+    auto started = QProcess::startDetached(m_updaterAppPath, { "--updater", }, QApplication::applicationDirPath());
 
     if (started) {
         emit updateStarted();
@@ -155,18 +150,13 @@ void UpdateController::checkPlatformInfo()
 #elif defined(Q_OS_WIN)
     m_platformType = "windows";
 #endif
-
-    if (sizeof(void *) == 4) {
-        m_platformWordSize = "32bit";
-    } else if (sizeof(void *) == 8) {
-        m_platformWordSize = "64bit";
-    }
 }
 
 void UpdateController::getVersionResponse()
 {
     auto request = QNetworkRequest(m_versionUrl);
-    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+    request.setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                         QNetworkRequest::NoLessSafeRedirectPolicy);
 
     m_curReply = m_nam.get(request);
 }
@@ -219,7 +209,7 @@ void UpdateController::parseVersionResponse(const QByteArray &response)
         setReleaseNotes(updateInfoObj.value("releaseNotes").toString());
 
         auto downloadUrl = updateInfoObj.value("urls").toObject()
-                .value(m_platformType).toObject().value(m_platformWordSize).toString();
+                .value(m_platformType).toString();
         setPlatformDownloadUrl(downloadUrl);
     }
     setUpdateAvailable(updateAvailable);
