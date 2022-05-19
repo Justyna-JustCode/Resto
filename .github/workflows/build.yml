@@ -67,7 +67,11 @@ jobs:
         python3 -m pip install -U pip
         python3 -m pip install aqtinstall
         python3 -m aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{env.QT_PATH}}
-        
+
+    - name: Install monolith
+      run: |
+        ${{ inputs.os == 'linux' && 'brew' || 'choco' }} install monolith
+
     - name: Configure CMake
       env:
         CMAKE_PREFIX_PATH: ${{env.WORKSPACE_PATH}}/qt/${{inputs.qt-version}}/${{env.QT_COMPILER_PATH}}/lib/cmake/
