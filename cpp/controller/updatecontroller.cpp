@@ -150,12 +150,6 @@ void UpdateController::checkPlatformInfo()
 #elif defined(Q_OS_WIN)
     m_platformType = "windows";
 #endif
-
-    if (sizeof(void *) == 4) {
-        m_platformWordSize = "32bit";
-    } else if (sizeof(void *) == 8) {
-        m_platformWordSize = "64bit";
-    }
 }
 
 void UpdateController::getVersionResponse()
@@ -215,7 +209,7 @@ void UpdateController::parseVersionResponse(const QByteArray &response)
         setReleaseNotes(updateInfoObj.value("releaseNotes").toString());
 
         auto downloadUrl = updateInfoObj.value("urls").toObject()
-                .value(m_platformType).toObject().value(m_platformWordSize).toString();
+                .value(m_platformType).toString();
         setPlatformDownloadUrl(downloadUrl);
     }
     setUpdateAvailable(updateAvailable);
