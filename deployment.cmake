@@ -1,7 +1,7 @@
 # deploy help data
-add_custom_command(TARGET Resto POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/help/helpResources ${CMAKE_BINARY_DIR}/helpResources
-)
-add_custom_command(TARGET Resto POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/help/* ${CMAKE_BINARY_DIR}
-)
+OPTION(DEPLOY_HELP "Build an application for production." ON)
+
+if (DEPLOY_HELP)
+    set(HTML2STANDALONE "monolith")
+    add_custom_command(TARGET Resto POST_BUILD COMMAND ${HTML2STANDALONE} ${CMAKE_SOURCE_DIR}/help/help.html -o ${CMAKE_BINARY_DIR}/help.html)
+endif()
