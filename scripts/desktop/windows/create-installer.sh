@@ -7,9 +7,9 @@ where:
     buildDir	a directory containing the executable
     outputFile	an output installer file
 
-    -h					show this help text
-	-o					creates an offline-only installer
-	-r repositoryDir 	creates also an online repository in a given directory"
+    -h			show this help text
+    -o			creates an offline-only installer
+    -r repositoryDir 	creates also an online repository in a given directory"
 
 SCRIPTS_DIR=$(dirname "$0")
 
@@ -17,7 +17,7 @@ SCRIPTS_DIR=$(dirname "$0")
 # positional parameters ==================================================
 
 REPO_DIR=""
-OFFLINE_ONLY="" 
+OFFLINE_ONLY=""
 
 while getopts ':hor:' option; do
   case "$option" in
@@ -43,6 +43,7 @@ if [ ! -z "${REPO_DIR}" ] && [ -e "${REPO_DIR}" ]; then
 	echo "A repository directory already exists." >&2
 	exit 1
 fi
+
 if [[ $# -lt 1 ]]; then
 	echo "You have to specify the input, build directory with an executable." >&2
 	exit 1
@@ -70,7 +71,7 @@ else
 fi
 
 if [ ! -z "${REPO_DIR}" ]; then
-	echo "Creating the online repository in: ${REPO_DIR}"
+    echo "Creating the online repository in: ${REPO_DIR}"
 fi
 
 echo -e "================================================\n"
@@ -84,21 +85,8 @@ echo "${PACKAGE_DIR}"
 ${SCRIPTS_DIR}/create-package.sh "${BUILD_DIR}" "${PACKAGE_DIR}" > /dev/null
 echo -e "------------------------------------------------\n"
 
-# copying required workaround application, for QTIFW-859
-UpdaterWorkaroundOutputFile="${PACKAGE_DIR}/Update.exe"
-echo "Copying an updater workaround application:"
-echo ${UpdaterWorkaroundOutputFile}
-UpdaterWorkaroundFile="${SCRIPTS_DIR}/data/Update.exe"
-cp "${UpdaterWorkaroundFile}" "${UpdaterWorkaroundOutputFile}"
-echo -e "------------------------------------------------\n"
-
-
-
-VersionInfo=($("${PACKAGE_DIR}/${APP_NAME}.exe" -v))
-APP_VERSION=${VersionInfo[1]}
-IsDevelop=($("${PACKAGE_DIR}/${APP_NAME}.exe" -d))
 APP_DEVELOP=""
-if [ "${IsDevelop}" = true ]; then
+if [ -z "${PRODUCTION_BUILD}" ] || [ ${PRODUCTION_BUILD} != true ]; then
 	APP_DEVELOP="_develop"
 fi
 
@@ -114,15 +102,11 @@ envsubst < "${ConfigTemplateFile}" > "${ConfigOutputFile}"
 echo -e "------------------------------------------------\n"
 
 
-FileInfo=($(file "${PACKAGE_DIR}/${APP_NAME}.exe"))
-#app bit info, skipping comma at the end
-APP_BIT=${FileInfo[4]::-1}
 ControlOutputFile="${INSTALLER_DATA_DIR}/config/control.qs"
 echo "Creating a control file:"
 echo ${ControlOutputFile}
 ControlTemplateFile="${COMMON_SCRIPTS_DIR}/data/installer/control.qs"
-export "APP_BIT=${APP_BIT}"
-envsubst < "${ControlTemplateFile}" > "${ControlOutputFile}"
+cp "${ControlTemplateFile}" "${ControlOutputFile}"
 echo -e "------------------------------------------------\n"
 
 
@@ -149,18 +133,18 @@ echo -e "================================================\n"
 ArchiveDataFile="${INSTALLER_DATA_DIR}/packages/${PACKAGE_NAME}/data/data.7z"
 echo "Creating a data archive:"
 echo ${ArchiveDataFile}
-mkdir -p $(dirname "${ArchiveDataFile}")
 rm -f "${ArchiveDataFile}"
-"${QT_INSTALLER_FRAMEWORK_BIN}"/archivegen "${ArchiveDataFile}" `ls -d $(readlink -m "${PACKAGE_DIR}/*")`
+mkdir -p $(dirname "${ArchiveDataFile}")
+${QT_INSTALLER_FRAMEWORK_BIN}/archivegen "${ArchiveDataFile}" `ls -d $(readlink -m "${PACKAGE_DIR}/*")`
 echo -e "------------------------------------------------\n"
 
-mkdir -p $(dirname ${OUTPUT_FILE})
-
 echo "Running a binary creator..."
+mkdir -p $(dirname ${OUTPUT_FILE})
 ${QT_INSTALLER_FRAMEWORK_BIN}/binarycreator ${OFFLINE_ONLY} -c "${INSTALLER_DATA_DIR}/config/config.xml" -p "${INSTALLER_DATA_DIR}/packages" "${OUTPUT_FILE}"
+
 if [ ! -z "${REPO_DIR}" ]; then
-	echo "Creating the online repository..."
-	mkdir -p "${REPO_DIR}"
-	${QT_INSTALLER_FRAMEWORK_BIN}/repogen -p "${INSTALLER_DATA_DIR}/packages" "${REPO_DIR}"
+    echo "Creating the online repository..."
+    mkdir -p "${REPO_DIR}"
+    ${QT_INSTALLER_FRAMEWORK_BIN}/repogen -p "${INSTALLER_DATA_DIR}/packages" "${REPO_DIR}"
 fi
 echo "Done."

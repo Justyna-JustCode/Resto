@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -84,13 +84,13 @@ RowLayout {
         onSecondsChanged: calculateTime();
     }
 
-    SpinBox {
+    CustomSpinBox {
         id: hoursSpin
+        Layout.preferredWidth: averageWidth
 
-        from: 23
-        to: d.minHours
+        to: 23
+        from: d.minHours
         suffix: "h"
-        maxCharCount: 4
 
         visible: showHours
 
@@ -99,14 +99,14 @@ RowLayout {
             d.hours = value
         }
     }
-    SpinBox {
+    CustomSpinBox {
         id: minutesSpin
+        Layout.preferredWidth: averageWidth
 
-        from: 59
-        to: (hoursSpin.value > d.minHours)
+        to: 59
+        from: (hoursSpin.value > d.minHours)
                       ? 0 : d.minMinutes
         suffix: "m"
-        maxCharCount: 4
 
         visible: showMinutes
 
@@ -115,14 +115,14 @@ RowLayout {
             d.minutes = value
         }
     }
-    SpinBox {
-        from: 59
-        to: (hoursSpin.value > d.minHours ||
+    CustomSpinBox {
+        Layout.preferredWidth: averageWidth
+
+        to: 59
+        from: (hoursSpin.value > d.minHours ||
                        minutesSpin.value > d.minMinutes)
                       ? 0 : d.minSeconds
-
         suffix: "s"
-        maxCharCount: 4
 
         visible: showSeconds
 

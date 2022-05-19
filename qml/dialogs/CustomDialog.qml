@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -45,10 +45,13 @@ Window {
     }
     property alias additionalContent: additionalContentItem
 
+    property bool topMost: true
+
     signal showing
     signal hiding
 
-    flags: Qt.Dialog | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
+    flags: Qt.Dialog | Qt.FramelessWindowHint |
+           (topMost ? Qt.WindowStaysOnTopHint : 0)
 
     x: Screen.width/2 - width/2
     y: Screen.height/2 - height/2
@@ -104,7 +107,7 @@ Window {
         columns: 2
         columnSpacing: Style.spacing
 
-        Label {
+        CustomLabel {
             fontStyle: Style.font.title
             text: title
         }
@@ -116,7 +119,7 @@ Window {
             Layout.preferredHeight: preferredHeight
         }
 
-        Label {
+        CustomLabel {
             Layout.columnSpan: 2
             text: description
         }
@@ -150,5 +153,10 @@ Window {
                 model: buttons
             }
         }
+    }
+
+    Overlay {
+        id: overlay
+        visible: !topMost
     }
 }

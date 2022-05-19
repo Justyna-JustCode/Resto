@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -33,7 +33,8 @@ CustomDialog {
         endButton.text = qsTr("Abort");
     }
 
-    title: qsTr("Time for a break!")
+    title: controller.cycles.isCycleFinished ? qsTr("Take a long break!")
+                                             : qsTr("Time for a break!")
     description: qsTr("Break time:")
 
     image.source: "qrc:/resources/images/break.png"
@@ -63,14 +64,15 @@ CustomDialog {
     additionalContent.fillWidth: true
     additionalContent.data: TimeProgressBar {
         width: parent.width
-        maxValue: controller.settings.breakDuration
+        maxValue: controller.currentBreakDuration()
         value: controller.timer.elapsedBreakDuration
+        editMode.enabled: false
     }
 
     Connections {
         target: controller
 
-        onBreakEndRequest: {
+        function onBreakEndRequest() {
             endButton.text = qsTr("Ok");
         }
     }

@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -28,9 +28,11 @@ import "helpers"
 QtObject {
     id: style
 
-    property color mainColor: ColorPallete.mainColor
-    onMainColorChanged: {
-        ColorPallete.mainColor = mainColor;
+    readonly property var availableApplicationColors: ColorPallete.availableApplicationColors
+    readonly property var highlightedApplicationColors: ColorPallete.highlightedApplicationColors
+    property int mainColorIndex: ColorPallete.mainColorIndex
+    onMainColorIndexChanged: {
+        ColorPallete.mainColorIndex = mainColorIndex
     }
 
     readonly property var tooltip: QtObject {
@@ -38,8 +40,10 @@ QtObject {
         readonly property int timeout: 10000
     }
 
+    readonly property int bigMargins: 30
     readonly property int margins: 20
     readonly property int smallMargins: 10
+    readonly property int smallSpacing: 5
     readonly property int spacing: 10
     readonly property int hugeSpacing: 100
 
@@ -58,6 +62,8 @@ QtObject {
     readonly property var overlay: QtObject {
         readonly property string color: ColorPallete.shadowColor
     }
+
+    readonly property string disableTint: "#CCCCCCCC"
 
     readonly property var font: QtObject {
         readonly property var text: StyleFont {}

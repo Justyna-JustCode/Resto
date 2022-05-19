@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+/* fonts */
+@font-face {
+  font-family: 'josefin_sans-light';
+  src: url("./fonts/JosefinSans-Light.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'josefin_sans-regular';
+  src: url("./fonts/JosefinSans-Regular.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* styles */
+body {
+  width: 60%;
+  margin: auto;
+  padding-bottom: 2em;
+  
+  font-family: 'josefin_sans-light';
+  font-size: 18pt;
+  
+  counter-reset: h2counter h3counter;
+}
+a {
+  color: dimgray;
+}
+a.emphasised {
+  color: #008080;
+}
+
+h2:before {
+  counter-increment: h2counter;
+  content: counter(h2counter) ".\0000a0";
+  counter-reset: h3counter;
+}
+  
+h3:before {
+  counter-increment: h3counter;
+  content: counter(h3counter, lower-alpha) ".\0000a0";
+}
+    
+h1, h2, h3 {
+  font-family: 'josefin_sans-regular';
+}
+h1, h2, h3, h4 {
+  color: #008080;
+}
+h4, h5, h6 {
+  text-transform: uppercase;
+}
+
+h1 {
+  margin-left: 0.5em;
+  
+  font-size: 5.5em;
+  font-variant: small-caps; 
+}
+h2 {
+  margin-bottom: -0.25em;
+  font-variant: small-caps; 
+  font-size: 1.7em;
+}
+h3 {
+  font-size: 1.25em;
+}
+h4 {
+  font-size: 1em;
+  text-transform: uppercase;
+  margin-top: 2em;
+}
+
+h4, h5, h6 li { 
+  font-size: 1em;
+  list-style-type: none;
+  margin-left: -0.5em
+}
+
+div.h2 {
+  margin-left: 1.75em;
+}
+div.h3 {
+  margin-left: 2.25em;
+}
+div.h3 ul {
+  margin-left: -1.5em;
+}
+div.h4 {
+  margin-left: 1em;
+}
+div.h4 ul {
+  margin-left: 0em;
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ul.lesser {
+  list-style-type: circle;
+}
+
+ul.lesser, li.lesser {
+  list-style-type: circle;
+}
+
+ul li { 
+  margin-bottom: 0.75em;
+}
+
+.subtitle {
+  margin-top: -1.7em;
+  margin-bottom: 1.7em;
+  margin-left: 1.7em;
+  
+  font-family: 'josefin_sans-regular';
+  
+  font-size: 1.7em;
+}
+
+.tableContents {
+  margin-left: 45%;
+  margin-bottom: 2em;
+  font-size: 1.25em
+}
+.tableContents a {
+  color: #008080;
+}
+.tableContents ol.lower {
+  list-style-type: lower-alpha;
+}
+
+span.emphasised {
+  color: #008080;
+  font-weight: bold;
+}
+
+span.lessEmphasised {
+  font-weight: bolder;
+}
+
+.paragraphImage {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inlineImage {
+  height: 1.2em;
+}
+
+#titleImage {
+  margin-left: 2em;
+}
+
+</style>
+<title>Resto 1.1.0</title>
+</head>
+
+<body>
+<h1>Resto<img id="titleImage" alt="" src="./imgs/resto-logo.png" /></h1>
+<div class="subtitle">ver. 1.1.0</div>
+
+<div class="tableContents">
+<ol>
+	<li><a href="#theName">The name</a></li>
+	<li><a href="#reason">Reason</a></li>
+	<li><a href="#functions">Functions</a>
+		<ol class="lower">
+			<li><a href="#mainWindow_idle">Main window (idle)</a></li>
+			<li><a href="#mainWindow_working">Main window (working)</a></li>
+			<li><a href="#breakReminderDialog">Break reminder dialog</a></li>
+			<li><a href="#breakDialog">Break dialog</a></li>
+			<li><a href="#finishWorkReminderDialog">Finish work reminder dialog</a></li>
+			<li><a href="#settingsDialog">Settings dialog</a></li>
+			<li><a href="#aboutDialog">About dialog</a></li>
+			<li><a href="#updateDialogs">Update available dialog</a></li>
+		</ol>
+	</li>
+	<li><a href="#epilogue">Epilogue</a></li>
+</ol>
+</div>
+
+<!-- The name -->
+<h2 id="theName">The name</h2>
+<div class="h2">
+    <p>"Resto" is a Spanish first person singular form of a verb "restar", which can be translated as "to remain". There is also an obvious phonetic connection to an English verb "to rest".</p>
+    <p>The name explains two main purposes of the application: to count a remaining work-time and to remind about taking regular rests.</p>
+</div>
+
+<!-- Reason -->
+<h2 id="reason">Reason</h2>
+<div class="h2">
+    <p class="h2">Sitting in a front of a computer for several hours may be a cause of various health issues <sup><a href="https://www.betterhealth.vic.gov.au/health/healthyliving/the-dangers-of-sitting">[example study]</a></sup>. Physical inactivity is considered one of the top causes of premature death around the world <a href="https://en.wikipedia.org/wiki/Preventable_causes_of_death"><sup>[source]</sup></a>. To keep you in a good shape and let you remain focused through the day it is important to take regular breaks. Just stand up for a while, take a short walk and try not to think about your work issues. <strong>Resto</strong> reminds you about breaks so you can focus on your tasks without a need to track a passing time.</p>
+    <p class="h2">Additionally <strong>Resto</strong> is especially useful for mixing work and personal responsibilities. The application counts a working time so you are always aware of how many hours you have already worked.</p>
+    <p class="h2">You can customize <strong>Resto</strong> to fit to your own needs. It is up to you to decide how often do you want to take breaks, how long should they last and more. You can even choose your favorite color!</p>
+    <p class="h2">Of course you are not always able to take a break instantly. That is why <strong>Resto</strong> just reminds you gently about the need of rest and let you to decide what do you want to do. You can start your break right away, postpone it or even skip it if you are really busy.</p>
+</div>
+
+<!-- Functions -->
+<h2 id="functions">Functions</h2>
+<div class="h2">
+    <h3 id="mainWindow_idle">Main window (idle)</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/main-stopped.png" />
+        <ul>
+            <li><span class="emphasised">Start button:</span> can be used to start counting a work time.<br />Navigates to <a href="#mainWindow_working">a working window</a>.</li>
+            <li><span class="emphasised">Help button:</span> can be used to open this help page.</li>
+            <li><span class="emphasised">Settings button:</span> can be used to change application settings.<br />Navigates to <a href="#settingsDialog">a settings dialog</a>.</li>
+            <li><span class="emphasised">About button:</span> can be used to find information about the application, the author and resources used.<br />Navigates to <a href="#aboutDialog">an about dialog</a>.</li>
+            
+            <li><span class="emphasised">Break bar:</span> shows the time elapsed since the last break comapred to a defined break duration.</li>
+            <li><span class="emphasised">Work bar:</span> shows the time elapsed since the work start compared to a defined work time.</li>
+            <li><span class="emphasised">Interval number:</span> shows the current cycle interval (only visible if cycles mode is enabled).</li>
+            
+            <li><span class="emphasised">Edit buttons:</span> can be used to edit current internal, break time or work time elapsed.</li>
+        </ul>
+    </div>
+    
+	<h3 id="mainWindow_working">Main window (working)</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/main-running.png" />
+        <ul>
+            <li><span class="emphasised">Break button:</span> can be used to start the next break manually.<br />Navigates to <a href="#breakDialog">a break dialog</a>.</li>
+            <li><span class="emphasised">Pause button:</span> can be used to pause the application.<br />Navigates to <a href="#mainWindow_idle">an idle window</a>.</li>
+            <li><span class="emphasised">Stop button:</span> can be used to stop the application and reset break and work times.<br />Navigates to <a href="#mainWindow_idle">an idle window</a>.</li>
+        </ul>
+    </div>
+    
+	<h3 id="breakReminderDialog">Break reminder dialog</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/break-reminder.png" />
+        <ul>
+            <li><span class="emphasised">Skip button:</span> can be used to skip a break. The break is considered taken.</li>
+            <li><span class="emphasised">Postpone button:</span> can be used to postponse a break for a defined time.</li>
+            <li><span class="emphasised">Ok button:</span> can be used to take a break.<br />Navigates to <a href="#breakDialog">a break dialog</a>.</li>
+        </ul>
+    </div>
+    
+	<h3 id="breakDialog">Break dialog</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/break-progress.png" />
+        <ul>
+            <li><span class="emphasised">Duration bar:</span> shows the time elapsed since the break is taken compared to a defined break time.</li>
+            <li><span class="emphasised">Abort / Ok buttons:</span> can be used to finish a break.</li>
+        </ul>
+    </div>
+	
+	<h3 id="finishWorkReminderDialog">Finish work reminder dialog</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/finish-reminder.png" />
+        <ul>
+            <li><span class="emphasised">Ignore button:</span> can be used to ignore the reminder and continue counting the times.</li>
+            <li><span class="emphasised">Ok button:</span> can be used to stop the application.</li>
+        </ul>
+    </div>
+    
+	<h3 id="settingsDialog">Settings dialog</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/settings-dialog.png" />
+        <ul>
+            <li><span class="emphasised">Behaviour button:</span> can be used to show <a href="#behaviourSettings">behaviour settings</a>.</li>
+            <li><span class="emphasised">General button:</span> can be used to show <a href="#generalSettings">general settings</a>.</li>
+            <li><span class="emphasised">Appearance button:</span> can be used to show <a href="#appearanceSettings">appearance settings</a>.
+            <br/><br/>
+            </li>
+            <li><span class="emphasised">Apply button:</span> can be used to save introduced changes and close the dialog.</li>
+            <li><span class="emphasised">Cancel button:</span> can be used to discard introduced changes and close the dialog.</li>
+        </ul>
+        
+        <h4 id="behaviourSettings">Behaviour settings</h4>
+        <div class="h4">
+            <h5>Breaks</h5>
+            <ul class="lesser">
+                <li><span class="lessEmphasised">Break duration:</span><br />A duration for a single break.<br /> The time is visible on <span class="emphasised">the duration bar</span> in <a href="#breakDialog">the break dialog</a>.</li>
+                <li><span class="lessEmphasised">Break interval:</span><br />A duration for a work period before a break.<br />The time is visible on <span class="emphasised">the break bar</span> in <a href="#mainWindow_idle">the main window</a>.<br />When the time is passed <a href="#breakReminderDialog">the break request dialog</a> pops up.</li>
+                <li><span class="lessEmphasised">Include breaks:</span><br />if turned on breaks duration is included in the total work time spent on work.</li>
+            </ul>
+            
+            <h5>Cycles</h5>
+            <span style="font-size: 1em; font-weight: normal; text-transform: none;">If turned on the breaks are working in cycles. Each cycle is composed from several smaller breaks and a single longer break at the end of the cycle. The concept is similar to <a href="https://en.wikipedia.org/wiki/Pomodoro_Technique">the pomodoro technique &#x1F345;</a>.<br /><br />The smaller breaks duration is taken from the break duration value, while the longer break duration is set separately.</span>
+            <ul class="lesser">
+                <li><span class="lessEmphasised">Cycle break duration:</span><br />A duration of a longer break (after the whole cycle is finished).</li>
+                <li><span class="lessEmphasised">Cycle intervals:</span><br />A number of work periods for a single cycle.</li>
+            </ul>
+            
+            <h5>General</h5>
+            <ul class="lesser">
+                <li><span class="lessEmphasised">Work time:</span><br />A total work time for a single day.<br />The time is visible on <span class="emphasised">the work bar</span> in <a href="#mainWindow_idle">the main window</a>.<br />When the time is passed <a href="#finishWorkReminderDialog">the finish work reminder dialog</a> pops up.</li>
+                <li><span class="lessEmphasised">Postpone time:</span><br />A time after <a href="#breakReminderDialog">the break request dialog</a> pops up again after <span class="emphasised">the postpone button</span> is clicked in <a href="#breakDialog">the break dialog</a>.</li>
+            </ul>
+        </div>
+        
+        <h4 id="generalSettings">General settings</h4>
+        <div class="h4">
+            <ul>
+                <li class="lesser"><span class="lessEmphasised">Auto start:</span><br />If turned on time automatically starts counting when the application is run.<br />The same can be achieved by manually clicking <span class="emphasised">the start button</span> in <a href="#mainWindow_idle">the main window</a>.</li>
+            </ul>
+            <h5>System tray<br /><span style="text-transform: none; font-weight: normal; font-style: italic;">(not available on some platforms)</span></h5>
+            <ul class="lesser">
+                <li><span class="lessEmphasised">Auto hide:</span><br />If turned on the applications is hidden automatically after run.</li>
+                <li><span class="lessEmphasised">Hide on close:</span><br />If turned on the window close button only hides the application in a system tray.</li>
+            </ul>
+        </div>
+        
+        <h4 id="appearanceSettings">Appearance settings</h4>
+        <div class="h4">
+            <ul>
+                <li class="lesser"><span class="lessEmphasised">Color:</span><br />Allows to change a color theme for the application.<br />A preview of the change is visible when a color is selected from the color box.</li>
+            </ul>
+        </div>
+    </div>
+        
+    <h3 id="aboutDialog">About dialog</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/about-dialog.png" />
+        <p>The dialog contains information about: the application version, author and author's page, all resources used in the application.</p>
+        <ul>
+            <li><span class="emphasised">Ok button:</span> can be used to close the dialog.</li>
+            <li><span class="emphasised">Check update button:</span> can be used to determine if there is a new verion of the application available.<br />Navigates to one of <a href="#updateDialogs">update dialogs</a>.</li>
+        </ul>
+    </div>
+        
+	<h3 id="updateDialogs">Update dialogs</h3>
+    <div class="h3">
+        <img class="paragraphImage" alt="" src="./imgs/update-dialogs.png" />
+        <p>The update available dialog can be opened manually using <span class="emphasised">the check update button</span> from <a href="#aboutDialog">the about dialog</a> but it is also opened automatically after run if a new version is available.</p>
+        <ul>
+            <li><span class="emphasised">Update button:</span> can be used to start the application update process right away.</li>
+            <li><span class="emphasised">Postpone button:</span> can be used to postpone by a week showing of the update available dialog.</li>
+            <li><span class="emphasised">Skip button:</span> can be used to skip the application update for the latest version. If newer version is released the update available dialog shows up again.
+            <br/><br/>
+            </li>
+            <li><span class="emphasised">Ok button:</span> can be used to close the popup for opened if the application is up-to-date.</li>
+        </ul>
+    </div>
+</div>
+	
+<!-- Epilogue -->
+<h2 id="epilogue">Epilogue</h2>
+<div class="h2">
+    <p>Source code is available on <a class="emphasised" href="https://github.com/Justyna-JustCode/Resto">the GitHub <img class="inlineImage" alt="" src="./imgs/github.png" /></a></p>
+    <p>Any additional questions, notes or comments are welcomed. Please take a look on <a class="emphasised" href="http://just-code.org/">the author's page</a> for contact details.</p>
+</div>
+
+</body>
+</html>

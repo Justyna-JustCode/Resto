@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -24,12 +24,20 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.4
 import "../style"
+import "../utils"
 import "../components"
 
 Switch {
     id: switchControl
     property string onStateName: qsTr("On")
     property string offStateName: qsTr("Off")
+
+    QtObject {
+        id: d
+
+        property color resolvedHandleColor: UiUtils.resolveControlColor(
+                                                Style.switchControl.handleColor, switchControl.enabled)
+    }
 
     implicitWidth: 90
     implicitHeight: Style.switchControl.font.size * 1.5
@@ -40,7 +48,7 @@ Switch {
 
         x: switchControl.visualPosition * (switchControl.width - width)
 
-        color: Style.switchControl.handleColor
+        color: d.resolvedHandleColor
         border.width: 2
         border.color: contentItem.fontStyle.color
 
@@ -48,7 +56,7 @@ Switch {
     }
     background: Rectangle {
         border.width: Style.switchControl.borderWidth
-        border.color: Style.switchControl.handleColor
+        border.color: d.resolvedHandleColor
 
         radius: Style.switchControl.font.size / 2
 
@@ -56,7 +64,7 @@ Switch {
                ? Qt.darker(Style.switchControl.backgroundColor, 1.1)
                : Style.switchControl.backgroundColor
     }
-    contentItem: Label {
+    contentItem: CustomLabel {
         anchors.fill: indicator
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter

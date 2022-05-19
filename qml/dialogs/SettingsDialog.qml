@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -46,8 +46,9 @@ CustomDialog {
     additionalContent.data: TabView {
         id: tabView
 
-        tabNames: [ qsTr("Behaviour"), qsTr("Appearance") ]
+        tabNames: [ qsTr("Behaviour"), qsTr("General"), qsTr("Appearance") ]
 
+        TimesSettings {}
         LogicSettings {}
         VisualSettings {}
     }

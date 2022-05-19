@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -27,6 +27,7 @@
 
 #include "settingscontroller.h"
 #include "timercontroller.h"
+#include "cyclescontroller.h"
 #include "updatecontroller.h"
 
 #include "workers/backupmanager.h"
@@ -39,6 +40,7 @@ class Controller final : public QObject
 
     Q_PROPERTY(SettingsController* settings READ settingsPtr CONSTANT)
     Q_PROPERTY(TimerController* timer READ timerPtr CONSTANT)
+    Q_PROPERTY(CyclesController* cycles READ cyclesPtr CONSTANT)
     Q_PROPERTY(UpdateController* updater READ updaterPtr CONSTANT)
 
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
@@ -55,10 +57,13 @@ public:
     Controller();
     SettingsController &settings();
     TimerController &timer();
+    CyclesController &cycles();
     UpdateController &updater();
 
     State state() const;
     bool isWorking() const;
+
+    Q_INVOKABLE int currentBreakDuration() const;
 
     void save();
     void clear();
@@ -83,12 +88,14 @@ public slots:
 
     void startBreak();
     void postponeBreak();
+    void skipBreak();
     void startWork();
 
 private:
     // controllers
     SettingsController m_settingsController;
     TimerController m_timerController;
+    CyclesController m_cyclesController;
     UpdateController m_updateController;
 
     // workers
@@ -99,18 +106,27 @@ private:
     State m_state = State::Off; //! current state
     int m_postponeDuration = 0;     //! sum duration for all postpones for current break
     int m_lastRequestTime = 0;     //! last time when postpone button was clicked
+    int m_currentInterval = 0; //! number of current interval
 
     SettingsController *settingsPtr();
     TimerController *timerPtr();
+    CyclesController *cyclesPtr();
     UpdateController *updaterPtr();
 
 private slots:
     void setState(State state);
 
+    // TIMER CONTROLLER
+    /*!
+     * \brief Method handles restored backup data
+     * to update application state.
+     *
+     * \param data  backupData
+     */
     void onBackupData(const BackupManager::Data &data);
 
     /*!
-     * \brief Method handling change in elapsed time of break.
+     * \brief Method handles a change in elapsed time of break.
      *
      * Check if end should be finished and informs about this.
      *
@@ -118,25 +134,38 @@ private slots:
      */
     void onElapsedBreakDurationChange(int elapsedBreakDuration);
     /*!
-     * \brief Method handling change in elapsed time of work period.
+     * \brief Method handles a change in elapsed time of work period.
      *
      * Check if break is needed and informs about it.
      * Takes into account also postponing of break.
+     * Updates backup data.
      *
-     * \param elapsedWorkPeriod     elapsed time of work period.
+     * \param elapsedBreakInterval     elapsed time from the last break.
      */
-    void onElapsedWorkPeriodChange(int elapsedWorkPeriod);
+    void onElapsedBreakIntervalChange(int elapsedBreakInterval);
     /*!
-     * \brief Method handling change in total work time elapsed.
+     * \brief Method handles a change in total work time elapsed.
      *
      * Check if work should be finished and informs about it.
+     * Updates backup data.
      *
      * \param elapsedWorkTime   total work time elapsed
      */
     void onElapsedWorkTimeChange(int elapsedWorkTime);
 
+    // CYCLES CONTROLLER
     /*!
-     * \brief Method handling change in break interval.
+     * \brief Method handles a change in current interval counter.
+     *
+     * Updates backup data.
+     *
+     * \param currentInterval  current interval of a cycle
+     */
+    void onCurrentCycleIntervalChange(int currentInterval);
+
+    // SETTINGS CONTROLLER
+    /*!
+     * \brief Method handles a change in break interval.
      *
      * Takes into compare current elapsed times and postpone duration.
      *
@@ -144,11 +173,22 @@ private slots:
      */
     void onBreakIntervalChanged(int breakInterval);
     /*!
-     * \brief Method handling change in work time.
+     * \brief Method handles a change in work time.
      *
      * \param workTime  new work time setting
      */
     void onWorkTimeChanged(int workTime);
+    /*!
+     * \brief Timer could request stop if some event occurs,
+     *        for example if timer limit was exceeded.
+     */
+    void onTimerStopRequested();
+    /*!
+     * \brief Method handles a change cycles mode enabling.
+     *
+     * \param cyclesMode    if cycles mode is enabled
+     */
+    void onCyclesModeChanged(bool cyclesMode);
 };
 
 #endif // CONTROLLER_H

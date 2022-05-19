@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2017 JustCode Justyna Kulinska
+** Copyright 2017 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -97,8 +97,7 @@ private:
     SettingsController &m_settingsController;
 
     QUrl m_versionUrl;
-    QString m_platformType; // os
-    QString m_platformWordSize; // 32bit or 64bit
+    QString m_platformType; // os (windows, linux)
 
     QString m_updaterAppPath;
     bool m_updateAvailable = false;

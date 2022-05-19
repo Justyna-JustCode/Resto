@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -32,10 +32,17 @@ const QLatin1String Settings::sc_viewGroupName = QLatin1String("view");
 const QLatin1String Settings::sc_trayAvailableKey = QLatin1String("trayAvailable");
 const QLatin1String Settings::sc_showTrayInfoKey = QLatin1String("showTrayInfo");
 
+const QLatin1String Settings::sc_includeBreaksKey = QLatin1String("includeBreaks");
 const QLatin1String Settings::sc_breakDurationKey = QLatin1String("breakDuration");
 const QLatin1String Settings::sc_breakIntervalKey = QLatin1String("breakInterval");
+
+const QLatin1String Settings::sc_cyclesModeKey = QLatin1String("cyclesMode");
+const QLatin1String Settings::sc_cycleBreakDurationKey = QLatin1String("cycleBreakDuration");
+const QLatin1String Settings::sc_cycleIntervals = QLatin1String("cycleIntervals");
+
 const QLatin1String Settings::sc_workTimeKey = QLatin1String("workTime");
 const QLatin1String Settings::sc_postponeTimeKey = QLatin1String("postponeTime");
+
 const QLatin1String Settings::sc_autoStartKey = QLatin1String("autoStart");
 const QLatin1String Settings::sc_autoHideKey = QLatin1String("autoHide");
 const QLatin1String Settings::sc_hideOnCloseKey = QLatin1String("hideOnClose");
@@ -47,15 +54,17 @@ const QLatin1String Settings::sc_windowPositionXKey = QLatin1String("window-x");
 const QLatin1String Settings::sc_windowPositionYKey = QLatin1String("window-y");
 const QLatin1String Settings::sc_windowWidthKey = QLatin1String("window-width");
 const QLatin1String Settings::sc_windowHeightKey = QLatin1String("window-height");
-const QLatin1String Settings::sc_applicationColorKey = QLatin1String("mainColor");
+const QLatin1String Settings::sc_applicationColorIndexKey = QLatin1String("mainColorIndex");
 
-const int Settings::sc_defaultBreakDuration = 10*60;  //! 10 min
-const int Settings::sc_defaultBreakInterval = 45*60; //! 45 min
+const int Settings::sc_defaultBreakDuration = 5*60;  //! 5 min
+const int Settings::sc_defaultCycleBreakDuration = 30*60;  //! 30 min
+const int Settings::sc_defaultlCycleIntervals = 3;
+const int Settings::sc_defaultBreakInterval = 25*60; //! 25 min
 const int Settings::sc_defaultWorkTime = 8*60*60;  //! 8 h
 const int Settings::sc_defaultPostponeTime = 5*60;   //! 5 min
 
-const QSize Settings::sc_defaultWindowSize = { 400, 200 };  // px
-QColor Settings::sc_defaultApplicationColor;
+const QSize Settings::sc_defaultWindowSize = { 460, 240 };  // px
+int Settings::sc_defaultApplicationColorIndex = 0;
 
 Settings::Settings(const QString organization, const QString name)
     : m_settings(QSettings::UserScope, organization, name)
@@ -81,6 +90,16 @@ void Settings::setShowTrayInfo(bool show)
     setValue(sc_systemGroupName, sc_showTrayInfoKey, show);
 }
 
+bool Settings::includeBreaks() const
+{
+    return value(sc_logicGroupName, sc_includeBreaksKey, true).toBool();
+}
+
+void Settings::setIncludeBreaks(bool include)
+{
+    setValue(sc_logicGroupName, sc_includeBreaksKey, include);
+}
+
 int Settings::breakDuration() const
 {
     return value(sc_logicGroupName, sc_breakDurationKey, sc_defaultBreakDuration).toInt();
@@ -88,6 +107,36 @@ int Settings::breakDuration() const
 void Settings::setBreakDuration(int duration)
 {
     setValue(sc_logicGroupName, sc_breakDurationKey, duration);
+}
+
+bool Settings::cyclesMode() const
+{
+    return value(sc_logicGroupName, sc_cyclesModeKey, false).toBool();
+}
+
+void Settings::setCyclesMode(bool on)
+{
+    setValue(sc_logicGroupName, sc_cyclesModeKey, on);
+}
+
+int Settings::cycleBreakDuration() const
+{
+    return value(sc_logicGroupName, sc_cycleBreakDurationKey, sc_defaultCycleBreakDuration).toInt();
+}
+
+void Settings::setCycleBreakDuration(int duration)
+{
+    setValue(sc_logicGroupName, sc_cycleBreakDurationKey, duration);
+}
+
+int Settings::cycleIntervals() const
+{
+    return value(sc_logicGroupName, sc_cycleIntervals, sc_defaultlCycleIntervals).toInt();
+}
+
+void Settings::setCycleIntervals(int cycleIntervals)
+{
+    setValue(sc_logicGroupName, sc_cycleIntervals, cycleIntervals);
 }
 
 int Settings::breakInterval() const
@@ -184,25 +233,30 @@ QSize Settings::windowSize() const
                 value(sc_viewGroupName, sc_windowHeightKey, sc_defaultWindowSize.height()).toInt() };
 }
 
+QSize Settings::defaultWindowSize() const
+{
+    return sc_defaultWindowSize;
+}
+
 void Settings::setWindowSize(const QSize &size)
 {
     setValue(sc_viewGroupName, sc_windowWidthKey, size.width());
     setValue(sc_viewGroupName, sc_windowHeightKey, size.height());
 }
 
-QColor Settings::applicationColor() const
+int Settings::applicationColorIndex() const
 {
-    return value(sc_viewGroupName, sc_applicationColorKey, sc_defaultApplicationColor).toString();
+    return value(sc_viewGroupName, sc_applicationColorIndexKey, sc_defaultApplicationColorIndex).toInt();
 }
 
-void Settings::setApplicationColor(const QColor &color)
+void Settings::setApplicationColorIndex(const int colorIndex)
 {
-    setValue(sc_viewGroupName, sc_applicationColorKey, color.name(QColor::HexRgb));
+    setValue(sc_viewGroupName, sc_applicationColorIndexKey, colorIndex);
 }
 
-void Settings::setDefaultApplicationColor(const QColor &value)
+void Settings::setDefaultApplicationColorIndex(const int value)
 {
-    sc_defaultApplicationColor = value;
+    sc_defaultApplicationColorIndex = value;
 }
 
 void Settings::setValue(const QString &groupName, const QString &key, const QVariant &value)

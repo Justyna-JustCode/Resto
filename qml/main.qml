@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -30,8 +30,11 @@ import "components"
 import "dialogs"
 import "style"
 
-Window {
+ApplicationWindow {
     visible: true
+
+    minimumWidth: controller.settings.defaultWindowSize.width
+    minimumHeight: controller.settings.defaultWindowSize.height
 
     function showBreakDialog() {
         dialogsManager.showBreakDialog()
@@ -106,10 +109,6 @@ Window {
     }
     // ----------------------------------------------
 
-    Background {
-        Decorative {}
-    }
-
     // logic
     DialogsManager {
         id: dialogsManager
@@ -120,119 +119,9 @@ Window {
         dialogsManager: dialogsManager
     }
 
-    // content
-    ColumnLayout {
-        id: content
+    MainContent {
+        id: mainContent
         anchors.fill: parent
-        anchors.margins: 30
-        spacing: 0
-
-        RowLayout {
-            ImageButton {
-                type: "play"
-                tooltip: qsTr("Play")
-
-                visible: controller.state != Controller.Working
-
-                onClicked: {
-                    controller.start()
-                }
-            }
-            ImageButton {
-                type: "break"
-                tooltip: qsTr("Break")
-
-                visible: controller.state == Controller.Working
-
-                onClicked: {
-                    controller.startBreak()
-                    dialogsManager.showBreakDialog();
-                }
-            }
-            ImageButton {
-                type: "pause"
-                tooltip: qsTr("Pause")
-
-                visible: controller.state == Controller.Working
-
-                onClicked: {
-                    controller.pause()
-                }
-            }
-            ImageButton {
-                type: "stop"
-                tooltip: qsTr("Stop")
-
-                visible: controller.state == Controller.Working
-
-                onClicked: {
-                    controller.stop()
-                }
-            }
-        }
-        GridLayout {
-            Layout.fillWidth: true
-            columns: 2
-
-            Label {
-                text: qsTr("Next break:")
-            }
-            TimeProgressBar {
-                Layout.fillWidth: true
-
-                maxValue: controller.settings.breakInterval
-                value: controller.timer.elapsedWorkPeriod
-            }
-            Label {
-                text: qsTr("Work time:")
-            }
-            TimeProgressBar {
-                Layout.fillWidth: true
-
-                maxValue: controller.settings.workTime
-                value: controller.timer.elapsedWorkTime
-            }
-        }
-    }
-
-    // small buttons
-    // left
-    RowLayout {
-        anchors {
-            left: parent.left
-            bottom: parent.bottom
-        }
-
-        ImageButton {
-            styleFont: Style.font.imageButtonSmallest
-            type: "help"
-            tooltip: qsTr("Here you find your help")
-
-            onClicked: controller.openHelp()
-        }
-    }
-
-    // right
-    RowLayout {
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-        }
-
-        ImageButton {
-            styleFont: Style.font.imageButtonSmall
-            type: "settings"
-            tooltip: qsTr("Change settings")
-
-            onClicked: dialogsManager.showSettingsDialog()
-        }
-        ImageButton {
-            styleFont: Style.font.imageButtonSmall
-            type: "about"
-            tooltip: qsTr("About resto")
-
-            onClicked: dialogsManager.showAboutDialog()
-        }
     }
 
     Overlay {

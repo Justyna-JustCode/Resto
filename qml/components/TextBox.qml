@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2017 JustCode Justyna Kulinska
+** Copyright 2017 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -33,7 +33,7 @@ Rectangle {
     implicitWidth: textItem.implicitWidth + textItem.anchors.leftMargin + textItem.anchors.rightMargin
     implicitHeight: textItem.implicitHeight + textItem.anchors.topMargin + textItem.anchors.bottomMargin
 
-    Label {
+    CustomLabel {
         id: textItem
         anchors {
             fill: parent
@@ -42,5 +42,7 @@ Rectangle {
 
         fontStyle: Style.font.smallerText
         textFormat: Text.RichText
+
+        wrapMode: Text.WordWrap
     }
 }

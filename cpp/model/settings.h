@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -65,6 +65,15 @@ public:
 
     /* ============== logic accessors ============== */
     /*!
+     * \brief Returns an information if breaks are included in the work time.
+     */
+    bool includeBreaks() const;
+    /*!
+     * \brief Sets an information if include breaks in the work time.
+     */
+    void setIncludeBreaks(bool include);
+
+    /*!
      * \brief Returns break duration in seconds.
      */
     int breakDuration() const;
@@ -72,6 +81,33 @@ public:
      * \brief Sets break duration in seconds.
      */
     void setBreakDuration(int duration);
+
+    /*!
+     * \brief Returns an information if cycles mode is on.
+     */
+    bool cyclesMode() const;
+    /*!
+     * \brief Sets an information if cycles mode is on.
+     */
+    void setCyclesMode(bool on);
+
+    /*!
+     * \brief Returns a break duration in seconds after a full cycle.
+     */
+    int cycleBreakDuration() const;
+    /*!
+     * \brief Sets a break duration in seconds a full cycle.
+     */
+    void setCycleBreakDuration(int duration);
+
+    /*!
+     * \brief Returns a number intervals for a cycle.
+     */
+    int cycleIntervals() const;
+    /*!
+     * \brief Sets a number intervals for a cycle.
+     */
+    void setCycleIntervals(int cycleIntervals);
 
     /*!
      * \brief Returns break interval in seconds.
@@ -178,22 +214,28 @@ public:
      * \brief Returns the lastest size of the main window.
      */
     QSize windowSize() const;
+
+    /*!
+     * \brief Returns the default size of the main window.
+     */
+    QSize defaultWindowSize() const;
+
     /*!
      * \brief Sets a current size of the main window.
      */
     void setWindowSize(const QSize &size);
 
     /*!
-     * \brief Returns the application main color.
+     * \brief Returns the application main color index.
      */
-    QColor applicationColor() const;
+    int applicationColorIndex() const;
     /*!
-     * \brief Sets the application main color.
+     * \brief Sets the application main color index.
      */
-    void setApplicationColor(const QColor &color);
+    void setApplicationColorIndex(const int colorIndex);
     /* ============================================= */
 
-    static void setDefaultApplicationColor(const QColor &value);
+    static void setDefaultApplicationColorIndex(const int value);
 
 private:
     QSettings m_settings;
@@ -207,10 +249,17 @@ private:
     static const QLatin1String sc_trayAvailableKey;     //! key used for settings: tray available
     static const QLatin1String sc_showTrayInfoKey;      //! key used for settings: show tray info
     // logic keys
+    static const QLatin1String sc_includeBreaksKey;     //! key used for settings: include breaks
     static const QLatin1String sc_breakDurationKey;     //! key used for settings: break duration
     static const QLatin1String sc_breakIntervalKey;     //! key used for settings: break interval
+
+    static const QLatin1String sc_cyclesModeKey;    //! key used for settings: cycles mode
+    static const QLatin1String sc_cycleBreakDurationKey;    //! key used for settings: cycle break duration
+    static const QLatin1String sc_cycleIntervals;     //! key used for settings: cycle intervals
+
     static const QLatin1String sc_workTimeKey;   //! key used for settings: work day duration
     static const QLatin1String sc_postponeTimeKey;      //! key used for settings: postpone time
+
     static const QLatin1String sc_autoStartKey;         //! key used for settings: auto start
     static const QLatin1String sc_autoHideKey;          //! key used for settings: auto hide
     static const QLatin1String sc_hideOnCloseKey;       //! key used for settings: hide on close
@@ -222,16 +271,18 @@ private:
     static const QLatin1String sc_windowPositionYKey;    //! key used for settings: window position y value
     static const QLatin1String sc_windowWidthKey;  //! key used for settings: window width
     static const QLatin1String sc_windowHeightKey; //! key used for settings: window height
-    static const QLatin1String sc_applicationColorKey; //! key used for settings: application main color
+    static const QLatin1String sc_applicationColorIndexKey; //! key used for settings: application main color index
 
     // logic default
-    static const int sc_defaultBreakDuration;   //! default braak duration \see breakDuration()
+    static const int sc_defaultBreakDuration;   //! default break duration \see breakDuration()
+    static const int sc_defaultCycleBreakDuration;   //! default cycle break duration \see cycleBreakDuration()
+    static const int sc_defaultlCycleIntervals;   //! default cycle intervals \see cycleIntervals()
     static const int sc_defaultBreakInterval;   //! default break interval \see breakInterval()
     static const int sc_defaultWorkTime; //! default work day duration \see workTime()
     static const int sc_defaultPostponeTime;    //! default postpone time \see postponeTime()
     // view default
-    static const QSize sc_defaultWindowSize;    //! default postpone time \see postponeTime()
-    static QColor sc_defaultApplicationColor;    //! default postpone time \see postponeTime()
+    static const QSize sc_defaultWindowSize;    //! default window size \see windowSize()
+    static int sc_defaultApplicationColorIndex;    //! default color index  \see applicationColorIndex()
 
     void setValue(const QString &groupName, const QString &key, const QVariant &value);
     QVariant value(const QString &groupName, const QString &key, const QVariant &defaultValue = QVariant()) const;

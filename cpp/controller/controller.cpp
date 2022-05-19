@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -28,15 +28,20 @@
 #include <QCursor>
 
 Controller::Controller()
-    : m_updateController(m_settingsController, QUrl(QString("http://%1").arg(APP_VERSION_URL)) ),
+    : m_cyclesController(m_settingsController),
+      m_updateController(m_settingsController, QUrl(QString("http://%1").arg(APP_VERSION_URL)) ),
       m_saveManager(m_backupManager)
 {
     connect(&m_timerController, &TimerController::elapsedBreakDurationChanged, this, &Controller::onElapsedBreakDurationChange);
-    connect(&m_timerController, &TimerController::elapsedWorkPeriodChanged, this, &Controller::onElapsedWorkPeriodChange);
+    connect(&m_timerController, &TimerController::elapsedBreakIntervalChanged, this, &Controller::onElapsedBreakIntervalChange);
     connect(&m_timerController, &TimerController::elapsedWorkTimeChanged, this, &Controller::onElapsedWorkTimeChange);
+    connect(&m_timerController, &TimerController::timerStopRequest, this, &Controller::onTimerStopRequested);
+
+    connect(&m_cyclesController, &CyclesController::currentIntervalChanged, this, &Controller::onCurrentCycleIntervalChange);
 
     connect(&m_settingsController, &SettingsController::breakIntervalChanged, this, &Controller::onBreakIntervalChanged);
     connect(&m_settingsController, &SettingsController::workTimeChanged, this, &Controller::onWorkTimeChanged);
+    connect(&m_settingsController, &SettingsController::cyclesModeChanged, this, &Controller::onCyclesModeChanged);
 
     connect(&m_updateController, &UpdateController::updateStarted, this, &Controller::exitRequest);
     connect(&m_backupManager, &BackupManager::backupData, this, &Controller::onBackupData);
@@ -54,23 +59,35 @@ SettingsController &Controller::settings()
 {
     return m_settingsController;
 }
-SettingsController *Controller::settingsPtr()
-{
-    return &m_settingsController;
-}
 
 TimerController &Controller::timer()
 {
     return m_timerController;
 }
 
+CyclesController &Controller::cycles()
+{
+    return m_cyclesController;
+}
+
 UpdateController &Controller::updater()
 {
     return m_updateController;
 }
+
+SettingsController *Controller::settingsPtr()
+{
+    return &m_settingsController;
+}
+
 TimerController *Controller::timerPtr()
 {
     return &m_timerController;
+}
+
+CyclesController *Controller::cyclesPtr()
+{
+    return &m_cyclesController;
 }
 
 UpdateController *Controller::updaterPtr()
@@ -88,9 +105,18 @@ bool Controller::isWorking() const
     return (m_state == State::Working);
 }
 
+int Controller::currentBreakDuration() const
+{
+    return m_cyclesController.isCycleFinished()
+            ? m_settingsController.cycleBreakDuration()
+            : m_settingsController.breakDuration();
+}
+
 void Controller::save()
 {
-    m_saveManager.save();
+    if (isWorking()) {
+        m_saveManager.save();
+    }
 }
 
 void Controller::clear()
@@ -106,7 +132,7 @@ QPoint Controller::cursorPos() const
 
 void Controller::openHelp() const
 {
-    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/help.pdf"));
+    QDesktopServices::openUrl(QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/help.html"));
 }
 
 void Controller::start()
@@ -114,10 +140,11 @@ void Controller::start()
     switch (m_state)
     {
     case State::Off:
-    case State::Paused:
         startWork();
+        [[fallthrough]];
+    case State::Paused:
     case State::Recovered:
-        timer().start( (m_state == State::Off) ); // restart only from Off
+        m_timerController.start();
         setState(State::Working);
         m_backupManager.start();
         break;
@@ -132,7 +159,7 @@ void Controller::pause()
     {
     case State::Working:
         setState(State::Paused);
-        timer().stop();
+        m_timerController.stop();
         m_backupManager.stop();
         break;
     default:
@@ -146,7 +173,8 @@ void Controller::stop()
     {
     case State::Working:
         setState(State::Off);
-        timer().stop();
+        m_timerController.stop(true);
+        m_cyclesController.resetCurrentInterval();
         m_backupManager.stop();
         m_backupManager.cleanup();
         break;
@@ -158,27 +186,40 @@ void Controller::stop()
 
 void Controller::startBreak()
 {
-    timer().setElapsedBreakDuration(0);
-    timer().countBreakTime();
-
-    // update backup manager
-    m_backupManager.data().elapsedWorkTime = 0;
+    m_timerController.setElapsedBreakDuration(0);
+    m_timerController.countBreakTime();
 }
 void Controller::postponeBreak()
 {
-    m_postponeDuration += (timer().elapsedWorkPeriod() - m_lastRequestTime) + settings().postponeTime();
+    m_postponeDuration +=
+            (m_timerController.elapsedBreakInterval() - m_lastRequestTime)
+            + settings().postponeTime();
 }
+
+void Controller::skipBreak()
+{
+    startWork();
+}
+
 void Controller::startWork()
 {
+    m_cyclesController.incrementCurrentInterval();
+
     m_postponeDuration = m_lastRequestTime = 0;
-    timer().setElapsedWorkPeriod(0);
-    timer().countWorkTime();
+    m_timerController.setElapsedBreakInterval(0);
+
+    if (m_settingsController.includeBreaks()) {
+        const auto breakTimeToInclude = qMin(m_timerController.elapsedBreakDuration(), currentBreakDuration());
+        m_timerController.setElapsedWorkTime(m_timerController.elapsedWorkTime() + breakTimeToInclude);
+    }
+
+
+    m_timerController.countWorkTime();
 }
 
 void Controller::setState(Controller::State state)
 {
-    if (m_state == state)
-    {
+    if (m_state == state) {
         return;
     }
 
@@ -194,12 +235,14 @@ void Controller::onBackupData(const BackupManager::Data &data)
         wasWorking = true;
     }
 
-    timer().setElapsedBreakDuration(0);
-    timer().setElapsedWorkPeriod(data.elapsedWorkPeriod);
-    timer().setElapsedWorkTime(data.elapsedWorkTime);
-    if (data.elapsedWorkPeriod >= settings().breakInterval()) {
+    m_timerController.setElapsedBreakDuration(0);
+    m_timerController.setElapsedBreakInterval(data.elapsedBreakInterval);
+    m_timerController.setElapsedWorkTime(data.elapsedWorkTime);
+    if (data.elapsedBreakInterval >= settings().breakInterval()) {
         postponeBreak();
     }
+
+    m_cyclesController.setCurrentInterval(data.currentCycleInterval);
 
     setState(State::Recovered); // set recovered state to avoid restart
     if (wasWorking) {
@@ -216,17 +259,17 @@ void Controller::onElapsedBreakDurationChange(int elapsedBreakDuration)
     }
 }
 
-void Controller::onElapsedWorkPeriodChange(int elapsedWorkPeriod)
+void Controller::onElapsedBreakIntervalChange(int elapsedBreakInterval)
 {
     // check if break is needed:
-    if (elapsedWorkPeriod == settings().breakInterval() + m_postponeDuration) // break should be taken now
+    if (elapsedBreakInterval == settings().breakInterval() + m_postponeDuration) // break should be taken now
     {
-        m_lastRequestTime = elapsedWorkPeriod;
+        m_lastRequestTime = elapsedBreakInterval;
         emit breakStartRequest(); // inform about it
     }
 
     // update backup manager
-    m_backupManager.data().elapsedWorkPeriod = elapsedWorkPeriod;
+    m_backupManager.data().elapsedBreakInterval = elapsedBreakInterval;
 }
 
 void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
@@ -241,11 +284,17 @@ void Controller::onElapsedWorkTimeChange(int elapsedWorkTime)
     m_backupManager.data().elapsedWorkTime = elapsedWorkTime;
 }
 
+void Controller::onCurrentCycleIntervalChange(int currentInterval)
+{
+    // update backup manager
+    m_backupManager.data().currentCycleInterval = currentInterval;
+}
+
 void Controller::onBreakIntervalChanged(int breakInterval)
 {
     m_postponeDuration = 0; // clear postpones
-    auto elapsedWorkPeriod = timer().elapsedWorkPeriod();
-    if (elapsedWorkPeriod > breakInterval) // break should be taken now
+    auto elapsedBreakInterval = m_timerController.elapsedBreakInterval();
+    if (elapsedBreakInterval > breakInterval) // break should be taken now
     {
         m_lastRequestTime = breakInterval;
         emit breakStartRequest(); // inform about it
@@ -254,10 +303,30 @@ void Controller::onBreakIntervalChanged(int breakInterval)
 
 void Controller::onWorkTimeChanged(int workTime)
 {
-    auto elapsedWorkTime = timer().elapsedWorkTime();
+    auto elapsedWorkTime = m_timerController.elapsedWorkTime();
     if (elapsedWorkTime > workTime) // work should be finished now
     {
         emit workEndRequest(); // inform about it
     }
 }
 
+void Controller::onTimerStopRequested()
+{
+    // this is to support for example paused state
+    if(m_state != State::Working)
+    {
+        start();
+    }
+
+    stop();
+}
+
+void Controller::onCyclesModeChanged(bool cyclesMode)
+{
+    m_cyclesController.resetCurrentInterval();
+
+    const bool isRunning = (m_state == State::Working || m_state == State::Paused);
+    if (cyclesMode && isRunning) {
+        m_cyclesController.incrementCurrentInterval();
+    }
+}

@@ -1,0 +1,143 @@
+name: build
+
+on:
+  workflow_call:
+    inputs:
+      create-package:
+        type: boolean
+        default: false
+      create-installers:
+        type: boolean
+        default: false
+      production-build:
+        type: boolean
+        default: false
+      build-type:
+        required: true
+        type: string
+      qt-version:
+        required: true
+        type: string
+      os:
+        required: true
+        type: string
+      vc-redist-dir:
+        type: string
+        default: ""
+      vc-redist-num:
+        type: string
+        default: ""
+    
+env:
+  linuxdeployqt-download-path: https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+  PRODUCTION_BUILD: ${{inputs.production-build}}
+  QT_VERSION: ${{inputs.qt-version}}
+  QT_COMPILER: ${{ inputs.os == 'linux' && 'gcc_64' || 'win64_msvc2019_64' }}
+  QT_COMPILER_PATH: ${{ inputs.os == 'linux' && 'gcc_64' || 'msvc2019_64' }}
+  QT_IFW_VERSION: 4.3
+  VC_REDIST_DIR: ${{inputs.vc-redist-dir}}
+  VC_REDIST_NUM: ${{inputs.vc-redist-num}}
+    
+jobs:
+  build_job:
+    name: Build for ${{inputs.os}}
+    runs-on: ${{ inputs.os == 'linux' && 'ubuntu-18.04' || 'windows-2019' }}
+    defaults:
+      run:
+        shell: bash
+        
+    steps:
+    - uses: actions/checkout@v3
+ 
+    - name: Prepare paths
+      run: |
+        github_workspace=$(echo "${{github.workspace}}" | sed 's:\\:/:g')
+        echo "WORKSPACE_PATH=${github_workspace}" >> $GITHUB_ENV
+        echo "QT_PATH=${github_workspace}/qt" >> $GITHUB_ENV
+
+    - name: Install dependencies (linux)
+      if: ${{inputs.os == 'linux'}}
+      run: |
+        sudo apt-get update
+        sudo apt-get install mesa-common-dev libglu1-mesa-dev
+        sudo apt-get install python3-setuptools
+          
+    - name: Install qt
+      run: |
+        python3 -m pip install -U pip
+        python3 -m pip install aqtinstall
+        python3 -m aqt install-qt ${{inputs.os}} desktop ${{inputs.qt-version}} ${{env.QT_COMPILER}} --outputdir ${{env.QT_PATH}}
+
+    - name: Install monolith
+      run: |
+        ${{ inputs.os == 'linux' && 'brew' || 'choco' }} install monolith
+
+    - name: Configure CMake
+      env:
+        CMAKE_PREFIX_PATH: ${{env.WORKSPACE_PATH}}/qt/${{inputs.qt-version}}/${{env.QT_COMPILER_PATH}}/lib/cmake/
+      run: cmake -B ${WORKSPACE_PATH}/build -DCMAKE_BUILD_TYPE=${{inputs.build-type}} -DPRODUCTION_BUILD=${{ inputs.production-build == true && 'ON' || 'OFF' }}
+
+    - name: Build
+      run: cmake --build ${WORKSPACE_PATH}/build --config ${{inputs.build-type}}
+       
+    - name: Prepare deploy (linux)
+      if: ${{(inputs.create-package || inputs.create-installers) && inputs.os == 'linux'}}
+      run: |
+        wget ${{env.linuxdeployqt-download-path}} -P ${WORKSPACE_PATH}/qt/Tools/
+        url=${{env.linuxdeployqt-download-path}}
+        chmod +x ${WORKSPACE_PATH}/qt/Tools/${url##*/}
+        sudo apt-get install libxcb-glx0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-xkb-dev libxcb-util-dev libxcb-xfixes0 libxkbcommon-x11-0 libegl1-mesa libegl1
+        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
+        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-installer.sh
+        sudo chmod +x ./scripts/desktop/${{inputs.os}}/create-package.sh
+          
+    - name: Start a package script
+      if: ${{inputs.create-package}}
+      run: |
+        ./scripts/desktop/${{inputs.os}}/create-package.sh -${{ inputs.os == 'linux' && 'i' || 'z' }} ${WORKSPACE_PATH}/build ${WORKSPACE_PATH}/packages
+        
+    - name: Upload package
+      if: ${{inputs.create-package}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Resto.${{ inputs.os == 'linux' && 'AppImage' || 'zip' }}
+        path: ${{github.workspace}}/packages/Resto.${{ inputs.os == 'linux' && 'AppImage' || 'zip' }}
+        retention-days: 3
+
+    - name: Install deploy installer dependencies
+      if: ${{inputs.create-installers}}
+      run: |
+        QT_IFW_TOOL="${QT_IFW_VERSION//./}"
+        python3 -m aqt install-tool ${{inputs.os}} desktop tools_ifw qt.tools.ifw.${QT_IFW_TOOL} --outputdir ${{env.QT_PATH}}
+        
+    - name: Start an installers script
+      if: ${{inputs.create-installers}}
+      run: |
+        ./scripts/desktop/${{inputs.os}}/create-installer.sh -o ${WORKSPACE_PATH}/build ${WORKSPACE_PATH}/installers/Resto_offline-installer.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        ./scripts/desktop/${{inputs.os}}/create-installer.sh -r ${WORKSPACE_PATH}/installers/Resto_repository ${WORKSPACE_PATH}/build ${WORKSPACE_PATH}/installers/Resto_installer.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        
+    - name: Upload offline installer
+      if: ${{inputs.create-installers}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Resto_offline-installler.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        path: ${{github.workspace}}/installers/Resto_offline-installer.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        retention-days: 3
+        
+    - name: Upload online installer
+      if: ${{inputs.create-installers}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Resto_installler.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        path: ${{github.workspace}}/installers/Resto_installer.${{ inputs.os == 'linux' && 'run' || 'exe' }}
+        retention-days: 3
+        
+    - name: Upload online installer repository
+      if: ${{inputs.create-installers}}
+      uses: actions/upload-artifact@v3
+      with:
+        name: Resto_installler-repository(${{inputs.os}})
+        path: ${{github.workspace}}/installers/Resto_repository
+        retention-days: 3
+
+        

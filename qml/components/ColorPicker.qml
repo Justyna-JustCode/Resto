@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -25,14 +25,14 @@ import QtQuick.Layouts 1.3
 import "../style"
 
 RowLayout {
-    property color currentColor
-    property alias availableColors: repeater.model
+    property int currentColorIndex
+    property alias availableApplicationColors: repeater.model
 
     Repeater {
         id: repeater
 
         Rectangle {
-            property bool isSelected: Qt.colorEqual(modelData, currentColor)
+            property bool isSelected: index === currentColorIndex
             color: modelData
 
             width: Style.colorPicker.itemSize
@@ -49,7 +49,7 @@ RowLayout {
                 anchors.fill: parent
 
                 onClicked: {
-                    currentColor = modelData
+                    currentColorIndex = index
                 }
             }
         }

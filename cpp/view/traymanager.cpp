@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -93,11 +93,15 @@ void TrayManager::initTrayIcon()
             this, SLOT(onWindowClosed()) );
 
     // tooltip
+    connect(&m_controller.settings(), &SettingsController::cycleIntervalsChanged,
+            this, &TrayManager::updateToolTip);
     connect(&m_controller.settings(), &SettingsController::breakIntervalChanged,
             this, &TrayManager::updateToolTip);
     connect(&m_controller.settings(), &SettingsController::workTimeChanged,
             this, &TrayManager::updateToolTip);
-    connect(&m_controller.timer(), &TimerController::elapsedWorkPeriodChanged,
+    connect(&m_controller.cycles(), &CyclesController::currentIntervalChanged,
+            this, &TrayManager::updateToolTip);
+    connect(&m_controller.timer(), &TimerController::elapsedBreakIntervalChanged,
             this, &TrayManager::updateToolTip);
     connect(&m_controller.timer(), &TimerController::elapsedWorkTimeChanged,
             this, &TrayManager::updateToolTip);
@@ -117,7 +121,11 @@ void TrayManager::initTrayMenu()
 
     action = m_trayMenu->addAction(QIcon(":/resources/images/break.png"), tr("Take a break!"));
     connect(action, &QAction::triggered, this, &TrayManager::takeBreak);
-    m_breakAction = action;
+    m_breakActions.append(action);
+
+    action = m_trayMenu->addAction(QIcon(":/resources/images/break.png"), tr("Skip a break"));
+    connect(action, &QAction::triggered, this, &TrayManager::skipBreak);
+    m_breakActions.append(action);
     m_trayMenu->addSeparator();
 
     action = m_trayMenu->addAction(QIcon(":/resources/images/settings.png"), tr("Settings"));
@@ -136,7 +144,6 @@ void TrayManager::initTrayMenu()
     connect(&m_controller.timer(), &TimerController::activePeriodTypeChanged,
             this, &TrayManager::checkBreakAvailability);
     checkBreakAvailability();
-
 }
 
 void TrayManager::checkInitState()
@@ -163,13 +170,11 @@ void TrayManager::onWindowClosed()
 {
     if (m_isAvailable && m_controller.settings().hideOnClose()) {
         showInformationDialog();
-    }
-    else {
-        if (m_controller.state() != Controller::State::Off &&
+    } else {
+        if (m_controller.isWorking() &&
                 QMessageBox::question(nullptr, tr("Save"), tr("Do you want to save your state?")) == QMessageBox::Yes) {
             saveAndQuit();
-        }
-        else {
+        } else {
             quit();
         }
     }
@@ -188,10 +193,14 @@ void TrayManager::showInformationDialog()
         return;
 
     QMessageBox infoMessage(QMessageBox::Icon::Information,
-                           tr("Please note"), tr("Application will be hidden into the system tray.\n"
-                                                 "If you want to open it, just click on an icon or use a context menu option.\n"
-                                                 "Break notification will continue to be displayed normally.\n"),
-                           QMessageBox::Ok);
+                            tr("Please note"), tr("The application is going to be hidden into the system tray.\n"
+                                                  "To open it again, just click on a tray icon or use a context menu option.\n"
+                                                  "Break notifications are shown even for a hidden application.\n"),
+                            QMessageBox::Ok);
+
+    const Qt::WindowFlags noCloseButtonFlags = Qt::Window | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowTitleHint | Qt::CustomizeWindowHint;
+    infoMessage.setWindowFlags(noCloseButtonFlags);
+
     infoMessage.setCheckBox(new QCheckBox(tr("Do not show this any more"), &infoMessage));
     infoMessage.checkBox()->setChecked(true);
 
@@ -201,14 +210,22 @@ void TrayManager::showInformationDialog()
 
 void TrayManager::checkBreakAvailability()
 {
-    m_breakAction->setEnabled(m_controller.state() == Controller::State::Working &&
-                              m_controller.timer().activePeriodType() == TimerController::PeriodType::Work);
+    const auto breakActionsEnabled = (m_controller.state() == Controller::State::Working) &&
+            (m_controller.timer().activePeriodType() == TimerController::PeriodType::Work);
+
+    std::for_each(m_breakActions.begin(), m_breakActions.end(),
+                  std::bind(&QAction::setEnabled, std::placeholders::_1, breakActionsEnabled));
 }
 
 void TrayManager::takeBreak()
 {
     m_controller.startBreak();
     QMetaObject::invokeMethod(m_mainWindow, "showBreakDialog");
+}
+
+void TrayManager::skipBreak()
+{
+    m_controller.skipBreak();
 }
 
 void TrayManager::changeVisibility()
@@ -223,13 +240,18 @@ void TrayManager::changeVisibility()
 
 void TrayManager::updateToolTip()
 {
-    static const QString tooltipTemplate = tr("NEXT BREAK:\n"
+    static const QString tooltipTemplate = tr("CURRENT INTERVAL:\n"
                                               "%1 / %2\n"
                                               "\n"
+                                              "NEXT BREAK:\n"
+                                              "%3 / %4\n"
+                                              "\n"
                                               "WORK TIME:\n"
-                                              "%3 / %4");
+                                              "%5 / %6");
     m_trayIcon.setToolTip(tooltipTemplate
-                          .arg(Helpers::formatTime(m_controller.timer().elapsedWorkPeriod()) )
+                          .arg(m_controller.cycles().currentInterval())
+                          .arg(m_controller.settings().cycleIntervals())
+                          .arg(Helpers::formatTime(m_controller.timer().elapsedBreakInterval()) )
                           .arg(Helpers::formatTime(m_controller.settings().breakInterval()) )
                           .arg(Helpers::formatTime(m_controller.timer().elapsedWorkTime()) )
                           .arg(Helpers::formatTime(m_controller.settings().workTime()) )

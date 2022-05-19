@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
     app.setApplicationVersion(APP_VERSION);
 
     QCommandLineParser cmdParser;
-    auto checkDevelopOption = QCommandLineOption{"d", QCoreApplication::translate("develop", "Checks if is a develop version of the application")};
+    auto checkDevelopOption = QCommandLineOption{"d", QCoreApplication::translate(
+                                                          "develop", "Checks if is a develop version of the application")};
     cmdParser.addOption(checkDevelopOption);
     cmdParser.addVersionOption();
     cmdParser.process(app);

@@ -1,6 +1,6 @@
 /********************************************
 **
-** Copyright 2016 JustCode Justyna Kulinska
+** Copyright 2016 Justyna JustCode
 **
 ** This file is part of Resto.
 **
@@ -26,13 +26,14 @@
 #include <QObject>
 #include <QTimer>
 
+// TODO: switch to std::chrono
 class TimerController final : public QObject
 {
     Q_OBJECT
 
     Q_PROPERTY(int elapsedBreakDuration READ elapsedBreakDuration NOTIFY elapsedBreakDurationChanged)
-    Q_PROPERTY(int elapsedWorkPeriod READ elapsedWorkPeriod NOTIFY elapsedWorkPeriodChanged)
-    Q_PROPERTY(int elapsedWorkTime READ elapsedWorkTime NOTIFY elapsedWorkTimeChanged)
+    Q_PROPERTY(int elapsedBreakInterval READ elapsedBreakInterval WRITE setElapsedBreakInterval NOTIFY elapsedBreakIntervalChanged)
+    Q_PROPERTY(int elapsedWorkTime READ elapsedWorkTime WRITE setElapsedWorkTime NOTIFY elapsedWorkTimeChanged)
     Q_PROPERTY(PeriodType activePeriodType READ activePeriodType NOTIFY activePeriodTypeChanged)
 
 public:
@@ -45,27 +46,29 @@ public:
     explicit TimerController(QObject *parent = 0);
 
     int elapsedBreakDuration() const;
-    int elapsedWorkPeriod() const;
+    int elapsedBreakInterval() const;
     int elapsedWorkTime() const;
 
     PeriodType activePeriodType() const;
 
 signals:
     void elapsedBreakDurationChanged(int elapsedBreakDuration) const;
-    void elapsedWorkPeriodChanged(int elapsedWorkPeriod) const;
+    void elapsedBreakIntervalChanged(int elapsedBreakInterval) const;
     void elapsedWorkTimeChanged(int elapsedWorkTime) const;
+    void timerStopRequest() const;
 
     void activePeriodTypeChanged(PeriodType activePeriodType) const;
 
 public slots:
-    void start(bool restart);
-    void stop();
+    void start();
+    void stop(bool reset = false);
+    void reset();
 
     void countBreakTime();
     void countWorkTime();
 
     void setElapsedBreakDuration(int elapsedBreakDuration);
-    void setElapsedWorkPeriod(int elapsedWorkPeriod);
+    void setElapsedBreakInterval(int elapsedBreakInterval);
     void setElapsedWorkTime(int elapsedWorkTime);
 
 private:
@@ -74,7 +77,7 @@ private:
     PeriodType m_periodType = PeriodType::Work;
 
     int m_elapsedBreakDuration = 0;
-    int m_elapsedWorkPeriod = 0;
+    int m_elapsedBreakInterval = 0;
     int m_elapsedWorkTime = 0;
 
 private slots:
