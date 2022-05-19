@@ -2,7 +2,7 @@
 set(APP_NAME "Resto")
 set(APP_DESCRIPTION "A small application for work time management")
 
-set(APP_VERSION 1.0.7)
+set(APP_VERSION 1.1.0)
 execute_process(COMMAND git --git-dir ${CMAKE_SOURCE_DIR}/.git --work-tree ${CMAKE_SOURCE_DIR} log --pretty=format:%h -n 1
                 OUTPUT_VARIABLE BUILD_NUMBER
                 ERROR_QUIET)
